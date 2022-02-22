@@ -4,12 +4,12 @@ CREATE TABLE Utilisateur(
    nom VARCHAR(50) ,
    email VARCHAR(50) ,
    motdepasse VARCHAR(50) ,
-   groupe VARCHAR(50)  NOT NULL,
    PRIMARY KEY(Id_Utilisateur)
 );
 
 CREATE TABLE Formateur(
    Id_Formateur INT AUTO_INCREMENT,
+   role VARCHAR(50)  NOT NULL,
    Id_Utilisateur INT NOT NULL,
    PRIMARY KEY(Id_Formateur),
    FOREIGN KEY(Id_Utilisateur) REFERENCES Utilisateur(Id_Utilisateur)
@@ -149,6 +149,7 @@ CREATE TABLE Prerequis_de_competence(
 CREATE TABLE Composer_de_competence(
    Id_Graphe INT,
    Id_Competence INT,
+   score INT,
    PRIMARY KEY(Id_Graphe, Id_Competence),
    FOREIGN KEY(Id_Graphe) REFERENCES Graphe(Id_Graphe),
    FOREIGN KEY(Id_Competence) REFERENCES Competence(Id_Competence)
