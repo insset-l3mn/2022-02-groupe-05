@@ -24,7 +24,7 @@ public class LoginResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/username/{username}/password/{password}")
+    @Path("/{username}/{password}")
     public User testValue(@PathParam("username") String username, @PathParam("password") String password) {
         if (username != null && password != null) {
             User user = userGestionnary.requestUser(username, password);

@@ -42,7 +42,6 @@ public class LoginServlet extends HttpServlet{
             session.setAttribute("isLoggedIn", true);
             session.setAttribute("name", user.getUserName());
             session.setAttribute("email", user.getUserEmail());
-            session.setAttribute("group", user.getUserGroup());
             
             resp.sendRedirect("welcome.jsp"); //only accessed after login
         }else{

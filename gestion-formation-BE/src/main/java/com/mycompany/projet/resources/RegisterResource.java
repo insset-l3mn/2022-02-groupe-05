@@ -25,7 +25,7 @@ public class RegisterResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/username/{username}/email/{email}/password/{password}")
+    @Path("/{username}/{email}/{password}")
     public Boolean testValue(@PathParam("username") String username, @PathParam("username") String email, @PathParam("password") String password) {
         if (username != null && password != null && email != null) {
             if(!userGestionnary.existUser(username)){

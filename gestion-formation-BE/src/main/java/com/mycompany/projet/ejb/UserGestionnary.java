@@ -20,12 +20,12 @@ import javax.persistence.Query;
  */
 @DataSourceDefinition (
     className="com.mysql.cj.jdbc.MysqlDataSource",
-    name="java:app/jdbc/projetjee",
+    name="java:app/jdbc/gestion-formation",
     serverName="localhost",
     portNumber=3306,
     user="root",
-    password="Cng162513*",
-    databaseName="projetjee",
+    password="root",
+    databaseName="gestion-formation",
     properties = {
       "useSSL=false",
       "allowPublicKeyRetrieval=true"
@@ -44,8 +44,8 @@ public class UserGestionnary {
     public User requestUser(String NAME, String PASSWORD) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
-        Query query = em1.createQuery("SELECT u FROM User u WHERE u.userName = '" + NAME + "'");
-        
+        Query query = em1.createQuery("SELECT u FROM User u WHERE u.name = :name")
+                .setParameter("name", NAME);
         User user = null;
         if(!query.getResultList().isEmpty()){
             user = (User) query.getResultList().get(0);
@@ -58,7 +58,7 @@ public class UserGestionnary {
     public Boolean existUser(String NAME) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
-        Query query = em1.createQuery("SELECT u FROM User u WHERE u.userName = '" + NAME + "'");
+        Query query = em1.createQuery("SELECT u FROM User u WHERE u.name = '" + NAME + "'");
         
         if(query.getResultList().isEmpty()) return false;
         return true;

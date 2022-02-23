@@ -21,34 +21,30 @@ import javax.validation.constraints.Size;
  * @author valen
  */
 @Entity
-@Table(name = "user")
+@Table(name = "gf_user")
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
-    @NamedQuery(name = "User.findByUserId", query = "SELECT u FROM User u WHERE u.userId = :userId"),
-    @NamedQuery(name = "User.findByUserName", query = "SELECT u FROM User u WHERE u.userName = :userName"),
-    @NamedQuery(name = "User.findByUserEmail", query = "SELECT u FROM User u WHERE u.userEmail = :userEmail"),
-    @NamedQuery(name = "User.findByUserPassword", query = "SELECT u FROM User u WHERE u.userPassword = :userPassword"),
-    @NamedQuery(name = "User.findByUserGroup", query = "SELECT u FROM User u WHERE u.userGroup = :userGroup")})
+    @NamedQuery(name = "User.findByUserId", query = "SELECT u FROM User u WHERE u.id_user = :id_user"),
+    @NamedQuery(name = "User.findByUserName", query = "SELECT u FROM User u WHERE u.name = :name"),
+    @NamedQuery(name = "User.findByUserEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
+    @NamedQuery(name = "User.findByUserPassword", query = "SELECT u FROM User u WHERE u.password = :password")})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "USER_ID")
-    private Integer userId;
+    @Column(name = "id_user")
+    private Integer id_user;
     @Size(max = 45)
-    @Column(name = "USER_NAME")
-    private String userName;
+    @Column(name = "name")
+    private String name;
     @Size(max = 45)
-    @Column(name = "USER_EMAIL")
-    private String userEmail;
+    @Column(name = "email")
+    private String email;
     @Size(max = 255)
-    @Column(name = "USER_PASSWORD")
-    private String userPassword;
-    @Size(max = 45)
-    @Column(name = "USER_GROUP")
-    private String userGroup;
+    @Column(name = "password")
+    private String password;
 
     public User() {
     }
@@ -58,56 +54,47 @@ public class User implements Serializable {
     }*/
     
     public User(String NAME, String EMAIL, String PASSWORD) {
-        this.userName = NAME;
-        this.userEmail = EMAIL;
-        this.userPassword = PASSWORD;
-        this.userGroup = "basic";
+        this.name = NAME;
+        this.email = EMAIL;
+        this.password = PASSWORD;
     }
 
     public Integer getUserId() {
-        return userId;
+        return id_user;
     }
 
     public void setUserId(Integer userId) {
-        this.userId = userId;
+        this.id_user = userId;
     }
 
     public String getUserName() {
-        return userName;
+        return name;
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        this.name = userName;
     }
 
     public String getUserEmail() {
-        return userEmail;
+        return email;
     }
 
     public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
+        this.email = userEmail;
     }
 
     public String getUserPassword() {
-        return userPassword;
+        return password;
     }
 
     public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
-    }
-
-    public String getUserGroup() {
-        return userGroup;
-    }
-
-    public void setUserGroup(String userGroup) {
-        this.userGroup = userGroup;
+        this.password = userPassword;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (userId != null ? userId.hashCode() : 0);
+        hash += (id_user != null ? id_user.hashCode() : 0);
         return hash;
     }
 
@@ -118,7 +105,7 @@ public class User implements Serializable {
             return false;
         }
         User other = (User) object;
-        if ((this.userId == null && other.userId != null) || (this.userId != null && !this.userId.equals(other.userId))) {
+        if ((this.id_user == null && other.id_user != null) || (this.id_user != null && !this.id_user.equals(other.id_user))) {
             return false;
         }
         return true;
@@ -126,7 +113,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mycompany.projet.entities.User[ userId=" + userId + " ]";
+        return "com.mycompany.projet.entities.User[ id_user=" + id_user + " ]";
     }
     
 }
