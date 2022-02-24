@@ -11,15 +11,13 @@ import Contact from "./Containers/Contact/Contact";
 
 function App() {
 
-	const [token, setToken] = useState()
 
 	return (
 		<div className="App bg-dark text-white">
 			<Navbar/>
-			{token}
 			<Routes>
 				<Route path={"/"} element={<Home/>}/>
-				<Route path={"/login"} element={token ? <Login/> : <Login setToken={setToken}/>}/>
+				<Route path={"/login"} element={<Login/>}/>
 				<Route path={"/register"} element={<Register/>}/>
 				<Route path={"/contact"} element={<Contact/>}/>
 				<Route path={"*"} element={<NotFound/>}/>

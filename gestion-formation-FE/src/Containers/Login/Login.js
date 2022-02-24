@@ -2,7 +2,8 @@ import React, {useState} from "react";
 import './Login.css';
 import InputFloating from "../../Components/InputFloating/InputFloating";
 import Form from "../../Components/Form/Form";
-import PropTypes from "prop-types";
+import md5 from "md5";
+import axios from "axios";
 
 export default function Login({setToken}){
 
@@ -12,8 +13,10 @@ export default function Login({setToken}){
 
 	const handleSubmit = async e => {
 		e.preventDefault();
-		const token = await loginUser({email,password});
-		setToken(token);
+		axios.get("http://localhost:8080/gestion-formation-BE/api/login/"+email+"/"+password).then((response) => {
+			console.log(response)
+		});
+
 	}
 
     return (
@@ -25,7 +28,7 @@ export default function Login({setToken}){
 						<h1 className="h3 mb-3 fw-normal">Connexion</h1>
 
 						<InputFloating id="floatingInputEmail"
-									   type="email"
+									   type="text"
 									   placeholder={"email@exemple.com"}
 									   labelContent={"Email"}
 									   onChange={e => setEmail(e.target.value)}/>
@@ -42,20 +45,4 @@ export default function Login({setToken}){
         </>
     );
 
-}
-
-async function loginUser(credentials){
-	return fetch('http://localhost:8080/login/email/password', {
-		method: 'POST',
-		headers:{
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify(credentials)
-	})
-		.then(data => data.json())
-}
-
-/*Validation des props*/
-Login.propTypes ={
-	setToken: PropTypes.func.isRequired
 }
