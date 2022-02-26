@@ -63,5 +63,36 @@ public class UserGestionnary {
         if(query.getResultList().isEmpty()) return false;
         return true;
     }
+    
+    public Boolean existUser(int id) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
+        EntityManager em1 = emf.createEntityManager();
+        Query query = em1.createQuery("SELECT u FROM User u WHERE u.id_user = '" + id + "'");
+        
+        if(query.getResultList().isEmpty()) return false;
+        return true;
+    }
+    
+    public Boolean updateUser(int ID, String USERNAME, String EMAIL, String PASSWORD) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
+        EntityManager em1 = emf.createEntityManager();
+        //User u = new User(USERNAME, EMAIL, PASSWORD);
+        try{
+            em1.createQuery("UPDATE User u SET u.name='" + USERNAME + "', u.email='"+ EMAIL +"', u.password='"+ PASSWORD +"' WHERE u.id_user = '" + ID + "'");
+            return true;
+        }catch(Exception e)
+        {
+            return false;
+        }
+    }
+    
+    /*public User getUser(int id) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
+        EntityManager em1 = emf.createEntityManager();
+        Query query = em1.createQuery("SELECT u FROM User u WHERE u.id = '" + id + "'");
+        
+        if(query.getResultList().isEmpty()) return null;
+        return query;
+    }*/
 }
     
