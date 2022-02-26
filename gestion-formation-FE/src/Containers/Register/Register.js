@@ -1,9 +1,12 @@
-import React from "react";
+import React, {useContext} from "react";
 import './Register.css'
 import InputFloating from "../../Components/InputFloating/InputFloating";
 import Form from "../../Components/Form/Form";
+import {LoginContext} from "../../Context/LoginContext";
 
 export default function Register(){
+
+	const {addUser, user} = useContext(LoginContext);
 
     return (
         <>
@@ -11,6 +14,7 @@ export default function Register(){
 				<div className="cover-container d-flex w-100 p-3 mx-auto flex-column">
 					<Form labelButton={"S'inscrire"}>
 						<h1 className="h3 mb-3 fw-normal">Inscription</h1>
+						<p>{user!=null ? "Connecté" : "Hors ligne"}</p>
 
 						<div className="row g-2">
 

@@ -20,6 +20,7 @@ export default function InputFloating(props){
                     type={props.type}
                     className="form-control"
                     id={props.id}
+                    value={props.value}
                     onChange={props.onChange}
                     placeholder={props.placeholder}/>
                 <label htmlFor={props.id} className={"text-black"}>{props.labelContent}</label>

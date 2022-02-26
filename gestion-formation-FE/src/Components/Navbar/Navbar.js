@@ -1,8 +1,12 @@
-import React from "react";
+import React, {useContext} from "react";
 import "./Navbar.css";
 import {NavLink} from "react-router-dom";
+import Login from "../../Containers/Login/Login";
+import {LoginContext} from "../../Context/LoginContext";
 
 export default function Navbar(){
+
+    const {addUser, user} = useContext(LoginContext);
 
     return (
 
@@ -13,15 +17,23 @@ export default function Navbar(){
                          activeClassName={"active"}
                          aria-current="page"
                          to={"/"}>Accueil</NavLink>
-                <NavLink className="nav-link"
-                         activeClassName={"active"}
-                         to={"/login"}>Connexion</NavLink>
-                <NavLink className="nav-link"
-                         activeClassName={"active"}
-                         to={"/register"}>Inscription</NavLink>
+                {user==null &&
+                    <>
+                        <NavLink className="nav-link"
+                                 activeClassName={"active"}
+                                 to={"/login"}>Connexion</NavLink>
+                        <NavLink className="nav-link"
+                                 activeClassName={"active"}
+                                 to={"/register"}>Inscription</NavLink>
+                    </>
+                }
                 <NavLink className="nav-link"
                          activeClassName={"active"}
                          to={"/contact"}>Contact</NavLink>
+                {user!=null &&
+                    <NavLink className="nav-link"
+                             to={"/logout"}>Déconnexion</NavLink>
+                }
             </nav>
         </header>
 
