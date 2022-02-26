@@ -4,6 +4,7 @@ import InputFloating from "../../Components/InputFloating/InputFloating";
 import Form from "../../Components/Form/Form";
 import axios from "axios";
 import {LoginContext} from "../../Context/LoginContext";
+import {Navigate} from "react-router-dom";
 
 export default function Login(){
 
@@ -22,6 +23,7 @@ export default function Login(){
 
     return (
         <>
+			{user != null && <Navigate to={"/"}/>}
 			<div className="d-flex h-100 text-center text-white bg-dark align-items-center">
 				<div className="cover-container d-flex w-100 p-3 mx-auto flex-column">
 					<Form labelButton={"Connexion"} onSubmit={handleSubmit}>

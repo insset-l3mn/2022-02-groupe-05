@@ -1,6 +1,7 @@
 import React, {useContext, useEffect} from "react";
 import "./Logout.css";
 import {LoginContext} from "../../Context/LoginContext";
+import {Navigate} from "react-router-dom";
 
 export default function Logout(){
 
@@ -13,6 +14,8 @@ export default function Logout(){
 
     return (
         <>
+            {user === null && <Navigate to={"/login"}/>}
+
             <div className="d-flex h-100 text-center text-white bg-dark align-items-center">
                 <div className="cover-container d-flex w-100 p-3 mx-auto flex-column">
                     <p>Déconnexion !</p>

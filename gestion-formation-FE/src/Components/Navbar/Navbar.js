@@ -7,7 +7,6 @@ import {LoginContext} from "../../Context/LoginContext";
 export default function Navbar(){
 
     const {addUser, user} = useContext(LoginContext);
-
     return (
 
         <header className="mb-auto bg-dark text-white px-3 pt-3">
@@ -34,6 +33,7 @@ export default function Navbar(){
                     <NavLink className="nav-link"
                              to={"/logout"}>Déconnexion</NavLink>
                 }
+                {user!=null && user.userName}
             </nav>
         </header>
 
