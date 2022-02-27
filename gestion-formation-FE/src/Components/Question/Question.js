@@ -3,9 +3,7 @@ import './Question.css'
 import Reponse from "../Reponse/Reponse";
 import {v4 as uuidv4} from 'uuid';
 
-export default function Question(){
-
-    const [question, setQuestion] = useState("Question");
+export default function Question(props){
 
         const reponses =
         [
@@ -16,7 +14,7 @@ export default function Question(){
         <>
             <div className="card text-center text-dark">
                 <div className="card-header">
-                    {question}
+                    {props.question}
                 </div>
 
                 {reponses.map(item => {
@@ -25,9 +23,8 @@ export default function Question(){
                     );
                 })}
 
-                <div className="card-footer text-muted">
-                    <button className={"btn btn-primary"}>Valider</button>
-                </div>
+                {props.children}
+
             </div>
         </>
     );
