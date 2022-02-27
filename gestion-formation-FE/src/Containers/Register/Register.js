@@ -1,10 +1,9 @@
-import React, {useContext, useState} from "react";
+import React, {useState} from "react";
 import './Register.css'
-import InputFloating from "../../Components/InputFloating/InputFloating";
 import Form from "../../Components/Form/Form";
-import {LoginContext} from "../../Context/LoginContext";
 import axios from "axios";
 import {Navigate} from "react-router-dom";
+import InputFloating from "../../Components/InputFloating/InputFloating";
 
 export default function Register(){
 

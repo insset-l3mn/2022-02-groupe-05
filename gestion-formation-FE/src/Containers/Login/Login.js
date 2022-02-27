@@ -1,16 +1,16 @@
 import React, {useState, useContext} from "react";
 import './Login.css';
-import InputFloating from "../../Components/InputFloating/InputFloating";
 import Form from "../../Components/Form/Form";
 import axios from "axios";
-import {LoginContext} from "../../Context/LoginContext";
 import {Navigate} from "react-router-dom";
+import {AuthContext} from "../../Context/AuthContext";
+import InputFloating from "../../Components/InputFloating/InputFloating";
 
 export default function Login(){
 
 	const [email, setEmail] = useState()
 	const [password, setPassword] = useState()
-	const {addUser, user} = useContext(LoginContext)
+	const {addUser, user} = useContext(AuthContext)
 
 	const handleSubmit = async e => {
 		e.preventDefault();
@@ -21,8 +21,8 @@ export default function Login(){
 
 	}
 
-    return (
-        <>
+	return (
+		<>
 			{user != null && <Navigate to={"/"}/>}
 			<div className="d-flex h-100 text-center text-white bg-dark align-items-center">
 				<div className="cover-container d-flex w-100 p-3 mx-auto flex-column">
@@ -47,7 +47,7 @@ export default function Login(){
 
 				</div>
 			</div>
-        </>
-    );
+		</>
+	);
 
 }

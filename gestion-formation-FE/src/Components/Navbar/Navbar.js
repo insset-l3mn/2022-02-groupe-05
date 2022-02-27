@@ -1,12 +1,12 @@
 import React, {useContext} from "react";
 import "./Navbar.css";
 import {NavLink} from "react-router-dom";
-import Login from "../../Containers/Login/Login";
-import {LoginContext} from "../../Context/LoginContext";
+import {AuthContext} from "../../Context/AuthContext";
 
 export default function Navbar(){
 
-    const {addUser, user} = useContext(LoginContext);
+    const {addUser, user} = useContext(AuthContext);
+
     return (
 
         <header className="mb-auto bg-dark text-white px-3 pt-3">
@@ -33,7 +33,6 @@ export default function Navbar(){
                     <NavLink className="nav-link"
                              to={"/logout"}>Déconnexion</NavLink>
                 }
-                {user!=null && user.userName}
             </nav>
         </header>
 

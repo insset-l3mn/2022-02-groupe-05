@@ -2,14 +2,12 @@ import React from "react";
 import './InputFloating.css'
 
 {/*
-
     props = {
         type,
         placeholder,
         id,
         labelContent
     }
-
 */}
 export default function InputFloating(props){
 

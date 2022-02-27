@@ -1,8 +1,8 @@
 import React, {createContext, useContext, useEffect, useState} from "react";
 
-export const LoginContext = createContext();
+export const AuthContext = createContext();
 
-const LoginContextProvider = props => {
+const AuthContextProvider = props => {
 	const [user, setUser] = useState(null);
 
 	const addUser = (u) =>{
@@ -15,10 +15,10 @@ const LoginContextProvider = props => {
 	},[])
 
 	return(
-		<LoginContext.Provider value={{addUser, user}}>
+		<AuthContext.Provider value={{addUser, user}}>
 			{props.children}
-		</LoginContext.Provider>
+		</AuthContext.Provider>
 	);
 }
 
-export default LoginContextProvider;
+export default AuthContextProvider;

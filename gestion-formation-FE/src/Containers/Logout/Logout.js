@@ -1,11 +1,11 @@
 import React, {useContext, useEffect} from "react";
 import "./Logout.css";
-import {LoginContext} from "../../Context/LoginContext";
+import {AuthContext} from "../../Context/AuthContext";
 import {Navigate} from "react-router-dom";
 
 export default function Logout(){
 
-    const {addUser, user} = useContext(LoginContext);
+    const {addUser, user} = useContext(AuthContext);
 
     useEffect(() => {
         addUser(null)

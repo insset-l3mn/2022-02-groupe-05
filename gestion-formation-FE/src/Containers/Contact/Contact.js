@@ -1,6 +1,6 @@
 import React, {useContext} from "react";
 import './Contact.css'
-import {LoginContext} from "../../Context/LoginContext";
+import {AuthContext} from "../../Context/AuthContext";
 
 export default function Contact(){
 
