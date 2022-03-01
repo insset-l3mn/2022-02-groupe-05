@@ -32,7 +32,7 @@ public class UserResource {
             userGestionnary.updateUser(id, username, email, password);
             return new Message("success", "Les informations de l'utilisateur ont bien été mis à jour.");
         } else {
-            return new Message("error", "L'utilisateur n'existe pas");
+            return new Message("error", "L'utilisateur n'existe pas.");
         }
     }
 }

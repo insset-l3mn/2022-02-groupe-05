@@ -73,11 +73,17 @@ public class GfSkill implements Serializable {
         this.idSkill = idSkill;
     }
 
-    public GfSkill(Integer idSkill, String name, String weight) {
-        this.idSkill = idSkill;
+    public GfSkill(User idTrainer, String name, String weight) {
+        this.idTrainer = idTrainer;
         this.name = name;
         this.weight = weight;
     }
+    
+    /*public GfSkill(Integer idSkill, String name, String weight) {
+        this.idSkill = idSkill;
+        this.name = name;
+        this.weight = weight;
+    }*/
 
     public Integer getIdSkill() {
         return idSkill;

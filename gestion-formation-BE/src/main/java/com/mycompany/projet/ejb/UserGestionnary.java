@@ -47,12 +47,39 @@ public class UserGestionnary {
         Query query = em1.createQuery("SELECT u FROM User u WHERE u.name = :name")
                 .setParameter("name", NAME);
         User user = null;
+        
         if(!query.getResultList().isEmpty()){
             user = (User) query.getResultList().get(0);
             if(!user.getUserPassword().equals(PASSWORD))user = null;
         }
         
         return user;
+    }
+    
+    public User requestUser(int id) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
+        EntityManager em1 = emf.createEntityManager();
+        Query query = em1.createQuery("SELECT u FROM User u WHERE u.id_user = '" + id + "'");
+        User user = null;
+        
+        if(!query.getResultList().isEmpty()){
+            user = (User) query.getResultList().get(0);
+        }
+        
+        return user;
+    }
+    
+    public Boolean isFormer(int id) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
+        EntityManager em1 = emf.createEntityManager();
+        Query query = em1.createQuery("SELECT u FROM User u WHERE u.id_user = '" + id + "'");
+        
+        if(!query.getResultList().isEmpty()){
+            User user = (User) query.getResultList().get(0);
+            if("former".equals(user.getUserRole())) return true;
+        }
+        
+        return false;
     }
     
     public Boolean existUser(String NAME) {
