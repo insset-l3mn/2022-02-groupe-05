@@ -55,11 +55,15 @@ public class GfDomain implements Serializable {
     public GfDomain(Integer idDomain) {
         this.idDomain = idDomain;
     }
-
-    public GfDomain(Integer idDomain, String denominate) {
-        this.idDomain = idDomain;
+    
+    public GfDomain(String denominate) {
         this.denominate = denominate;
     }
+
+    /*public GfDomain(Integer idDomain, String denominate) {
+        this.idDomain = idDomain;
+        this.denominate = denominate;
+    }*/
 
     public Integer getIdDomain() {
         return idDomain;

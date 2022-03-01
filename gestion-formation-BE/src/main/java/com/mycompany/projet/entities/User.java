@@ -74,10 +74,6 @@ public class User implements Serializable {
 
     public User() {
     }
-
-    /*public User(Integer userId) {
-        this.userId = userId;
-    }*/
     
     public User(String NAME, String EMAIL, String PASSWORD, String ROLE) {
         this.name = NAME;
@@ -151,7 +147,7 @@ public class User implements Serializable {
         return "com.mycompany.projet.entities.User[ id_user=" + id_user + " ]";
     }
 
-    public String getName() {
+    /*public String getName() {
         return name;
     }
 
@@ -181,7 +177,7 @@ public class User implements Serializable {
 
     public void setRole(String role) {
         this.role = role;
-    }
+    }*/
 
     public Collection<GfCourse> getGfCourseCollection() {
         return gfCourseCollection;

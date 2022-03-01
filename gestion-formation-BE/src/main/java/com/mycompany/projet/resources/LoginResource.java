@@ -5,6 +5,7 @@
 package com.mycompany.projet.resources;
 
 import com.mycompany.projet.ejb.UserGestionnary;
+import com.mycompany.projet.entities.Message;
 import com.mycompany.projet.entities.User;
 import javax.ejb.EJB;
 import javax.ws.rs.GET;
@@ -25,13 +26,13 @@ public class LoginResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{username}/{password}")
-    public User testValue(@PathParam("username") String username, @PathParam("password") String password) {
+    public Object testValue(@PathParam("username") String username, @PathParam("password") String password) {
         if (username != null && password != null) {
             User user = userGestionnary.requestUser(username, password);
             if(user != null) return user;
-            else return null;
+            else return new Message("error", "Identifiant ou mot de passe incorrect.");
         } else {
-            return null;
+            return new Message("error", "Vous devez renseigner tous les champs.");
         }
     }
 }

@@ -4,18 +4,10 @@
  */
 package com.mycompany.projet.resources;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-
 /**
  *
  * @author valen
  */
-@Path("/hello")
-public class HelloResource {
-
-   @GET
-   public String sayHello() {
-      return "Hello World";
-   }
+public class QuestionnaryResource {
+    
 }

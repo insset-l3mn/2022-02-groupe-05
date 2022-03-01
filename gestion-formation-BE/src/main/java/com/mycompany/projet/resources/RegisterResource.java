@@ -5,6 +5,7 @@
 package com.mycompany.projet.resources;
 
 import com.mycompany.projet.ejb.UserGestionnary;
+import com.mycompany.projet.entities.Message;
 import com.mycompany.projet.entities.User;
 import javax.ejb.EJB;
 import javax.ws.rs.GET;
@@ -26,14 +27,14 @@ public class RegisterResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{username}/{email}/{password}")
-    public Boolean testValue(@PathParam("username") String username, @PathParam("username") String email, @PathParam("password") String password) {
+    public Object testValue(@PathParam("username") String username, @PathParam("username") String email, @PathParam("password") String password) {
         if (username != null && password != null && email != null) {
             if(!userGestionnary.existUser(username)){
                 userGestionnary.createUser(new User(username, email, password, "visitor"));
-                return true;
-            }else return false;
+                return new Message("success","L'utilisateur a bien été enregistré.");
+            }else return new Message("error","L'utilisateur existe déjà.");
         } else {
-            return false;
+            return new Message("error","Vous devez renseigner tous les champs.");
         }
     }
 }

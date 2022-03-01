@@ -5,6 +5,7 @@
 package com.mycompany.projet.resources;
 
 import com.mycompany.projet.ejb.UserGestionnary;
+import com.mycompany.projet.entities.Message;
 import com.mycompany.projet.entities.User;
 import javax.ejb.EJB;
 import javax.ws.rs.GET;
@@ -26,11 +27,12 @@ public class UserResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/update/{id}/{username}/{email}/{password}")
-    public Boolean testValue(@PathParam("id") int id, @PathParam("username") String username, @PathParam("email") String email, @PathParam("password") String password) {
+    public Object testValue(@PathParam("id") int id, @PathParam("username") String username, @PathParam("email") String email, @PathParam("password") String password) {
         if (userGestionnary.existUser(id)) {
-            return userGestionnary.updateUser(id, username, email, password);
+            userGestionnary.updateUser(id, username, email, password);
+            return new Message("success", "Les informations de l'utilisateur ont bien été mis à jour.");
         } else {
-            return false;
+            return new Message("error", "L'utilisateur n'existe pas");
         }
     }
 }

@@ -77,12 +77,18 @@ public class GfQuestion implements Serializable {
         this.idQuestion = idQuestion;
     }
 
-    public GfQuestion(Integer idQuestion, String level, String difficulty, String contents) {
-        this.idQuestion = idQuestion;
+    public GfQuestion(String level, String difficulty, String contents) {
         this.level = level;
         this.difficulty = difficulty;
         this.contents = contents;
     }
+    
+    /*public GfQuestion(Integer idQuestion, String level, String difficulty, String contents) {
+        this.idQuestion = idQuestion;
+        this.level = level;
+        this.difficulty = difficulty;
+        this.contents = contents;
+    }*/
 
     public Integer getIdQuestion() {
         return idQuestion;
