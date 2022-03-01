@@ -23,7 +23,7 @@ public class AddUser implements Serializable{
     @EJB
     private UserGestionnary userGestionnary;
 
-    private String name, email, password;
+    private String name, email, password, role;
     
     public String getName() {
         return name;
@@ -48,10 +48,18 @@ public class AddUser implements Serializable{
     public void setPassword(String PASSWORD) {
         this.password = PASSWORD;
     }
+    
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String ROLE) {
+        this.role = ROLE;
+    }
 
     public String createUser() {
         if(name.length() > 1 && email.length() > 6 && password.length() > 8){
-            userGestionnary.createUser(new User(name, email, password));
+            userGestionnary.createUser(new User(name, email, password, role));
             return "login?&msg=1&faces-redirect=true";
         }else{
             return "register?error=1&faces-redirect=true";

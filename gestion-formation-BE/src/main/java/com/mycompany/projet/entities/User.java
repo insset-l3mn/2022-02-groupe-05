@@ -5,15 +5,21 @@
 package com.mycompany.projet.entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -27,8 +33,37 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "User.findByUserId", query = "SELECT u FROM User u WHERE u.id_user = :id_user"),
     @NamedQuery(name = "User.findByUserName", query = "SELECT u FROM User u WHERE u.name = :name"),
     @NamedQuery(name = "User.findByUserEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
-    @NamedQuery(name = "User.findByUserPassword", query = "SELECT u FROM User u WHERE u.password = :password")})
+    @NamedQuery(name = "User.findByUserPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
+    @NamedQuery(name = "User.findByUserRole", query = "SELECT u FROM User u WHERE u.id_user = :id_user")})
 public class User implements Serializable {
+
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
+    @Column(name = "name")
+    private String name;
+    @Basic(optional = false)
+    @NotNull
+    @Lob
+    @Size(min = 1, max = 65535)
+    @Column(name = "password")
+    private String password;
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
+    @Column(name = "email")
+    private String email;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
+    @Column(name = "role")
+    private String role;
+    @OneToMany(mappedBy = "createdBy")
+    private Collection<GfCourse> gfCourseCollection;
+    @JoinColumn(name = "id_course", referencedColumnName = "id_course")
+    @ManyToOne
+    private GfCourse idCourse;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -36,15 +71,6 @@ public class User implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_user")
     private Integer id_user;
-    @Size(max = 45)
-    @Column(name = "name")
-    private String name;
-    @Size(max = 45)
-    @Column(name = "email")
-    private String email;
-    @Size(max = 255)
-    @Column(name = "password")
-    private String password;
 
     public User() {
     }
@@ -53,10 +79,11 @@ public class User implements Serializable {
         this.userId = userId;
     }*/
     
-    public User(String NAME, String EMAIL, String PASSWORD) {
+    public User(String NAME, String EMAIL, String PASSWORD, String ROLE) {
         this.name = NAME;
         this.email = EMAIL;
         this.password = PASSWORD;
+        this.role = ROLE;
     }
 
     public Integer getUserId() {
@@ -90,6 +117,14 @@ public class User implements Serializable {
     public void setUserPassword(String userPassword) {
         this.password = userPassword;
     }
+    
+    public String getUserRole() {
+        return role;
+    }
+
+    public void setUserRole(String userRole) {
+        this.role = userRole;
+    }
 
     @Override
     public int hashCode() {
@@ -114,6 +149,54 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "com.mycompany.projet.entities.User[ id_user=" + id_user + " ]";
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public Collection<GfCourse> getGfCourseCollection() {
+        return gfCourseCollection;
+    }
+
+    public void setGfCourseCollection(Collection<GfCourse> gfCourseCollection) {
+        this.gfCourseCollection = gfCourseCollection;
+    }
+
+    public GfCourse getIdCourse() {
+        return idCourse;
+    }
+
+    public void setIdCourse(GfCourse idCourse) {
+        this.idCourse = idCourse;
     }
     
 }

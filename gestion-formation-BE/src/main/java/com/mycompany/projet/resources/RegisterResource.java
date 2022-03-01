@@ -29,7 +29,7 @@ public class RegisterResource {
     public Boolean testValue(@PathParam("username") String username, @PathParam("username") String email, @PathParam("password") String password) {
         if (username != null && password != null && email != null) {
             if(!userGestionnary.existUser(username)){
-                userGestionnary.createUser(new User(username, email, password));
+                userGestionnary.createUser(new User(username, email, password, "visitor"));
                 return true;
             }else return false;
         } else {

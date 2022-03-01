@@ -78,7 +78,7 @@ public class UserGestionnary {
         EntityManager em1 = emf.createEntityManager();
         //User u = new User(USERNAME, EMAIL, PASSWORD);
         try{
-            em1.createQuery("UPDATE User u SET u.name='" + USERNAME + "', u.email='"+ EMAIL +"', u.password='"+ PASSWORD +"' WHERE u.id_user = '" + ID + "'");
+            em1.createQuery("UPDATE User u SET u.name='" + USERNAME + "', u.email='"+ EMAIL +"', u.password='"+ PASSWORD +"' WHERE u.id_user = '" + ID + "'").executeUpdate();
             return true;
         }catch(Exception e)
         {

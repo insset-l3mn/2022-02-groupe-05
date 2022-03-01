@@ -29,7 +29,7 @@ public class UserMBean implements Serializable {
     public UserMBean() {
     }
     
-    public List<User> getAllComptes() {
+    public List<User> getAllUsers() {
         if (userList == null) {
             userList = userManager.getAllUsers();
         }
