@@ -10,6 +10,7 @@ import Questionnaire from "./Containers/Questionnaire/Questionnaire";
 import Navbar from "./Components/Navbar/Navbar";
 import Login from "./Containers/Login/Login";
 import Contact from "./Containers/Contact/Contact";
+import Profil from "./Containers/Profil/Profil";
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
 				<Route path={"/login"} element={<Login/>}/>
 				<Route path={"/register"} element={<Register/>}/>
 				<Route path={"/contact"} element={<Contact/>}/>
+				<Route path={"/profil"} element={<Profil/>}/>
 				<Route path={"/questionnaire"} element={<Questionnaire/>}/>
 				<Route path={"/logout"} element={<Logout/>}/>
 				<Route path={"*"} element={<NotFound/>}/>
