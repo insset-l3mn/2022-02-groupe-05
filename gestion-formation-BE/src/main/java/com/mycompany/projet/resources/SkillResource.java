@@ -95,4 +95,16 @@ public class SkillResource {
             return new Message("error", "Une erreur est survenue lors de la mise à jour de la compétance.");
         }
     }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/read/{idSkill}")
+    public Object readDomain(@PathParam("idSkill") int id) {
+        if (skillGestionnary.existSkill(id)) {
+            GfSkill skill = skillGestionnary.readSkill(id);    
+            return skill;
+        } else {
+            return new Message("error", "La compétence n'existe pas.");
+        }
+    }
 }

@@ -48,7 +48,7 @@ public class GfDomain implements Serializable {
     private Integer idDomain;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDomaine")
-    @JsonbTransient
+    @JsonbTransient//Perpet de dire que l'on ne veut pas ce champ dans le JSON
     private Collection<GfCourse> gfCourseCollection;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDomain")

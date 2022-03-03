@@ -98,4 +98,18 @@ public class SkillGestionnary {
             return false;
         }
     }
+    
+    public GfSkill readSkill(int id) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
+        EntityManager em1 = emf.createEntityManager();
+        Query query = em1.createQuery("SELECT s FROM GfSkill s WHERE s.idSkill = '" + id + "'");
+
+        GfSkill skill = null;
+        
+        if(!query.getResultList().isEmpty()){
+            skill = (GfSkill) query.getResultList().get(0);
+        }
+        
+        return skill;
+    }
 }
