@@ -6,6 +6,7 @@ package com.mycompany.projet.entities;
 
 import java.io.Serializable;
 import java.util.Collection;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -39,14 +40,19 @@ public class GfDomain implements Serializable {
     private String denominate;
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_domain")
     private Integer idDomain;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDomaine")
+    @JsonbTransient
     private Collection<GfCourse> gfCourseCollection;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDomain")
+    @JsonbTransient
     private Collection<GfQuestion> gfQuestionCollection;
 
     public GfDomain() {
@@ -60,10 +66,10 @@ public class GfDomain implements Serializable {
         this.denominate = denominate;
     }
 
-    /*public GfDomain(Integer idDomain, String denominate) {
+    public GfDomain(Integer idDomain, String denominate) {
         this.idDomain = idDomain;
         this.denominate = denominate;
-    }*/
+    }
 
     public Integer getIdDomain() {
         return idDomain;
@@ -72,7 +78,6 @@ public class GfDomain implements Serializable {
     public void setIdDomain(Integer idDomain) {
         this.idDomain = idDomain;
     }
-
 
     public Collection<GfCourse> getGfCourseCollection() {
         return gfCourseCollection;

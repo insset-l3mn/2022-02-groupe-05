@@ -95,5 +95,18 @@ public class DomainGestionnary {
             return false;
         }
     }
+    
+    public GfDomain readDomain(int id) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
+        EntityManager em1 = emf.createEntityManager();
+        Query query = em1.createQuery("SELECT d FROM GfDomain d WHERE d.idDomain = '" + id + "'");
+        GfDomain domain = null;
+        
+        if(!query.getResultList().isEmpty()){
+            domain = (GfDomain) query.getResultList().get(0);
+        }
+        
+        return domain;
+    }
 }
     

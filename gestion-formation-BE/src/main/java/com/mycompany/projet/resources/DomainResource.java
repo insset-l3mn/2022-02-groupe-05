@@ -14,6 +14,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+
 /**
  *
  * @author valen
@@ -75,6 +76,24 @@ public class DomainResource {
             }
         } else {
             return new Message("error", "Une erreur est survenue lors de la mise à jour du domaine.");
+        }
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/read/{idDomain}")
+    public Object readDomain(@PathParam("idDomain") int id) {
+        if (domainGestionnary.existDomain(id)) {
+            GfDomain domain = domainGestionnary.readDomain(id);
+            
+            /*JsonObject value = Json.createObjectBuilder()
+                    .add("id", domain.getIdDomain())
+                    .add("denominate", domain.getIdDomain())
+                    .build();
+              */      
+            return domain;
+        } else {
+            return new Message("error", "Le domaine n'existe pas.");
         }
     }
 }
