@@ -56,17 +56,77 @@ public class QuestionResource {
             GfSkill skill = skillGestionnary.requestSkill(skillName);
 
             if (domain != null && skill != null) {
-                if (!questionGestionnary.existQuestion(contents)) {
-                    questionGestionnary.createQuestion(new GfQuestion(level, difficulty, contents, domain, skill));
-                    return new Message("success", "La question a bien été ajoutée.");
-                } else {
-                    return new Message("error", "La question existe déjà.");
-                }
+                //if (!questionGestionnary.existQuestion(contents)) {
+                questionGestionnary.createQuestion(new GfQuestion(level, difficulty, contents, domain, skill));
+                return new Message("success", "La question a bien été ajoutée.");
+                //} else {
+                //    return new Message("error", "La question existe déjà.");
+                //}
             } else {
                 return new Message("error", "Le domaine ou la compétance n'éxiste pas.");
             }
         } else {
             return new Message("error", "Une erreur est survenue lors de l'ajout d'une nouvelle compétance.");
+        }
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/remove/{id}")
+    public Message removeSkill(@PathParam("id") int id) {
+        if (questionGestionnary.existQuestion(id)) {
+            if (questionGestionnary.removeQuestion(id)) {
+                return new Message("success", "La question a bien été supprimée.");
+            } else {
+                return new Message("error", "Une erreur est survenue lors de la suppression de la question.");
+            }
+        } else {
+            return new Message("error", "La question n'existe pas.");
+        }
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/update/{id}/{level}/{difficulty}/{contents}/{domainName}/{skillName}")
+    public Message updateQuestion(@PathParam("id") int id, @PathParam("level") String level, @PathParam("difficulty") String difficulty, @PathParam("contents") String contents, @PathParam("domainName") String domainName, @PathParam("skillName") String skillName) {
+
+        try {
+            contents = URLDecoder.decode(contents, "UTF-8");
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(QuestionResource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        if (questionGestionnary.existQuestion(id)) {
+            if (questionGestionnary.updateQuestion(id, level, difficulty, contents, domainName, skillName)) {
+                return new Message("success", "La compétance a bien été mise à jour.");
+            } else {
+                return new Message("error", "Une erreur est survenue lors de la mise à jour de la compétance. Vérifiez que le domaine et la compétance existe.");
+            }
+        } else {
+            return new Message("error", "La question n'existe pas.");
+        }
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/read/{id}")
+    public Object readDomain(@PathParam("id") int id) {
+        if (questionGestionnary.existQuestion(id)) {
+            GfQuestion question = questionGestionnary.readQuestion(id);
+            return question;
+        } else {
+            return new Message("error", "La question n'existe pas.");
+        }
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/read/{count}/{startAt}")
+    public Object readDomains(@PathParam("count") int count, @PathParam("startAt") int startAt) {
+        try {
+            return questionGestionnary.readQuestions(count, startAt);
+        } catch (Exception e) {
+            return new Message("error", "Une erreur est survenue.");
         }
     }
 }

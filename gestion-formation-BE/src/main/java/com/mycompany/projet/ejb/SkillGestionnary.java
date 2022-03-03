@@ -41,7 +41,7 @@ public class SkillGestionnary {
         em.persist(skill);
     }
 
-    public GfSkill requestSkill(String NAME) {
+    public static GfSkill requestSkill(String NAME) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
         Query query = em1.createQuery("SELECT s FROM GfSkill s WHERE s.name = :name").setParameter("name", NAME);

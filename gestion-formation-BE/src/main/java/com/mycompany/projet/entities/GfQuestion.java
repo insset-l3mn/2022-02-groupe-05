@@ -6,6 +6,7 @@ package com.mycompany.projet.entities;
 
 import java.io.Serializable;
 import java.util.Collection;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -58,14 +59,20 @@ public class GfQuestion implements Serializable {
     @Size(min = 1, max = 65535)
     @Column(name = "contents")
     private String contents;
+    
+    @JsonbTransient
     @JoinTable(name = "former_manage_question", joinColumns = {
         @JoinColumn(name = "id_question", referencedColumnName = "id_question")}, inverseJoinColumns = {
         @JoinColumn(name = "id_trainer", referencedColumnName = "id_user")})
     @ManyToMany
     private Collection<User> userCollection;
+    
+    
     @JoinColumn(name = "id_domain", referencedColumnName = "id_domain")
     @ManyToOne(optional = false)
     private GfDomain idDomain;
+    
+    
     @JoinColumn(name = "id_skill", referencedColumnName = "id_skill")
     @ManyToOne(optional = false)
     private GfSkill idSkill;

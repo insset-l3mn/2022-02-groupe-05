@@ -41,7 +41,7 @@ public class DomainGestionnary {
         em.persist(domain);
     }
     
-    public GfDomain requestDomain(String DENOMINATE) {
+    public static GfDomain requestDomain(String DENOMINATE) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
         Query query = em1.createQuery("SELECT d FROM GfDomain d WHERE d.denominate = :denominate")
