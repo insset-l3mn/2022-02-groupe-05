@@ -61,5 +61,39 @@ public class DomainGestionnary {
         if(query.getResultList().isEmpty()) return false;
         return true;
     }
+    
+    public Boolean existDomain(int id) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
+        EntityManager em1 = emf.createEntityManager();
+        Query query = em1.createQuery("SELECT d FROM GfDomain d WHERE d.idDomain = '" + id + "'");
+        
+        if(query.getResultList().isEmpty()) return false;
+        return true;
+    }
+    
+    public Boolean removeDomain(int id) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
+        EntityManager em1 = emf.createEntityManager();
+        
+        try{
+            em1.createQuery("DELETE FROM GfDomain WHERE idDomain=" + id).executeUpdate();
+            return true;
+        }catch(Exception e)
+        {
+            return false;
+        }
+    }
+    
+    public Boolean updateDomain(int ID, String DENOMINATE) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
+        EntityManager em1 = emf.createEntityManager();
+        try{
+            em1.createQuery("UPDATE GfDomain d SET d.denominate='" + DENOMINATE +"' WHERE d.idDomain = '" + ID + "'").executeUpdate();
+            return true;
+        }catch(Exception e)
+        {
+            return false;
+        }
+    }
 }
     

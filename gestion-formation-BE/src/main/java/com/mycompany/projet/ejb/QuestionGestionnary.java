@@ -8,7 +8,10 @@ import com.mycompany.projet.entities.GfQuestion;
 import javax.annotation.sql.DataSourceDefinition;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -35,6 +38,15 @@ public class QuestionGestionnary {
     
     public void createQuestion(GfQuestion question){
         em.persist(question);
+    }
+    
+    public Boolean existQuestion(String contents) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
+        EntityManager em1 = emf.createEntityManager();
+        Query query = em1.createQuery("SELECT q FROM GfQuestion q WHERE q.contents = '" + contents + "'");
+        
+        if(query.getResultList().isEmpty()) return false;
+        return true;
     }
 }
     

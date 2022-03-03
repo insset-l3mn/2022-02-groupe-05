@@ -58,7 +58,7 @@ public class SkillResource {
                 if (skillGestionnary.removeSkill(idSkill)) {
                     return new Message("success", "La compétance a bien été supprimée.");
                 } else {
-                    return new Message("error", "Une erreur est survenue lors de la suppression d'une compétance.");
+                    return new Message("error", "Une erreur est survenue lors de la suppression de la compétance.");
                 }
             } else {
                 return new Message("error", "La compétance n'existe pas.");
@@ -76,10 +76,14 @@ public class SkillResource {
         if (name != null && weight != null) {
             if (userGestionnary.isFormer(idUser)) {
                 if (skillGestionnary.existSkill(idSkill)) {
-                    if (skillGestionnary.updateSkill(idSkill, name, weight)) {
-                        return new Message("success", "La compétance a bien été mise à jour.");
-                    } else {
-                        return new Message("error", "Une erreur est survenue lors de la mise à jour de la compétance.");
+                    if (!skillGestionnary.existSkill(name)) {
+                        if (skillGestionnary.updateSkill(idSkill, name, weight)) {
+                            return new Message("success", "La compétance a bien été mise à jour.");
+                        } else {
+                            return new Message("error", "Une erreur est survenue lors de la mise à jour de la compétance.");
+                        }
+                    }else{
+                        return new Message("error", "Une compétance porte déjà ce nom.");
                     }
                 } else {
                     return new Message("error", "La compétance n'existe pas.");

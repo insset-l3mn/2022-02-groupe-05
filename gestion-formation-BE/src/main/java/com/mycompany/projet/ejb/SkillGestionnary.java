@@ -91,7 +91,7 @@ public class SkillGestionnary {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
         try{
-            em1.createQuery("UPDATE GfSkill s SET s.name='" + NAME + "', s.weight='"+ WEIGHT + "'").executeUpdate();
+            em1.createQuery("UPDATE GfSkill s SET s.name='" + NAME + "', s.weight='"+ WEIGHT +"' WHERE s.idSkill = '" + ID + "'").executeUpdate();
             return true;
         }catch(Exception e)
         {

@@ -26,11 +26,47 @@ public class UserResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Path("/login/{username}/{password}")
+    public Object testValue(@PathParam("username") String username, @PathParam("password") String password) {
+        if (username != null && password != null) {
+            User user = userGestionnary.requestUser(username, password);
+            if (user != null) {
+                return user;
+            } else {
+                return new Message("error", "Identifiant ou mot de passe incorrect.");
+            }
+        } else {
+            return new Message("error", "Vous devez renseigner tous les champs.");
+        }
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/register/{username}/{email}/{password}")
+    public Object testValue(@PathParam("username") String username, @PathParam("username") String email, @PathParam("password") String password) {
+        if (username != null && password != null && email != null) {
+            if (!userGestionnary.existUser(username)) {
+                userGestionnary.createUser(new User(username, email, password, "visitor"));
+                return new Message("success", "L'utilisateur a bien été enregistré.");
+            } else {
+                return new Message("error", "L'utilisateur existe déjà.");
+            }
+        } else {
+            return new Message("error", "Vous devez renseigner tous les champs.");
+        }
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/update/{id}/{username}/{email}/{password}")
     public Object testValue(@PathParam("id") int id, @PathParam("username") String username, @PathParam("email") String email, @PathParam("password") String password) {
         if (userGestionnary.existUser(id)) {
-            userGestionnary.updateUser(id, username, email, password);
-            return new Message("success", "Les informations de l'utilisateur ont bien été mis à jour.");
+            if (!userGestionnary.existUser(username)) {
+                userGestionnary.updateUser(id, username, email, password);
+                return new Message("success", "Les informations de l'utilisateur ont bien été mis à jour.");
+            } else {
+                return new Message("error", "Un autre utilisateur porte déjà ce nom.");
+            }
         } else {
             return new Message("error", "L'utilisateur n'existe pas.");
         }
