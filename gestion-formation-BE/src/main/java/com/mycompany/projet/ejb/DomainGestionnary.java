@@ -5,6 +5,7 @@
 package com.mycompany.projet.ejb;
 
 import com.mycompany.projet.entities.GfDomain;
+import java.util.List;
 import javax.annotation.sql.DataSourceDefinition;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -107,6 +108,14 @@ public class DomainGestionnary {
         }
         
         return domain;
+    }
+    
+    public List readDomains(int count, int startAt) {
+        return em.createQuery(
+                "SELECT d FROM GfDomain d")
+                .setFirstResult(startAt)
+                .setMaxResults(count)
+                .getResultList();
     }
 }
     

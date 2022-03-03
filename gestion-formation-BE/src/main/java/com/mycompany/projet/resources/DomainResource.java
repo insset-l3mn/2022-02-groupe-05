@@ -7,6 +7,10 @@ package com.mycompany.projet.resources;
 import com.mycompany.projet.ejb.DomainGestionnary;
 import com.mycompany.projet.entities.GfDomain;
 import com.mycompany.projet.entities.Message;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -30,6 +34,13 @@ public class DomainResource {
     @Path("/add/{denominate}")
     public Object testValue(@PathParam("denominate") String denominate) {
         if (denominate != null) {
+            
+            try {
+                denominate = URLDecoder.decode(denominate, "UTF-8");
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(QuestionResource.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
             if (!domainGestionnary.existDomain(denominate)) {
                 domainGestionnary.createDomain(new GfDomain(denominate));
                 return new Message("success", "Le domaine a bien été ajouté.");
@@ -61,6 +72,13 @@ public class DomainResource {
     public Message updateDomain(@PathParam("idDomain") int id, @PathParam("denominate") String denominate) {
 
         if (denominate != null) {
+            
+            try {
+                denominate = URLDecoder.decode(denominate, "UTF-8");
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(QuestionResource.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
             if (domainGestionnary.existDomain(id)) {
                 if (!domainGestionnary.existDomain(denominate)) {
                     if (domainGestionnary.updateDomain(id, denominate)) {
@@ -94,6 +112,17 @@ public class DomainResource {
             return domain;
         } else {
             return new Message("error", "Le domaine n'existe pas.");
+        }
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/read/{count}/{startAt}")
+    public Object readDomains(@PathParam("count") int count, @PathParam("startAt") int startAt) {
+        try{
+            return domainGestionnary.readDomains(count, startAt);
+        }catch(Exception e){
+            return new Message("error", "Une erreur est survenue.");
         }
     }
 }

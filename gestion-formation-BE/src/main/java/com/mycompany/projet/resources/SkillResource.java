@@ -9,6 +9,10 @@ import com.mycompany.projet.ejb.UserGestionnary;
 import com.mycompany.projet.entities.GfSkill;
 import com.mycompany.projet.entities.Message;
 import com.mycompany.projet.entities.User;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -33,6 +37,13 @@ public class SkillResource {
     @Path("/add/{name}/{weight}/{id}")
     public Message addSkill(@PathParam("name") String name, @PathParam("weight") String weight, @PathParam("id") int id) {
         if (name != null && weight != null) {
+            
+            try {
+                name = URLDecoder.decode(name, "UTF-8");
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(QuestionResource.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
             if (userGestionnary.isFormer(id)) {
                 User user = userGestionnary.requestUser(id);
                 if (!skillGestionnary.existSkill(name)) {
@@ -74,6 +85,13 @@ public class SkillResource {
     public Message updateSkill(@PathParam("idSkill") int idSkill, @PathParam("name") String name, @PathParam("weight") String weight, @PathParam("idUser") int idUser) {
 
         if (name != null && weight != null) {
+            
+            try {
+                name = URLDecoder.decode(name, "UTF-8");
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(QuestionResource.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
             if (userGestionnary.isFormer(idUser)) {
                 if (skillGestionnary.existSkill(idSkill)) {
                     if (!skillGestionnary.existSkill(name)) {
@@ -105,6 +123,17 @@ public class SkillResource {
             return skill;
         } else {
             return new Message("error", "La compétence n'existe pas.");
+        }
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/read/{count}/{startAt}")
+    public Object readDomains(@PathParam("count") int count, @PathParam("startAt") int startAt) {
+        try{
+            return skillGestionnary.readSkills(count, startAt);
+        }catch(Exception e){
+            return new Message("error", "Une erreur est survenue.");
         }
     }
 }

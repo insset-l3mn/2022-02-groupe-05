@@ -5,6 +5,7 @@
 package com.mycompany.projet.ejb;
 
 import com.mycompany.projet.entities.GfSkill;
+import java.util.List;
 import javax.annotation.sql.DataSourceDefinition;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -77,39 +78,45 @@ public class SkillGestionnary {
     public Boolean removeSkill(int id) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
-        
-        try{
+
+        try {
             em1.createQuery("DELETE FROM GfSkill WHERE idSkill=" + id).executeUpdate();
             return true;
-        }catch(Exception e)
-        {
+        } catch (Exception e) {
             return false;
         }
     }
-    
+
     public Boolean updateSkill(int ID, String NAME, String WEIGHT) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
-        try{
-            em1.createQuery("UPDATE GfSkill s SET s.name='" + NAME + "', s.weight='"+ WEIGHT +"' WHERE s.idSkill = '" + ID + "'").executeUpdate();
+        try {
+            em1.createQuery("UPDATE GfSkill s SET s.name='" + NAME + "', s.weight='" + WEIGHT + "' WHERE s.idSkill = '" + ID + "'").executeUpdate();
             return true;
-        }catch(Exception e)
-        {
+        } catch (Exception e) {
             return false;
         }
     }
-    
+
     public GfSkill readSkill(int id) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
         Query query = em1.createQuery("SELECT s FROM GfSkill s WHERE s.idSkill = '" + id + "'");
 
         GfSkill skill = null;
-        
-        if(!query.getResultList().isEmpty()){
+
+        if (!query.getResultList().isEmpty()) {
             skill = (GfSkill) query.getResultList().get(0);
         }
-        
+
         return skill;
+    }
+
+    public List readSkills(int count, int startAt) {
+        return em.createQuery(
+                "SELECT s FROM GfSkill s")
+                .setFirstResult(startAt)
+                .setMaxResults(count)
+                .getResultList();
     }
 }

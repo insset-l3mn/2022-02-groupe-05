@@ -113,13 +113,26 @@ public class UserGestionnary {
         }
     }
     
-    /*public User getUser(int id) {
+    public User readUser(int id) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
-        Query query = em1.createQuery("SELECT u FROM User u WHERE u.id = '" + id + "'");
-        
-        if(query.getResultList().isEmpty()) return null;
-        return query;
-    }*/
+        Query query = em1.createQuery("SELECT u FROM User u WHERE u.id_user = '" + id + "'");
+
+        User user = null;
+
+        if (!query.getResultList().isEmpty()) {
+            user = (User) query.getResultList().get(0);
+        }
+
+        return user;
+    }
+    
+    public List readUsers(int count, int startAt) {
+        return em.createQuery(
+                "SELECT u FROM User u")
+                .setFirstResult(startAt)
+                .setMaxResults(count)
+                .getResultList();
+    }
 }
     
