@@ -24,7 +24,7 @@ public class AuthentificationFilter implements Filter{
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
-        
+        //req.setCharacterEncoding("UTF-8");
         
         ((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Origin", "*");
         ((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Methods", "GET, OPTIONS, HEAD, PUT, POST");
@@ -37,31 +37,6 @@ public class AuthentificationFilter implements Filter{
             resp.setStatus(HttpServletResponse.SC_ACCEPTED);
             return;
         }
-        
-        String action = req.getServletPath();
-        //System.out.println(action);
-        
-        /*if("/login.xhtml".equals(action) || "/javax.faces.resource/img/hexagone.png.xhtml".equals(action)){
-            filterChain.doFilter(servletRequest, servletResponse);
-        }*/
-        
-        /*if("/login".equals(action) || "/login.jsp".equals(action) || "/login.xhtml".equals(action) || req.getServletPath().contains("/javax.faces.resource") || req.getServletPath().contains("/css") || req.getServletPath().contains("/img") || req.getServletPath().contains("/js")){
-            filterChain.doFilter(servletRequest, servletResponse);
-            return;
-        }else if("/".equals(action) || "/index.xhtml".equals(action) || "/register.xhtml".equals(action)){
-            filterChain.doFilter(servletRequest, servletResponse);
-            return;
-        }else{
-            Object isLoggedObj = req.getSession().getAttribute("isLoggedIn");
-            if(isLoggedObj != null){
-                boolean isLoggedIn = (Boolean) isLoggedObj;
-                if(isLoggedIn){
-                    filterChain.doFilter(servletRequest, servletResponse);
-                    return;
-                }
-            }
-            resp.sendRedirect(req.getContextPath()+"/login");
-        }*/
         
         filterChain.doFilter(servletRequest, servletResponse);//A retirer si décommenter ce qu'il y a au dessus.
     }

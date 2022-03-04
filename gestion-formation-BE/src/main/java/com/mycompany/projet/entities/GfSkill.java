@@ -6,6 +6,7 @@ package com.mycompany.projet.entities;
 
 import java.io.Serializable;
 import java.util.Collection;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -56,13 +57,17 @@ public class GfSkill implements Serializable {
     @JoinTable(name = "prerequisite_of_skill", joinColumns = {
         @JoinColumn(name = "id_skill", referencedColumnName = "id_skill")}, inverseJoinColumns = {
         @JoinColumn(name = "id_skill_prerequisite", referencedColumnName = "id_skill")})
+    @JsonbTransient
     @ManyToMany
     private Collection<GfSkill> gfSkillCollection;
-    @ManyToMany(mappedBy = "gfSkillCollection")
-    private Collection<GfSkill> gfSkillCollection1;
+    
+
+    
     @JoinColumn(name = "id_trainer", referencedColumnName = "id_user")
     @ManyToOne(optional = false)
     private User idTrainer;
+    
+    @JsonbTransient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSkill")
     private Collection<GfQuestion> gfQuestionCollection;
 
@@ -115,14 +120,6 @@ public class GfSkill implements Serializable {
 
     public void setGfSkillCollection(Collection<GfSkill> gfSkillCollection) {
         this.gfSkillCollection = gfSkillCollection;
-    }
-
-    public Collection<GfSkill> getGfSkillCollection1() {
-        return gfSkillCollection1;
-    }
-
-    public void setGfSkillCollection1(Collection<GfSkill> gfSkillCollection1) {
-        this.gfSkillCollection1 = gfSkillCollection1;
     }
 
     public User getIdTrainer() {
