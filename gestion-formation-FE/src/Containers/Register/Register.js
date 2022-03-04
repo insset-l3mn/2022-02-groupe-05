@@ -18,7 +18,7 @@ export default function Register(){
 		(password === passwordConfirm && password.length >= 5) ? console.log("Pass ok") : console.log("Pass error")
 
 
-		axios.get("http://localhost:8080/gestion-formation-BE/api/register/" + username + "/"+email+"/"+password)
+		axios.get("http://localhost:8080/gestion-formation-BE/api/user/register/" + username + "/"+email+"/"+password)
 			.then((response) => {
 				console.log(response)
 		});

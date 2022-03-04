@@ -16,7 +16,7 @@ export default function Login(){
 
 	const handleSubmit = async e => {
 		e.preventDefault();
-		axios.get("http://localhost:8080/gestion-formation-BE/api/login/"+email+"/"+password).then((response) => {
+		axios.get("http://localhost:8080/gestion-formation-BE/api/user/login/"+email+"/"+password).then((response) => {
 			if(!response["data"].hasOwnProperty("type")){
 				addUser(response["data"]);
 				//console.log(response)

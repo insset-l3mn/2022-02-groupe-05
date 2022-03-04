@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import './Profil.css';
-import {logDOM} from "@testing-library/react";
+import {Navigate} from "react-router-dom";
 
 export default function Profil(props){
 
