@@ -9,6 +9,7 @@
     <class>com.mycompany.projet.entities.GfQuestion</class>
     <class>com.mycompany.projet.entities.GfCourse</class>
     <class>com.mycompany.projet.entities.GfDomain</class>
+    <class>com.mycompany.projet.entities.GfProposal</class>
     <properties>
       <property name="eclipselink.logging.level" value="FINE"/>
       <property name="javax.persistence.schema-generation.database.action" value="none"/>

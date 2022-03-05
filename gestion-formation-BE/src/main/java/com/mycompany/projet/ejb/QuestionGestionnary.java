@@ -114,6 +114,20 @@ public class QuestionGestionnary {
 
         return question;
     }
+    
+    public GfQuestion readQuestion(String str) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
+        EntityManager em1 = emf.createEntityManager();
+        Query query = em1.createQuery("SELECT q FROM GfQuestion q WHERE q.contents = '" + str + "'");
+
+        GfQuestion question = null;
+
+        if (!query.getResultList().isEmpty()) {
+            question = (GfQuestion) query.getResultList().get(0);
+        }
+
+        return question;
+    }
 
     public List readQuestions(int count, int startAt) {
         return em.createQuery(

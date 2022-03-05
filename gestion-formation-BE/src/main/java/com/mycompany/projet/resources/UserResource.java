@@ -31,28 +31,6 @@ public class UserResource {
     @EJB
     private UserGestionnary userGestionnary;
 
-    /*@GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/login/{username}/{password}")
-    public Object testValue(@PathParam("username") String username, @PathParam("password") String password) {
-        if (username != null && password != null) {
-            try {
-                username = URLDecoder.decode(username, "UTF-8");
-                password = URLDecoder.decode(password, "UTF-8");
-            } catch (UnsupportedEncodingException ex) {
-                Logger.getLogger(QuestionResource.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            User user = userGestionnary.requestUser(username, password);
-            if (user != null) {
-                return user;
-            } else {
-                return new Message("error", "Identifiant ou mot de passe incorrect.");
-            }
-        } else {
-            return new Message("error", "Vous devez renseigner tous les champs.");
-        }
-    }*/
     @POST
     @Consumes("application/x-www-form-urlencoded")
     @Path("/login")
@@ -69,30 +47,6 @@ public class UserResource {
         }
     }
 
-    /*@GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/register/{username}/{email}/{password}")
-    public Object testValue(@PathParam("username") String username, @PathParam("email") String email, @PathParam("password") String password) {
-        if (username != null && password != null && email != null) {
-
-            try {
-                username = URLDecoder.decode(username, "UTF-8");
-                email = URLDecoder.decode(email, "UTF-8");
-                password = URLDecoder.decode(password, "UTF-8");
-            } catch (UnsupportedEncodingException ex) {
-                Logger.getLogger(QuestionResource.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            if (!userGestionnary.existUser(username)) {
-                userGestionnary.createUser(new User(username, email, password, "visitor"));
-                return new Message("success", "L'utilisateur a bien été enregistré.");
-            } else {
-                return new Message("error", "L'utilisateur existe déjà.");
-            }
-        } else {
-            return new Message("error", "Vous devez renseigner tous les champs.");
-        }
-    }*/
     @POST
     @Consumes("application/x-www-form-urlencoded")
     @Path("/register")
@@ -113,32 +67,6 @@ public class UserResource {
         }
     }
 
-    /*@GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/update/{id}/{username}/{email}/{password}")
-    public Object testValue(@PathParam("id") int id, @PathParam("username") String username, @PathParam("email") String email, @PathParam("password") String password) {
-
-        try {
-            username = URLDecoder.decode(username, "UTF-8");
-            email = URLDecoder.decode(email, "UTF-8");
-            password = URLDecoder.decode(password, "UTF-8");
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(QuestionResource.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        if (userGestionnary.existUser(id)) {
-            User requestedUser = userGestionnary.requestUser(id);
-
-            if (!userGestionnary.existUser(username) || username.equals(requestedUser.getUserName())) {
-                userGestionnary.updateUser(id, username, email, password);
-                return new Message("success", "Les informations de l'utilisateur ont bien été mis à jour.");
-            } else {
-                return new Message("error", "Un autre utilisateur porte déjà ce nom.");
-            }
-        } else {
-            return new Message("error", "L'utilisateur n'existe pas.");
-        }
-    }*/
     @POST
     @Consumes("application/x-www-form-urlencoded")
     @Path("/update")
