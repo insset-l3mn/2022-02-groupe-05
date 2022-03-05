@@ -72,15 +72,15 @@ public class SkillResource {
                 User user = userGestionnary.requestUser(id);
                 if (!skillGestionnary.existSkill(name)) {
                     skillGestionnary.createSkill(new GfSkill(user, name, weight));
-                    return new Message("success", "La compétance a bien été ajoutée.");
+                    return new Message("success", "La compétence a bien été ajoutée.");
                 } else {
-                    return new Message("error", "La compétance existe déjà");
+                    return new Message("error", "La compétence existe déjà");
                 }
             } else {
                 return new Message("error", "Vous n'êtes pas autorisé à effectuer cette action.");
             }
         } else {
-            return new Message("error", "Une erreur est survenue lors de l'ajout d'une nouvelle compétance.");
+            return new Message("error", "Une erreur est survenue lors de l'ajout d'une nouvelle compétence.");
         }
     }
 
