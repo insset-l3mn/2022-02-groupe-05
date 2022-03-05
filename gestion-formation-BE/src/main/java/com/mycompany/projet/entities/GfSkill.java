@@ -43,11 +43,14 @@ public class GfSkill implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "name")
     private String name;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
     @Column(name = "weight")
     private String weight;
+    
+    @JsonbTransient
     @ManyToMany(mappedBy = "gfSkillCollection")
     private Collection<GfSkill> gfSkillCollection1;
 
@@ -58,10 +61,10 @@ public class GfSkill implements Serializable {
     @Column(name = "id_skill")
     private Integer idSkill;
     
+    @JsonbTransient
     @JoinTable(name = "prerequisite_of_skill", joinColumns = {
         @JoinColumn(name = "id_skill", referencedColumnName = "id_skill")}, inverseJoinColumns = {
         @JoinColumn(name = "id_skill_prerequisite", referencedColumnName = "id_skill")})
-    @JsonbTransient
     @ManyToMany
     private Collection<GfSkill> gfSkillCollection;
     

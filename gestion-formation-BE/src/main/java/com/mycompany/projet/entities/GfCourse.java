@@ -6,6 +6,7 @@ package com.mycompany.projet.entities;
 
 import java.io.Serializable;
 import java.util.Collection;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -42,6 +43,8 @@ public class GfCourse implements Serializable {
     @JoinColumn(name = "created_by", referencedColumnName = "id_user")
     @ManyToOne
     private User createdBy;
+    
+    @JsonbTransient
     @OneToMany(mappedBy = "idCourse")
     private Collection<User> userCollection;
 
