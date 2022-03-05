@@ -48,7 +48,8 @@ public class QuestionGestionnary {
     public Boolean existQuestion(String contents) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
-        Query query = em1.createQuery("SELECT q FROM GfQuestion q WHERE q.contents = '" + contents + "'");
+        Query query = em1.createQuery("SELECT q FROM GfQuestion q WHERE q.contents=:contents")
+                .setParameter("contents", contents);
 
         if (query.getResultList().isEmpty()) {
             return false;
@@ -59,7 +60,8 @@ public class QuestionGestionnary {
     public Boolean existQuestion(int id) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
-        Query query = em1.createQuery("SELECT q FROM GfQuestion q WHERE q.idQuestion = '" + id + "'");
+        Query query = em1.createQuery("SELECT q FROM GfQuestion q WHERE q.idQuestion=:id")
+                .setParameter("id", id);
 
         if (query.getResultList().isEmpty()) {
             return false;
@@ -81,8 +83,15 @@ public class QuestionGestionnary {
         }
         
         try {
-            em1.createQuery("UPDATE GfQuestion q SET q.level='" + level + "', q.difficulty='" + difficulty + "', q.contents='"+ contents +"', q.idDomain='"+ idDomain +"', q.idSkill='"+ idSkill +"' WHERE q.idQuestion = '" + id + "'").executeUpdate();
-            //em1.createQuery("UPDATE GfQuestion q SET q.level='0', q.difficulty='0', q.contents='Hello', q.idDomain='6', q.idSkill='10' WHERE q.idQuestion='20'").executeUpdate();
+            em1.createQuery("UPDATE GfQuestion q SET q.level=:level, q.difficulty=:difficulty, q.contents=:contents, q.idDomain=:idDomain, q.idSkill=:idSkill WHERE q.idQuestion=:id")
+                    .setParameter("level", level)
+                    .setParameter("difficulty", difficulty)
+                    .setParameter("contents", contents)
+                    .setParameter("idDomain", idDomain)
+                    .setParameter("idSkill", idSkill)
+                    .setParameter("idQuestion", id)
+                    .executeUpdate();
+
             return true;
         } catch (Exception e) {
             return false;
@@ -94,7 +103,9 @@ public class QuestionGestionnary {
         EntityManager em1 = emf.createEntityManager();
 
         try {
-            em1.createQuery("DELETE FROM GfQuestion WHERE idQuestion=" + id).executeUpdate();
+            em1.createQuery("DELETE FROM GfQuestion WHERE idQuestion=:id")
+                    .setParameter("id", id)
+                    .executeUpdate();
             return true;
         } catch (Exception e) {
             return false;
@@ -104,7 +115,8 @@ public class QuestionGestionnary {
     public GfQuestion readQuestion(int id) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
-        Query query = em1.createQuery("SELECT q FROM GfQuestion q WHERE q.idQuestion = '" + id + "'");
+        Query query = em1.createQuery("SELECT q FROM GfQuestion q WHERE q.idQuestion=:id")
+                .setParameter("id", id);
 
         GfQuestion question = null;
 
@@ -118,7 +130,8 @@ public class QuestionGestionnary {
     public GfQuestion readQuestion(String str) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
-        Query query = em1.createQuery("SELECT q FROM GfQuestion q WHERE q.contents = '" + str + "'");
+        Query query = em1.createQuery("SELECT q FROM GfQuestion q WHERE q.contents=:str")
+                .setParameter("str", str);
 
         GfQuestion question = null;
 

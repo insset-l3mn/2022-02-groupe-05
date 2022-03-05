@@ -57,7 +57,7 @@ public class DomainGestionnary {
     public Boolean existDomain(String denominate) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
-        Query query = em1.createQuery("SELECT d FROM GfDomain d WHERE d.denominate = '" + denominate + "'");
+        Query query = em1.createQuery("SELECT d FROM GfDomain d WHERE d.denominate=:denominate").setParameter("denominate", denominate);
         
         if(query.getResultList().isEmpty()) return false;
         return true;
@@ -66,7 +66,7 @@ public class DomainGestionnary {
     public Boolean existDomain(int id) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
-        Query query = em1.createQuery("SELECT d FROM GfDomain d WHERE d.idDomain = '" + id + "'");
+        Query query = em1.createQuery("SELECT d FROM GfDomain d WHERE d.idDomain=:id").setParameter("id", id);
         
         if(query.getResultList().isEmpty()) return false;
         return true;
@@ -77,7 +77,9 @@ public class DomainGestionnary {
         EntityManager em1 = emf.createEntityManager();
         
         try{
-            em1.createQuery("DELETE FROM GfDomain WHERE idDomain=" + id).executeUpdate();
+            em1.createQuery("DELETE FROM GfDomain WHERE idDomain=:id")
+                    .setParameter("id", id)
+                    .executeUpdate();
             return true;
         }catch(Exception e)
         {
@@ -89,7 +91,10 @@ public class DomainGestionnary {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
         try{
-            em1.createQuery("UPDATE GfDomain d SET d.denominate='" + DENOMINATE +"' WHERE d.idDomain = '" + ID + "'").executeUpdate();
+            em1.createQuery("UPDATE GfDomain d SET d.denominate=:denominate WHERE d.idDomain=:id")
+                    .setParameter("denominate", DENOMINATE)
+                    .setParameter("id", ID)
+                    .executeUpdate();
             return true;
         }catch(Exception e)
         {
@@ -100,7 +105,8 @@ public class DomainGestionnary {
     public GfDomain readDomain(int id) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
-        Query query = em1.createQuery("SELECT d FROM GfDomain d WHERE d.idDomain = '" + id + "'");
+        Query query = em1.createQuery("SELECT d FROM GfDomain d WHERE d.idDomain =:id")
+                .setParameter("id", id);
         GfDomain domain = null;
         
         if(!query.getResultList().isEmpty()){
