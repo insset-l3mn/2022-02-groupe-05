@@ -88,9 +88,12 @@ public class UserResource {
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(QuestionResource.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
         if (userGestionnary.existUser(id)) {
-            if (!userGestionnary.existUser(username)) {
+            User requestedUser = userGestionnary.requestUser(id);
+            
+            
+            if (!userGestionnary.existUser(username) || username.equals(requestedUser.getUserName())) {
                 userGestionnary.updateUser(id, username, email, password);
                 return new Message("success", "Les informations de l'utilisateur ont bien été mis à jour.");
             } else {
