@@ -11,6 +11,7 @@ import Navbar from "./Components/Navbar/Navbar";
 import Login from "./Containers/Login/Login";
 import Contact from "./Containers/Contact/Contact";
 import Profil from "./Containers/Profil/Profil";
+import FormAjout from "./Containers/FormAjout/FormAjout";
 
 function App() {
 
@@ -25,6 +26,9 @@ function App() {
 				<Route path={"/profil"} element={<Profil/>}/>
 				<Route path={"/questionnaire"} element={<Questionnaire/>}/>
 				<Route path={"/logout"} element={<Logout/>}/>
+				<Route path={"/question/ajouter"} element={<FormAjout type={"question"}/>}/>
+				<Route path={"/domaine/ajouter"} element={<FormAjout type={"domaine"}/>}/>
+				<Route path={"/competence/ajouter"} element={<FormAjout type={"compétence"}/>}/>
 				<Route path={"*"} element={<NotFound/>}/>
 			</Routes>
 			<Footer/>
