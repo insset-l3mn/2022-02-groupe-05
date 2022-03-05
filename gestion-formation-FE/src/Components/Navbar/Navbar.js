@@ -38,15 +38,15 @@ export default function Navbar(){
                             <li>
 
                                 <NavLink className="dropdown-item"
-                                         to={"/domaine/ajouter"}>Ajouter un domaine</NavLink>
+                                         to={"/domain/add"}>Ajouter un domaine</NavLink>
                             </li>
                             <li>
                                 <NavLink className="dropdown-item"
-                                         to={"/question/ajouter"}>Ajouter une question</NavLink>
+                                         to={"/question/add"}>Ajouter une question</NavLink>
                             </li>
                             <li>
                                 <NavLink className="dropdown-item"
-                                         to={"/competence/ajouter"}>Ajouter une compétence</NavLink>
+                                         to={"/skill/add"}>Ajouter une compétence</NavLink>
                             </li>
                         </ul>
                     </li>

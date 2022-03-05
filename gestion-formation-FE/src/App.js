@@ -11,7 +11,9 @@ import Navbar from "./Components/Navbar/Navbar";
 import Login from "./Containers/Login/Login";
 import Contact from "./Containers/Contact/Contact";
 import Profil from "./Containers/Profil/Profil";
-import FormAjout from "./Containers/FormAjout/FormAjout";
+import AddQuestion from "./Containers/AddQuestion/AddQuestion";
+import AddSkill from "./Containers/AddSkill/AddSkill";
+import AddDomain from "./Containers/AddDomain/AddDomain";
 
 function App() {
 
@@ -24,11 +26,11 @@ function App() {
 				<Route path={"/register"} element={<Register/>}/>
 				<Route path={"/contact"} element={<Contact/>}/>
 				<Route path={"/profil"} element={<Profil/>}/>
-				<Route path={"/questionnaire"} element={<Questionnaire/>}/>
+				<Route path={"/survey"} element={<Questionnaire/>}/>
 				<Route path={"/logout"} element={<Logout/>}/>
-				<Route path={"/question/ajouter"} element={<FormAjout type={"question"}/>}/>
-				<Route path={"/domaine/ajouter"} element={<FormAjout type={"domaine"}/>}/>
-				<Route path={"/competence/ajouter"} element={<FormAjout type={"compétence"}/>}/>
+				<Route path={"/question/add"} element={<AddQuestion/>}/>
+				<Route path={"/domain/add"} element={<AddDomain/>}/>
+				<Route path={"/skill/add"} element={<AddSkill/>}/>
 				<Route path={"*"} element={<NotFound/>}/>
 			</Routes>
 			<Footer/>
