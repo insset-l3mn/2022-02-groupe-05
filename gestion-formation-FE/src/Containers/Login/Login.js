@@ -5,18 +5,26 @@ import axios from "axios";
 import {Navigate} from "react-router-dom";
 import {AuthContext} from "../../Context/AuthContext";
 import InputFloating from "../../Components/InputFloating/InputFloating";
+import Error from "../../Components/Error/Error";
 
 export default function Login(){
 
 	const [email, setEmail] = useState()
 	const [password, setPassword] = useState()
 	const {addUser, user} = useContext(AuthContext)
+	const [error, setError] = useState(false);
 
 	const handleSubmit = async e => {
 		e.preventDefault();
-		axios.get("http://localhost:8080/gestion-formation-BE/api/login/"+email+"/"+password).then((response) => {
-			addUser(response["data"]);
-			console.log(response)
+		axios.get("http://localhost:8080/gestion-formation-BE/api/user/login/"+email+"/"+password).then((response) => {
+			if(!response["data"].hasOwnProperty("type")){
+				addUser(response["data"]);
+				//console.log(response)
+			}else{
+				//console.log("Erreur de login")
+				setError(response["data"]["message"])
+			}
+
 		});
 
 	}
@@ -30,7 +38,9 @@ export default function Login(){
 
 						<h1 className="h3 mb-3 fw-normal">Connexion</h1>
 
-						<p>{user!=null ? "Connecté" : "Hors ligne"}</p>
+						{/*<p>{user!=null ? "Connecté" : "Hors ligne"}</p>*/}
+
+						{error && <Error message={error}/>}
 
 						<InputFloating id="floatingInputEmail"
 									   type="text"

@@ -7,11 +7,12 @@ const AuthContextProvider = props => {
 
 	const addUser = (u) =>{
 		setUser(u);
-		window.sessionStorage.setItem("user", u);
+		window.sessionStorage.clear();
+		window.sessionStorage.setItem("user", JSON.stringify(u));
 	}
 
 	useEffect(() => {
-		window.sessionStorage.getItem("user") != null && addUser(window.sessionStorage.getItem("user"));
+		window.sessionStorage.getItem("user") != null && addUser(JSON.parse(window.sessionStorage.getItem("user")));
 	},[])
 
 	return(

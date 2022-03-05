@@ -16,6 +16,7 @@ export default function Navbar(){
                          activeClassName={"active"}
                          aria-current="page"
                          to={"/"}>Accueil</NavLink>
+
                 {user==null &&
                     <>
                         <NavLink className="nav-link"
@@ -26,13 +27,21 @@ export default function Navbar(){
                                  to={"/register"}>Inscription</NavLink>
                     </>
                 }
+
                 <NavLink className="nav-link"
                          activeClassName={"active"}
                          to={"/contact"}>Contact</NavLink>
+
                 {user!=null &&
-                    <NavLink className="nav-link"
-                             to={"/logout"}>Déconnexion</NavLink>
+                    <>
+                        <NavLink className="nav-link"
+                                 activeClassName={"active"}
+                                 to={"/profil"}>Profil</NavLink>
+                        <NavLink className="nav-link"
+                                 to={"/logout"}>Déconnexion</NavLink>
+                    </>
                 }
+
             </nav>
         </header>
 
