@@ -1,15 +1,19 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import './Profil.css';
 import {Navigate} from "react-router-dom";
+import axios from "axios";
+import {AuthContext} from "../../Context/AuthContext";
 
 export default function Profil(props){
 
-    const [user, setUser] = useState({});
+    const [userProfil, setUser] = useState({});
     const [confirmPassword, setConfirmPassword] = useState("");
+    const {addUser, user} = useContext(AuthContext)
 
     useEffect(() => {
         console.log(JSON.parse(window.sessionStorage.getItem("user")));
         setUser(JSON.parse(window.sessionStorage.getItem("user")));
+        setConfirmPassword(userProfil.userPassword);
     },[])
 
     const onChangeInput = e => {
@@ -18,11 +22,26 @@ export default function Profil(props){
             ...prevState,
             [name]: value
         }));
-        console.log(user)
+        console.log(userProfil)
     }
 
     const test = () => {
-        confirmPassword === user.userPassword ? console.log("OK mdp") : console.log("Nop mdp")
+        //confirmPassword === user.userPassword ? console.log("OK mdp") : console.log("Nop mdp")
+        if(userProfil.userName.length > 0 && userProfil.userEmail.length > 0 && userProfil.userPassword.length > 0 && confirmPassword.length > 0 && userProfil.userPassword === confirmPassword){
+            console.log("Update ok")
+
+            axios.get("http://localhost:8080/gestion-formation-BE/api/user/update/" + userProfil.userId + "/" + userProfil.userName + "/" + userProfil.userEmail + "/" + userProfil.userPassword)
+                .then((response) => {
+                    console.log(response)
+                });
+            axios.get("http://localhost:8080/gestion-formation-BE/api/user/login/"+userProfil.userEmail+"/"+userProfil.userPassword).then((response) => {
+                if(!response["data"].hasOwnProperty("type")){
+                    addUser(response["data"]);
+                    setUser(response["data"])
+                }
+
+            });
+        }
     }
 
 
@@ -39,7 +58,7 @@ export default function Profil(props){
                                 <td>
                                     <input type="text"
                                            name={"userName"}
-                                           value={user.userName}
+                                           value={userProfil.userName}
                                            className="form-control form-control-sm"
                                            onChange={onChangeInput}/>
                                 </td>
@@ -49,7 +68,7 @@ export default function Profil(props){
                                 <td>
                                     <input type="email"
                                            name={"userEmail"}
-                                           value={user.userEmail}
+                                           value={userProfil.userEmail}
                                            className="form-control form-control-sm"
                                            onChange={onChangeInput}/>
                                 </td>
@@ -59,7 +78,7 @@ export default function Profil(props){
                                 <td>
                                     <input type="password"
                                            name={"userPassword"}
-                                           value={user.userPassword}
+                                           value={userProfil.userPassword}
                                            className="form-control form-control-sm"
                                            onChange={onChangeInput}/>
                                 </td>
@@ -75,7 +94,7 @@ export default function Profil(props){
                             </tr>
                             <tr>
                                 <th>Role</th>
-                                <td>{user.userRole}</td>
+                                <td>{userProfil.userRole}</td>
                             </tr>
                             <tr>
                                 <td colSpan={"2"}>
