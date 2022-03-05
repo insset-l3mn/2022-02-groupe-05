@@ -11,8 +11,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ws.rs.Consumes;
 import javax.ejb.EJB;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -28,7 +31,7 @@ public class UserResource {
     @EJB
     private UserGestionnary userGestionnary;
 
-    @GET
+    /*@GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/login/{username}/{password}")
     public Object testValue(@PathParam("username") String username, @PathParam("password") String password) {
@@ -49,9 +52,24 @@ public class UserResource {
         } else {
             return new Message("error", "Vous devez renseigner tous les champs.");
         }
+    }*/
+    @POST
+    @Consumes("application/x-www-form-urlencoded")
+    @Path("/login")
+    public Object loginUser(@FormParam("username") String username, @FormParam("password") String password) {
+        if (username != null && password != null) {
+            User user = userGestionnary.requestUser(username, password);
+            if (user != null) {
+                return user;
+            } else {
+                return new Message("error", "Identifiant ou mot de passe incorrect.");
+            }
+        } else {
+            return new Message("error", "Vous devez renseigner tous les champs.");
+        }
     }
 
-    @GET
+    /*@GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/register/{username}/{email}/{password}")
     public Object testValue(@PathParam("username") String username, @PathParam("email") String email, @PathParam("password") String password) {
@@ -74,9 +92,28 @@ public class UserResource {
         } else {
             return new Message("error", "Vous devez renseigner tous les champs.");
         }
+    }*/
+    @POST
+    @Consumes("application/x-www-form-urlencoded")
+    @Path("/register")
+    public Object registerUser(@FormParam("username") String username, @FormParam("email") String email, @FormParam("password") String password, @FormParam("confirmation_password") String password2) {
+        if (username != null && password != null && email != null && password2 != null) {
+            if (!userGestionnary.existUser(username)) {
+                if (password.equals(password2)) {
+                    userGestionnary.createUser(new User(username, email, password, "visitor"));
+                    return new Message("success", "L'utilisateur a bien été enregistré.");
+                } else {
+                    return new Message("error", "Les mots de passe doivent être identiques.");
+                }
+            } else {
+                return new Message("error", "L'utilisateur existe déjà.");
+            }
+        } else {
+            return new Message("error", "Vous devez renseigner tous les champs.");
+        }
     }
 
-    @GET
+    /*@GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/update/{id}/{username}/{email}/{password}")
     public Object testValue(@PathParam("id") int id, @PathParam("username") String username, @PathParam("email") String email, @PathParam("password") String password) {
@@ -88,11 +125,10 @@ public class UserResource {
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(QuestionResource.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         if (userGestionnary.existUser(id)) {
             User requestedUser = userGestionnary.requestUser(id);
-            
-            
+
             if (!userGestionnary.existUser(username) || username.equals(requestedUser.getUserName())) {
                 userGestionnary.updateUser(id, username, email, password);
                 return new Message("success", "Les informations de l'utilisateur ont bien été mis à jour.");
@@ -101,6 +137,36 @@ public class UserResource {
             }
         } else {
             return new Message("error", "L'utilisateur n'existe pas.");
+        }
+    }*/
+    @POST
+    @Consumes("application/x-www-form-urlencoded")
+    @Path("/update")
+    public Object updateUser(@FormParam("id") int id, @FormParam("username") String username, @FormParam("email") String email, @FormParam("password") String password, @FormParam("confirmation_password") String password2) {
+        if (username != null && email != null) {
+            if (userGestionnary.existUser(id)) {
+                User requestedUser = userGestionnary.requestUser(id);
+
+                if (!userGestionnary.existUser(username) || username.equals(requestedUser.getUserName())) {
+                    if(!requestedUser.getUserPassword().equals(password)){
+                        if(password.equals(password2)){
+                            userGestionnary.updateUser(id, username, email, password);
+                            return new Message("success", "Les informations de l'utilisateur ont bien été mis à jour.");
+                        }else{
+                            return new Message("error", "Les mots de passe doivent être identiques.");
+                        }
+                    }else{
+                        userGestionnary.updateUser(id, username, email, password);
+                        return new Message("success", "Les informations de l'utilisateur ont bien été mis à jour.");
+                    }
+                } else {
+                    return new Message("error", "Un autre utilisateur porte déjà ce nom.");
+                }
+            } else {
+                return new Message("error", "L'utilisateur n'existe pas.");
+            }
+        }else{
+            return new Message("error", "Veuillez remplir tout les champs.");
         }
     }
 
