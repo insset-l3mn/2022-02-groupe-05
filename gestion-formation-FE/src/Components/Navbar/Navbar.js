@@ -5,7 +5,7 @@ import {AuthContext} from "../../Context/AuthContext";
 
 export default function Navbar(){
 
-    const {addUser, user} = useContext(AuthContext);
+    const {user, addUser} = useContext(AuthContext);
 
     return (
 
@@ -17,7 +17,7 @@ export default function Navbar(){
                          aria-current="page"
                          to={"/"}>Accueil</NavLink>
 
-                {user==null &&
+                {user === null &&
                     <>
                         <NavLink className="nav-link"
                                  activeClassName={"active"}
@@ -27,37 +27,41 @@ export default function Navbar(){
                                  to={"/register"}>Inscription</NavLink>
                     </>
                 }
-                <>
-                    <li className="nav-item dropdown" style={{marginLeft:"1rem"}}
-                    >
-                        <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">
-                            Gestion
-                        </a>
-                        <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li>
 
-                                <NavLink className="dropdown-item"
-                                         to={"/domain/add"}>Ajouter un domaine</NavLink>
-                            </li>
-                            <li>
-                                <NavLink className="dropdown-item"
-                                         to={"/question/add"}>Ajouter une question</NavLink>
-                            </li>
-                            <li>
-                                <NavLink className="dropdown-item"
-                                         to={"/skill/add"}>Ajouter une compétence</NavLink>
-                            </li>
-                        </ul>
-                    </li>
-                </>
+                { user != null && user.role !== 'basic' &&
+
+                    <>
+                        <li className="nav-item dropdown" style={{marginLeft: "1rem"}}
+                        >
+                            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                Gestion
+                            </a>
+                            <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li>
+
+                                    <NavLink className="dropdown-item"
+                                             to={"/domain/add"}>Ajouter un domaine</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink className="dropdown-item"
+                                             to={"/question/add"}>Ajouter une question</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink className="dropdown-item"
+                                             to={"/skill/add"}>Ajouter une compétence</NavLink>
+                                </li>
+                            </ul>
+                        </li>
+                    </>
+                }
 
                 <NavLink className="nav-link"
                          activeClassName={"active"}
                          style={{marginLeft:"1rem"}}
                          to={"/contact"}>Contact</NavLink>
 
-                {user!=null &&
+                {user != null &&
                     <>
                         <NavLink className="nav-link"
                                  activeClassName={"active"}

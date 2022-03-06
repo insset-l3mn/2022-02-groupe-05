@@ -2,10 +2,10 @@ import React, {useState} from "react";
 import './Register.css'
 import Form from "../../Components/Form/Form";
 import axios from "axios";
-import {Navigate} from "react-router-dom";
 import InputFloating from "../../Components/InputFloating/InputFloating";
 
-export default function Register(){
+export default function Register(props){
+
 
 	const [email, setEmail] = useState("")
 	const [password, setPassword] = useState("")
@@ -16,7 +16,6 @@ export default function Register(){
 		e.preventDefault();
 
 		(password === passwordConfirm && password.length >= 5) ? console.log("Pass ok") : console.log("Pass error")
-
 
 		axios.get("http://localhost:8080/gestion-formation-BE/api/user/register/" + username + "/"+email+"/"+password)
 			.then((response) => {

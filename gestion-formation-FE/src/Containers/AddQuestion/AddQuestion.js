@@ -83,7 +83,7 @@ export default function AddQuestion(props){
             [name]: value
         }));
     }
-    
+
     return (
         <>
             <div className="d-flex h-100 text-center text-white bg-dark align-items-center">

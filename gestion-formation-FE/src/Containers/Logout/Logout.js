@@ -5,11 +5,11 @@ import {Navigate} from "react-router-dom";
 
 export default function Logout(){
 
-    const {addUser, user} = useContext(AuthContext);
+    const {user, addUser} = useContext(AuthContext);
 
     useEffect(() => {
         addUser(null)
-        window.sessionStorage.clear();
+        localStorage.removeItem("user");
     }, [])
 
     return (

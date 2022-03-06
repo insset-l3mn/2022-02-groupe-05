@@ -9,44 +9,48 @@ import Error from "../../Components/Error/Error";
 
 export default function Login(){
 
-	const [email, setEmail] = useState()
+	const [username, setUsername] = useState()
 	const [password, setPassword] = useState()
-	const {addUser, user} = useContext(AuthContext)
+	const {user, addUser} = useContext(AuthContext)
 	const [error, setError] = useState(false);
 
 	const handleSubmit = async e => {
 		e.preventDefault();
-		axios.get("http://localhost:8080/gestion-formation-BE/api/user/login/"+email+"/"+password).then((response) => {
-			if(!response["data"].hasOwnProperty("type")){
-				addUser(response["data"]);
-				//console.log(response)
-			}else{
-				//console.log("Erreur de login")
-				setError(response["data"]["message"])
-			}
 
-		});
+		const params = new URLSearchParams()
+		params.append('username', username)
+		params.append('password', password)
+
+		const config = {
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded'
+			}
+		}
+
+		axios.post("http://localhost:8080/gestion-formation-BE/api/user/login", params, config)
+			.then((response) => {
+				addUser(response["data"]);
+			})
 
 	}
 
 	return (
 		<>
 			{user != null && <Navigate to={"/"}/>}
+
 			<div className="d-flex h-100 text-center text-white bg-dark align-items-center">
 				<div className="cover-container d-flex w-100 p-3 mx-auto flex-column">
 					<Form labelButton={"Connexion"} onSubmit={handleSubmit}>
 
 						<h1 className="h3 mb-3 fw-normal">Connexion</h1>
 
-						{/*<p>{user!=null ? "Connecté" : "Hors ligne"}</p>*/}
-
 						{error && <Error message={error}/>}
 
-						<InputFloating id="floatingInputEmail"
+						<InputFloating id="floatingInputUsername"
 									   type="text"
-									   placeholder={"email@exemple.com"}
-									   labelContent={"Email"}
-									   onChange={e => setEmail(e.target.value)}/>
+									   placeholder={"Pseudo"}
+									   labelContent={"Pseudo"}
+									   onChange={e => setUsername(e.target.value)}/>
 
 						<InputFloating id="floatingInputPassword"
 									   type="password"

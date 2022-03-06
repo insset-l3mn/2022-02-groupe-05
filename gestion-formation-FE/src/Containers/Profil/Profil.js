@@ -1,43 +1,40 @@
 import React, {useContext, useEffect, useState} from "react";
 import './Profil.css';
-import {Navigate} from "react-router-dom";
 import axios from "axios";
 import {AuthContext} from "../../Context/AuthContext";
 
 export default function Profil(props){
 
-    const [userProfil, setUser] = useState({});
+    const [userUpdate, setUpdateUser] = useState({});
     const [confirmPassword, setConfirmPassword] = useState("");
-    const {addUser, user} = useContext(AuthContext)
+    const {user, addUser} = useContext(AuthContext)
 
     useEffect(() => {
-        console.log(JSON.parse(window.sessionStorage.getItem("user")));
-        setUser(JSON.parse(window.sessionStorage.getItem("user")));
-        setConfirmPassword(userProfil.userPassword);
+        setUpdateUser(user)
+        setConfirmPassword(userUpdate.password);
     },[])
 
     const onChangeInput = e => {
         const {name, value} = e.target;
-        setUser(prevState => ({
+        setUpdateUser(prevState => ({
             ...prevState,
             [name]: value
         }));
-        console.log(userProfil)
     }
 
-    const test = () => {
+    const updateProfil = () => {
         //confirmPassword === user.userPassword ? console.log("OK mdp") : console.log("Nop mdp")
-        if(userProfil.userName.length > 0 && userProfil.userEmail.length > 0 && userProfil.userPassword.length > 0 && confirmPassword.length > 0 && userProfil.userPassword === confirmPassword){
+        if(userUpdate.userName.length > 0 && userUpdate.userEmail.length > 0 && userUpdate.userPassword.length > 0 && confirmPassword.length > 0 && userUpdate.userPassword === confirmPassword){
             console.log("Update ok")
 
-            axios.get("http://localhost:8080/gestion-formation-BE/api/user/update/" + userProfil.userId + "/" + userProfil.userName + "/" + userProfil.userEmail + "/" + userProfil.userPassword)
+            axios.get("http://localhost:8080/gestion-formation-BE/api/user/update/" + userUpdate.userId + "/" + userUpdate.userName + "/" + userUpdate.userEmail + "/" + userUpdate.userPassword)
                 .then((response) => {
                     console.log(response)
                 });
-            axios.get("http://localhost:8080/gestion-formation-BE/api/user/login/"+userProfil.userEmail+"/"+userProfil.userPassword).then((response) => {
+            axios.get("http://localhost:8080/gestion-formation-BE/api/user/login/"+userUpdate.userEmail+"/"+userUpdate.userPassword).then((response) => {
                 if(!response["data"].hasOwnProperty("type")){
                     addUser(response["data"]);
-                    setUser(response["data"])
+                    setUpdateUser(response["data"])
                 }
 
             });
@@ -47,6 +44,7 @@ export default function Profil(props){
 
     return (
         <>
+
             <div className="d-flex h-100 text-center text-white bg-dark align-items-center">
                 <div className="cover-container d-flex w-100 p-3 mx-auto flex-column">
                     <h1>Votre profil</h1>
@@ -58,7 +56,7 @@ export default function Profil(props){
                                 <td>
                                     <input type="text"
                                            name={"userName"}
-                                           value={userProfil.userName}
+                                           value={userUpdate.userName}
                                            className="form-control form-control-sm"
                                            onChange={onChangeInput}/>
                                 </td>
@@ -68,7 +66,7 @@ export default function Profil(props){
                                 <td>
                                     <input type="email"
                                            name={"userEmail"}
-                                           value={userProfil.userEmail}
+                                           value={userUpdate.userEmail}
                                            className="form-control form-control-sm"
                                            onChange={onChangeInput}/>
                                 </td>
@@ -78,7 +76,7 @@ export default function Profil(props){
                                 <td>
                                     <input type="password"
                                            name={"userPassword"}
-                                           value={userProfil.userPassword}
+                                           value={userUpdate.userPassword}
                                            className="form-control form-control-sm"
                                            onChange={onChangeInput}/>
                                 </td>
@@ -94,11 +92,11 @@ export default function Profil(props){
                             </tr>
                             <tr>
                                 <th>Role</th>
-                                <td>{userProfil.userRole}</td>
+                                <td>{userUpdate.userRole}</td>
                             </tr>
                             <tr>
                                 <td colSpan={"2"}>
-                                    <button className={"btn btn-secondary"} onClick={test}>Modifier</button>
+                                    <button className={"btn btn-secondary"} onClick={updateProfil}>Modifier</button>
                                 </td>
                             </tr>
                         </tbody>
