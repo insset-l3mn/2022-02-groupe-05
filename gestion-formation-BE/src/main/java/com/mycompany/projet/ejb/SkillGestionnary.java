@@ -128,4 +128,8 @@ public class SkillGestionnary {
                 .setMaxResults(count)
                 .getResultList();
     }
+    
+     public int countSkills() {
+        return em.createQuery("SELECT s FROM GfSkill s").getResultList().size();
+    }
 }

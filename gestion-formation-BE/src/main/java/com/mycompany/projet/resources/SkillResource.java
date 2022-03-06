@@ -34,9 +34,9 @@ public class SkillResource {
     @POST
     @Consumes("application/x-www-form-urlencoded")
     @Path("/add")
-    public Message addSkill(@FormParam("name") String name, @FormParam("weight") String weight, @FormParam("idUser") int id) {
+    public Message addSkill(@FormParam("name") String name, @FormParam("weight") Integer weight, @FormParam("idUser") int id) {
         if (name != null && weight != null) {
-            if (userGestionnary.isFormer(id)) {
+            if (!userGestionnary.isVisitor(id)) {
                 User user = userGestionnary.requestUser(id);
                 if (!skillGestionnary.existSkill(name)) {
                     skillGestionnary.createSkill(new GfSkill(user, name, weight));
@@ -56,7 +56,7 @@ public class SkillResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/remove/{idSkill}/{idUser}")
     public Message removeSkill(@PathParam("idSkill") int idSkill, @PathParam("idUser") int idUser) {
-        if (userGestionnary.isFormer(idUser)) {
+        if (!userGestionnary.isVisitor(idUser)) {
             if (skillGestionnary.existSkill(idSkill)) {
                 if (skillGestionnary.removeSkill(idSkill)) {
                     return new Message("success", "La compétance a bien été supprimée.");
@@ -76,7 +76,7 @@ public class SkillResource {
     @Path("/update")
     public Message updateSkill(@FormParam("idSkill") int idSkill, @FormParam("name") String name, @FormParam("weight") String weight, @FormParam("idUser") int idUser) {
         if (name != null && weight != null) {
-            if (userGestionnary.isFormer(idUser)) {
+            if (!userGestionnary.isVisitor(idUser)) {
                 if (skillGestionnary.existSkill(idSkill)) {
                     if (!skillGestionnary.existSkill(name)) {
                         if (skillGestionnary.updateSkill(idSkill, name, weight)) {

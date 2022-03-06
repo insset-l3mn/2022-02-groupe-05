@@ -33,26 +33,13 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "GfQuestion.findAll", query = "SELECT g FROM GfQuestion g"),
     @NamedQuery(name = "GfQuestion.findByIdQuestion", query = "SELECT g FROM GfQuestion g WHERE g.idQuestion = :idQuestion"),
-    @NamedQuery(name = "GfQuestion.findByLevel", query = "SELECT g FROM GfQuestion g WHERE g.level = :level"),
     @NamedQuery(name = "GfQuestion.findByDifficulty", query = "SELECT g FROM GfQuestion g WHERE g.difficulty = :difficulty")})
 public class GfQuestion implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id_question")
-    private Integer idQuestion;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 45)
-    @Column(name = "level")
-    private String level;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
     @Column(name = "difficulty")
-    private String difficulty;
+    private int difficulty;
     @Basic(optional = false)
     @NotNull
     @Lob
@@ -60,18 +47,17 @@ public class GfQuestion implements Serializable {
     @Column(name = "contents")
     private String contents;
     
-    @JsonbTransient
-    @JoinTable(name = "former_manage_question", joinColumns = {
-        @JoinColumn(name = "id_question", referencedColumnName = "id_question")}, inverseJoinColumns = {
-        @JoinColumn(name = "id_trainer", referencedColumnName = "id_user")})
-    @ManyToMany
-    private Collection<User> userCollection;
-    
-    
-    @JoinColumn(name = "id_domain", referencedColumnName = "id_domain")
+    @JoinColumn(name = "id_trainer", referencedColumnName = "id_user")
     @ManyToOne(optional = false)
-    private GfDomain idDomain;
+    private User idTrainer;
+
+    private static final long serialVersionUID = 1L;
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id_question")
+    private Integer idQuestion;
     
     @JoinColumn(name = "id_skill", referencedColumnName = "id_skill")
     @ManyToOne(optional = false)
@@ -84,12 +70,11 @@ public class GfQuestion implements Serializable {
         this.idQuestion = idQuestion;
     }
 
-    public GfQuestion(String level, String difficulty, String contents, GfDomain domain, GfSkill skill) {
-        this.idDomain = domain;
+    public GfQuestion(Integer difficulty, String contents, GfSkill skill, User user) {
         this.idSkill = skill;
-        this.level = level;
         this.difficulty = difficulty;
         this.contents = contents;
+        this.idTrainer = user;
     }
     
     /*public GfQuestion(Integer idQuestion, String level, String difficulty, String contents) {
@@ -105,46 +90,6 @@ public class GfQuestion implements Serializable {
 
     public void setIdQuestion(Integer idQuestion) {
         this.idQuestion = idQuestion;
-    }
-
-    public String getLevel() {
-        return level;
-    }
-
-    public void setLevel(String level) {
-        this.level = level;
-    }
-
-    public String getDifficulty() {
-        return difficulty;
-    }
-
-    public void setDifficulty(String difficulty) {
-        this.difficulty = difficulty;
-    }
-
-    public String getContents() {
-        return contents;
-    }
-
-    public void setContents(String contents) {
-        this.contents = contents;
-    }
-
-    public Collection<User> getUserCollection() {
-        return userCollection;
-    }
-
-    public void setUserCollection(Collection<User> userCollection) {
-        this.userCollection = userCollection;
-    }
-
-    public GfDomain getIdDomain() {
-        return idDomain;
-    }
-
-    public void setIdDomain(GfDomain idDomain) {
-        this.idDomain = idDomain;
     }
 
     public GfSkill getIdSkill() {
@@ -178,6 +123,30 @@ public class GfQuestion implements Serializable {
     @Override
     public String toString() {
         return "com.mycompany.projet.entities.GfQuestion[ idQuestion=" + idQuestion + " ]";
+    }
+
+    public int getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public String getContents() {
+        return contents;
+    }
+
+    public void setContents(String contents) {
+        this.contents = contents;
+    }
+
+    public User getIdTrainer() {
+        return idTrainer;
+    }
+
+    public void setIdTrainer(User idTrainer) {
+        this.idTrainer = idTrainer;
     }
     
 }

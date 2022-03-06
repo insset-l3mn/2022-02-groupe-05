@@ -19,6 +19,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -31,15 +33,19 @@ import javax.persistence.Table;
     @NamedQuery(name = "GfCourse.findByIdCourse", query = "SELECT g FROM GfCourse g WHERE g.idCourse = :idCourse")})
 public class GfCourse implements Serializable {
 
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
+    @Column(name = "name")
+    private String name;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_course")
     private Integer idCourse;
-    @JoinColumn(name = "id_domaine", referencedColumnName = "id_domain")
-    @ManyToOne(optional = false)
-    private GfDomain idDomaine;
+    
     @JoinColumn(name = "created_by", referencedColumnName = "id_user")
     @ManyToOne
     private User createdBy;
@@ -61,14 +67,6 @@ public class GfCourse implements Serializable {
 
     public void setIdCourse(Integer idCourse) {
         this.idCourse = idCourse;
-    }
-
-    public GfDomain getIdDomaine() {
-        return idDomaine;
-    }
-
-    public void setIdDomaine(GfDomain idDomaine) {
-        this.idDomaine = idDomaine;
     }
 
     public User getCreatedBy() {
@@ -110,6 +108,14 @@ public class GfCourse implements Serializable {
     @Override
     public String toString() {
         return "com.mycompany.projet.entities.GfCourse[ idCourse=" + idCourse + " ]";
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
     
 }
