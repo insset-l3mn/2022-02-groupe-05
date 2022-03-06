@@ -59,7 +59,8 @@ public class UserGestionnary {
     public User requestUser(int id) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
-        Query query = em1.createQuery("SELECT u FROM User u WHERE u.id_user = '" + id + "'");
+        Query query = em1.createQuery("SELECT u FROM User u WHERE u.id_user=:id")
+                .setParameter("id", id);
         User user = null;
         
         if(!query.getResultList().isEmpty()){
@@ -72,7 +73,8 @@ public class UserGestionnary {
     public Boolean isFormer(int id) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
-        Query query = em1.createQuery("SELECT u FROM User u WHERE u.id_user = '" + id + "'");
+        Query query = em1.createQuery("SELECT u FROM User u WHERE u.id_user=:id")
+                .setParameter("id", id);
         
         if(!query.getResultList().isEmpty()){
             User user = (User) query.getResultList().get(0);
@@ -85,7 +87,8 @@ public class UserGestionnary {
     public Boolean existUser(String NAME) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
-        Query query = em1.createQuery("SELECT u FROM User u WHERE u.name = '" + NAME + "'");
+        Query query = em1.createQuery("SELECT u FROM User u WHERE u.name=:name")
+                .setParameter("name", NAME);;
         
         if(query.getResultList().isEmpty()) return false;
         return true;
@@ -94,7 +97,8 @@ public class UserGestionnary {
     public Boolean existUser(int id) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
-        Query query = em1.createQuery("SELECT u FROM User u WHERE u.id_user = '" + id + "'");
+        Query query = em1.createQuery("SELECT u FROM User u WHERE u.id_user=:id")
+                .setParameter("id", id);
         
         if(query.getResultList().isEmpty()) return false;
         return true;
@@ -105,7 +109,12 @@ public class UserGestionnary {
         EntityManager em1 = emf.createEntityManager();
         //User u = new User(USERNAME, EMAIL, PASSWORD);
         try{
-            em1.createQuery("UPDATE User u SET u.name='" + USERNAME + "', u.email='"+ EMAIL +"', u.password='"+ PASSWORD +"' WHERE u.id_user = '" + ID + "'").executeUpdate();
+            em1.createQuery("UPDATE User u SET u.name=:username, u.email=:email, u.password=:password WHERE u.id_user=:id")
+                    .setParameter("username", USERNAME)
+                    .setParameter("email", EMAIL)
+                    .setParameter("password", PASSWORD)
+                    .setParameter("id", ID)
+                    .executeUpdate();
             return true;
         }catch(Exception e)
         {
@@ -116,7 +125,8 @@ public class UserGestionnary {
     public User readUser(int id) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
-        Query query = em1.createQuery("SELECT u FROM User u WHERE u.id_user = '" + id + "'");
+        Query query = em1.createQuery("SELECT u FROM User u WHERE u.id_user=:id")
+                .setParameter("id", id);
 
         User user = null;
 

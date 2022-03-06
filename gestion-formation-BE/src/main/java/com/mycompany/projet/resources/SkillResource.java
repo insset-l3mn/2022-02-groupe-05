@@ -35,34 +35,6 @@ public class SkillResource {
     @EJB
     private UserGestionnary userGestionnary;
 
-    /*@GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/add/{name}/{weight}/{id}")
-    public Message addSkill(@PathParam("name") String name, @PathParam("weight") String weight, @PathParam("id") int id) {
-        if (name != null && weight != null) {
-            
-            try {
-                name = URLDecoder.decode(name, "UTF-8");
-            } catch (UnsupportedEncodingException ex) {
-                Logger.getLogger(QuestionResource.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            if (userGestionnary.isFormer(id)) {
-                User user = userGestionnary.requestUser(id);
-                if (!skillGestionnary.existSkill(name)) {
-                    skillGestionnary.createSkill(new GfSkill(user, name, weight));
-                    return new Message("success", "La compétance a bien été ajoutée.");
-                } else {
-                    return new Message("error", "La compétance existe déjà");
-                }
-            } else {
-                return new Message("error", "Vous n'êtes pas autorisé à effectuer cette action.");
-            }
-        } else {
-            return new Message("error", "Une erreur est survenue lors de l'ajout d'une nouvelle compétance.");
-        }
-    }*/
-    
     @POST
     @Consumes("application/x-www-form-urlencoded")
     @Path("/add")
@@ -103,41 +75,6 @@ public class SkillResource {
         }
     }
 
-    /*@GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/update/{idSkill}/{name}/{weight}/{idUser}")
-    public Message updateSkill(@PathParam("idSkill") int idSkill, @PathParam("name") String name, @PathParam("weight") String weight, @PathParam("idUser") int idUser) {
-
-        if (name != null && weight != null) {
-            
-            try {
-                name = URLDecoder.decode(name, "UTF-8");
-            } catch (UnsupportedEncodingException ex) {
-                Logger.getLogger(QuestionResource.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            if (userGestionnary.isFormer(idUser)) {
-                if (skillGestionnary.existSkill(idSkill)) {
-                    if (!skillGestionnary.existSkill(name)) {
-                        if (skillGestionnary.updateSkill(idSkill, name, weight)) {
-                            return new Message("success", "La compétance a bien été mise à jour.");
-                        } else {
-                            return new Message("error", "Une erreur est survenue lors de la mise à jour de la compétance.");
-                        }
-                    }else{
-                        return new Message("error", "Une compétance porte déjà ce nom.");
-                    }
-                } else {
-                    return new Message("error", "La compétance n'existe pas.");
-                }
-            } else {
-                return new Message("error", "Vous n'êtes pas autorisé à effectuer cette action.");
-            }
-        } else {
-            return new Message("error", "Une erreur est survenue lors de la mise à jour de la compétance.");
-        }
-    }*/
-    
     @POST
     @Consumes("application/x-www-form-urlencoded")
     @Path("/update")

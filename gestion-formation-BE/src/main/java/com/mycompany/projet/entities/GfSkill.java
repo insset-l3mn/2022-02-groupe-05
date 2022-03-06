@@ -38,26 +38,33 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "GfSkill.findByWeight", query = "SELECT g FROM GfSkill g WHERE g.weight = :weight")})
 public class GfSkill implements Serializable {
 
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
+    @Column(name = "name")
+    private String name;
+    
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
+    @Column(name = "weight")
+    private String weight;
+    
+    @JsonbTransient
+    @ManyToMany(mappedBy = "gfSkillCollection")
+    private Collection<GfSkill> gfSkillCollection1;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_skill")
     private Integer idSkill;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
-    @Column(name = "name")
-    private String name;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
-    @Column(name = "weight")
-    private String weight;
+    
+    @JsonbTransient
     @JoinTable(name = "prerequisite_of_skill", joinColumns = {
         @JoinColumn(name = "id_skill", referencedColumnName = "id_skill")}, inverseJoinColumns = {
         @JoinColumn(name = "id_skill_prerequisite", referencedColumnName = "id_skill")})
-    @JsonbTransient
     @ManyToMany
     private Collection<GfSkill> gfSkillCollection;
     
@@ -98,21 +105,6 @@ public class GfSkill implements Serializable {
         this.idSkill = idSkill;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getWeight() {
-        return weight;
-    }
-
-    public void setWeight(String weight) {
-        this.weight = weight;
-    }
 
     public Collection<GfSkill> getGfSkillCollection() {
         return gfSkillCollection;
@@ -161,6 +153,31 @@ public class GfSkill implements Serializable {
     @Override
     public String toString() {
         return "com.mycompany.projet.entities.GfSkill[ idSkill=" + idSkill + " ]";
+    }
+
+
+    public Collection<GfSkill> getGfSkillCollection1() {
+        return gfSkillCollection1;
+    }
+
+    public void setGfSkillCollection1(Collection<GfSkill> gfSkillCollection1) {
+        this.gfSkillCollection1 = gfSkillCollection1;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
     }
     
 }

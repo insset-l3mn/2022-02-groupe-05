@@ -56,7 +56,8 @@ public class SkillGestionnary {
     public Boolean existSkill(String name) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
-        Query query = em1.createQuery("SELECT s FROM GfSkill s WHERE s.name = '" + name + "'");
+        Query query = em1.createQuery("SELECT s FROM GfSkill s WHERE s.name=:name")
+                .setParameter("name", name);
 
         if (query.getResultList().isEmpty()) {
             return false;
@@ -67,7 +68,8 @@ public class SkillGestionnary {
     public Boolean existSkill(int id) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
-        Query query = em1.createQuery("SELECT s FROM GfSkill s WHERE s.idSkill = '" + id + "'");
+        Query query = em1.createQuery("SELECT s FROM GfSkill s WHERE s.idSkill=:id")
+                .setParameter("id", id);
 
         if (query.getResultList().isEmpty()) {
             return false;
@@ -80,7 +82,9 @@ public class SkillGestionnary {
         EntityManager em1 = emf.createEntityManager();
 
         try {
-            em1.createQuery("DELETE FROM GfSkill WHERE idSkill=" + id).executeUpdate();
+            em1.createQuery("DELETE FROM GfSkill WHERE idSkill=:id")
+                    .setParameter("id", id)
+                    .executeUpdate();
             return true;
         } catch (Exception e) {
             return false;
@@ -91,7 +95,11 @@ public class SkillGestionnary {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
         try {
-            em1.createQuery("UPDATE GfSkill s SET s.name='" + NAME + "', s.weight='" + WEIGHT + "' WHERE s.idSkill = '" + ID + "'").executeUpdate();
+            em1.createQuery("UPDATE GfSkill s SET s.name=:name, s.weight=:weight WHERE s.idSkill=:id")
+                    .setParameter("name", NAME)
+                    .setParameter("weight", WEIGHT)
+                    .setParameter("id", ID)
+                    .executeUpdate();
             return true;
         } catch (Exception e) {
             return false;
@@ -101,7 +109,8 @@ public class SkillGestionnary {
     public GfSkill readSkill(int id) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
-        Query query = em1.createQuery("SELECT s FROM GfSkill s WHERE s.idSkill = '" + id + "'");
+        Query query = em1.createQuery("SELECT s FROM GfSkill s WHERE s.idSkill=:id")
+                .setParameter("id", id);
 
         GfSkill skill = null;
 
