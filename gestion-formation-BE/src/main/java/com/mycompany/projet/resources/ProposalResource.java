@@ -4,25 +4,11 @@
  */
 package com.mycompany.projet.resources;
 
-import com.mycompany.projet.ejb.DomainGestionnary;
 import com.mycompany.projet.ejb.ProposalGestionnary;
 import com.mycompany.projet.ejb.QuestionGestionnary;
-import com.mycompany.projet.ejb.SkillGestionnary;
-import com.mycompany.projet.entities.GfDomain;
-import com.mycompany.projet.entities.GfProposal;
-import com.mycompany.projet.entities.GfQuestion;
-import com.mycompany.projet.entities.GfSkill;
-import com.mycompany.projet.entities.Message;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;

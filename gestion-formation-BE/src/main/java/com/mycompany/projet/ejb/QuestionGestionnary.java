@@ -4,7 +4,9 @@
  */
 package com.mycompany.projet.ejb;
 
+import com.mycompany.projet.entities.GfDomain;
 import com.mycompany.projet.entities.GfQuestion;
+import com.mycompany.projet.entities.GfSkill;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
@@ -73,29 +75,24 @@ public class QuestionGestionnary {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
         
-        int idDomain;
-        int idSkill;
+        GfDomain domain;
+        GfSkill skill;
         try{
-            idDomain = DomainGestionnary.requestDomain(domainName).getIdDomain();
-            idSkill = SkillGestionnary.requestSkill(skillName).getIdSkill();
+            domain = DomainGestionnary.requestDomain(domainName);
+            skill = SkillGestionnary.requestSkill(skillName);
         }catch(Exception e){
             return false;
         }
         
-        try {
-            em1.createQuery("UPDATE GfQuestion q SET q.level=:level, q.difficulty=:difficulty, q.contents=:contents, q.idDomain=:idDomain, q.idSkill=:idSkill WHERE q.idQuestion=:id")
+        em1.createQuery("UPDATE GfQuestion q SET q.level=:level, q.difficulty=:difficulty, q.contents=:contents, q.idDomain=:idDomain, q.idSkill=:idSkill WHERE q.idQuestion=:id")
                     .setParameter("level", level)
                     .setParameter("difficulty", difficulty)
                     .setParameter("contents", contents)
-                    .setParameter("idDomain", idDomain)
-                    .setParameter("idSkill", idSkill)
-                    .setParameter("idQuestion", id)
+                    .setParameter("idDomain", domain)
+                    .setParameter("idSkill", skill)
+                    .setParameter("id", id)
                     .executeUpdate();
-
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+        return true;
     }
 
     public Boolean removeQuestion(int id) {

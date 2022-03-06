@@ -47,5 +47,37 @@ public class ProposalGestionnary {
         Query query = em1.createQuery("SELECT g FROM GfProposal g WHERE g.idQuestion.idQuestion=:id").setParameter("id", qID);
         return query.getResultList();
     }
+    
+    public Boolean purgeProposalFromQuestion(int IDQuestion) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
+        EntityManager em1 = emf.createEntityManager();
+        try {
+            em1.createQuery("DELETE FROM GfProposal WHERE idQuestion.idQuestion=:id")
+                    .setParameter("id", IDQuestion)
+                    .executeUpdate();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
+    public Boolean updateProposal(int ID, String DENOMINATE, char STATE, int IDQuestion) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
+        EntityManager em1 = emf.createEntityManager();
+        try {
+            /*em1.createQuery("UPDATE GfProposal p SET p.denominate=:denominate WHERE p.idProposal=:idProposal")
+                    .setParameter("denominate", DENOMINATE)
+                    .setParameter("state", STATE)
+                    .setParameter("idQuestion", IDQuestion)
+                    .setParameter("idProposal", ID)
+                    .executeUpdate();*/
+            em1.createQuery("DELETE FROM GfProposal WHERE idQuestion.idQuestion=:id")
+                    .setParameter("id", IDQuestion)
+                    .executeUpdate();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }
     
