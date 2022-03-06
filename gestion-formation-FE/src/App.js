@@ -11,10 +11,10 @@ import Navbar from "./Components/Navbar/Navbar";
 import Login from "./Containers/Login/Login";
 import Contact from "./Containers/Contact/Contact";
 import Profil from "./Containers/Profil/Profil";
-import AddQuestion from "./Containers/AddQuestion/AddQuestion";
-import AddSkill from "./Containers/AddSkill/AddSkill";
-import AddDomain from "./Containers/AddDomain/AddDomain";
+import AddQuestion from "./Components/Question/AddQuestion/AddQuestion";
+import AddSkill from "./Components/AddSkill/AddSkill";
 import {AuthContext} from "./Context/AuthContext";
+import Dashboard from "./Containers/Dashboard/Dashboard";
 
 function App() {
 
@@ -25,18 +25,21 @@ function App() {
 			<Navbar/>
 			<Routes>
 				<Route path={"/"} element={<Home/>}/>
-				<Route path={"/login"} element={user === null ? <Login/> : <Profil/>}/>
-				<Route path={"/register"} element={user === null ? <Register/> : <Profil/>}/>
+
 				<Route path={"/contact"} element={<Contact/>}/>
 				<Route path={"/profil"} element={user != null ? <Profil/> : <Login/>}/>
 				<Route path={"/survey"} element={<Questionnaire/>}/>
+
 				<Route path={"/logout"} element={<Logout/>}/>
+				<Route path={"/login"} element={user === null ? <Login/> : <Profil/>}/>
+				<Route path={"/register"} element={user === null ? <Register/> : <Profil/>}/>
+
+				<Route path={"/dashboard"} element={user != null && user.role !== "basic" ? <Dashboard/> : <Login/>}/>
 				<Route path={"/question/add"} element={user != null && user.role !== "basic" ? <AddQuestion/> : <Login/>}/>
-				<Route path={"/domain/add"} element={user != null && user.role !== "basic" ? <AddDomain/> : <Login/>}/>
 				<Route path={"/skill/add"} element={user != null && user.role !== "basic" ? <AddSkill/> : <Login/>}/>
+
 				<Route path={"*"} element={<NotFound/>}/>
 			</Routes>
-			<Footer/>
 		</div>
 	);
 }
