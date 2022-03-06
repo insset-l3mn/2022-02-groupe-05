@@ -2,6 +2,8 @@ import React, {useContext, useEffect, useState} from "react";
 import './Profil.css';
 import axios from "axios";
 import {AuthContext} from "../../Context/AuthContext";
+import Error from "../../Components/Error/Error";
+import Success from "../../Components/Success/Success";
 
 export default function Profil(props){
 
@@ -9,9 +11,12 @@ export default function Profil(props){
     const [confirmPassword, setConfirmPassword] = useState("");
     const {user, addUser} = useContext(AuthContext)
 
+    const [success, setSuccess] = useState(false);
+    const [error, setError] = useState(false);
+
     useEffect(() => {
         setUpdateUser(user)
-        setConfirmPassword(userUpdate.password);
+        setConfirmPassword(user.password);
     },[])
 
     const onChangeInput = e => {
@@ -22,22 +27,49 @@ export default function Profil(props){
         }));
     }
 
-    const updateProfil = () => {
-        //confirmPassword === user.userPassword ? console.log("OK mdp") : console.log("Nop mdp")
-        if(userUpdate.userName.length > 0 && userUpdate.userEmail.length > 0 && userUpdate.userPassword.length > 0 && confirmPassword.length > 0 && userUpdate.userPassword === confirmPassword){
-            console.log("Update ok")
+    const updateProfil = async () => {
+        setError(false)
+        setSuccess(false)
+        console.log(userUpdate)
+        if (userUpdate.userName.length > 0 && userUpdate.userEmail.length > 0 && userUpdate.userPassword.length > 0 && confirmPassword.length > 0) {
 
-            axios.get("http://localhost:8080/gestion-formation-BE/api/user/update/" + userUpdate.userId + "/" + userUpdate.userName + "/" + userUpdate.userEmail + "/" + userUpdate.userPassword)
+            const config = {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            }
+
+            const params = new URLSearchParams()
+            params.append('id', userUpdate.userId)
+            params.append('username', userUpdate.userName)
+            params.append('password', userUpdate.userPassword)
+            params.append('confirmation_password', confirmPassword)
+            params.append('email', userUpdate.userEmail)
+
+            await axios.post("http://localhost:8080/gestion-formation-BE/api/user/update", params, config)
                 .then((response) => {
                     console.log(response)
-                });
-            axios.get("http://localhost:8080/gestion-formation-BE/api/user/login/"+userUpdate.userEmail+"/"+userUpdate.userPassword).then((response) => {
-                if(!response["data"].hasOwnProperty("type")){
-                    addUser(response["data"]);
-                    setUpdateUser(response["data"])
-                }
+                    if(response["data"]["type"] === "success"){
+                        setSuccess(response["data"]["message"])
 
-            });
+                        const paramsLogin = new URLSearchParams()
+                        paramsLogin.append('username', userUpdate.userName)
+                        paramsLogin.append('password', userUpdate.userPassword)
+
+                        axios.post("http://localhost:8080/gestion-formation-BE/api/user/login", paramsLogin, config)
+                            .then((response) => {
+                                console.log(response["data"])
+                                addUser(response["data"]);
+                                setUpdateUser(response["data"])
+                            })
+                    }else{
+                        setError(response["data"]["message"])
+                    }
+                })
+
+
+
+
         }
     }
 
@@ -49,6 +81,10 @@ export default function Profil(props){
                 <div className="cover-container d-flex w-100 p-3 mx-auto flex-column">
                     <h1>Votre profil</h1>
                     <br/>
+
+                    {error && <Error message={error}/>}
+                    {success && <Success message={success}/>}
+
                     <table className="table table-dark table-striped">
                         <tbody>
                             <tr>

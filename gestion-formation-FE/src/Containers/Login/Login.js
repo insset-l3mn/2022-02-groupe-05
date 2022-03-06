@@ -29,7 +29,11 @@ export default function Login(){
 
 		axios.post("http://localhost:8080/gestion-formation-BE/api/user/login", params, config)
 			.then((response) => {
-				addUser(response["data"]);
+				if(response["data"].hasOwnProperty("type")){
+					setError(response["data"]["message"])
+				}else{
+					addUser(response["data"])
+				}
 			})
 
 	}

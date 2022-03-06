@@ -7,7 +7,6 @@ import Success from "../../Components/Success/Success";
 
 export default function AddDomain(props){
 
-
 	const [error, setError] = useState(false);
 	const [success, setSuccess] = useState(false);
 
