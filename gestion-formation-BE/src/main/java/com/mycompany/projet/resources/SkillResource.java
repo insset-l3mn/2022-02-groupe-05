@@ -34,9 +34,9 @@ public class SkillResource {
     @POST
     @Consumes("application/x-www-form-urlencoded")
     @Path("/add")
-    public Message addSkill(@FormParam("name") String name, @FormParam("weight") String weight, @FormParam("idUser") int id) {
+    public Message addSkill(@FormParam("name") String name, @FormParam("weight") Integer weight, @FormParam("idUser") int id) {
         if (name != null && weight != null) {
-            if (userGestionnary.isFormer(id)) {
+            if (!userGestionnary.isVisitor(id)) {
                 User user = userGestionnary.requestUser(id);
                 if (!skillGestionnary.existSkill(name)) {
                     skillGestionnary.createSkill(new GfSkill(user, name, weight));
@@ -56,7 +56,7 @@ public class SkillResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/remove/{idSkill}/{idUser}")
     public Message removeSkill(@PathParam("idSkill") int idSkill, @PathParam("idUser") int idUser) {
-        if (userGestionnary.isFormer(idUser)) {
+        if (!userGestionnary.isVisitor(idUser)) {
             if (skillGestionnary.existSkill(idSkill)) {
                 if (skillGestionnary.removeSkill(idSkill)) {
                     return new Message("success", "La compétance a bien été supprimée.");
@@ -76,7 +76,7 @@ public class SkillResource {
     @Path("/update")
     public Message updateSkill(@FormParam("idSkill") int idSkill, @FormParam("name") String name, @FormParam("weight") String weight, @FormParam("idUser") int idUser) {
         if (name != null && weight != null) {
-            if (userGestionnary.isFormer(idUser)) {
+            if (!userGestionnary.isVisitor(idUser)) {
                 if (skillGestionnary.existSkill(idSkill)) {
                     if (!skillGestionnary.existSkill(name)) {
                         if (skillGestionnary.updateSkill(idSkill, name, weight)) {
@@ -101,7 +101,7 @@ public class SkillResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/read/{idSkill}")
-    public Object readDomain(@PathParam("idSkill") int id) {
+    public Object readSkill(@PathParam("idSkill") int id) {
         if (skillGestionnary.existSkill(id)) {
             GfSkill skill = skillGestionnary.readSkill(id);    
             return skill;
@@ -113,9 +113,31 @@ public class SkillResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/read/{count}/{startAt}")
-    public Object readDomains(@PathParam("count") int count, @PathParam("startAt") int startAt) {
+    public Object readSkills(@PathParam("count") int count, @PathParam("startAt") int startAt) {
         try{
             return skillGestionnary.readSkills(count, startAt);
+        }catch(Exception e){
+            return new Message("error", "Une erreur est survenue.");
+        }
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/read/all")
+    public Object readAllSkills() {
+        try{
+            return skillGestionnary.readAll();
+        }catch(Exception e){
+            return new Message("error", "Une erreur est survenue.");
+        }
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/count")
+    public Object readSkills() {
+        try{
+            return skillGestionnary.countSkills();
         }catch(Exception e){
             return new Message("error", "Une erreur est survenue.");
         }

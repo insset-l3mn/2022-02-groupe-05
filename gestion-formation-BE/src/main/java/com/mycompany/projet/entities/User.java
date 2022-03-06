@@ -44,24 +44,30 @@ public class User implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "name")
     private String name;
+    
     @Basic(optional = false)
     @NotNull
     @Lob
     @Size(min = 1, max = 65535)
     @Column(name = "password")
+    @JsonbTransient
     private String password;
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+    
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 45)
+    @Size(min = 1, max = 255)
     @Column(name = "email")
     private String email;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
     @Column(name = "role")
     private String role;
+    
+    @JsonbTransient
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTrainer")
+    private Collection<GfQuestion> gfQuestionCollection;
     
     @JsonbTransient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTrainer")
@@ -115,6 +121,7 @@ public class User implements Serializable {
         this.email = userEmail;
     }
 
+    @JsonbTransient
     public String getUserPassword() {
         return password;
     }
@@ -172,44 +179,20 @@ public class User implements Serializable {
         this.idCourse = idCourse;
     }
 
-    /*public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }*/
-
     public Collection<GfSkill> getGfSkillCollection() {
         return gfSkillCollection;
     }
 
     public void setGfSkillCollection(Collection<GfSkill> gfSkillCollection) {
         this.gfSkillCollection = gfSkillCollection;
+    }
+
+    public Collection<GfQuestion> getGfQuestionCollection() {
+        return gfQuestionCollection;
+    }
+
+    public void setGfQuestionCollection(Collection<GfQuestion> gfQuestionCollection) {
+        this.gfQuestionCollection = gfQuestionCollection;
     }
     
 }

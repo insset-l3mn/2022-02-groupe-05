@@ -70,7 +70,7 @@ public class UserGestionnary {
         return user;
     }
     
-    public Boolean isFormer(int id) {
+    public Boolean isVisitor(int id) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
         Query query = em1.createQuery("SELECT u FROM User u WHERE u.id_user=:id")
@@ -78,7 +78,21 @@ public class UserGestionnary {
         
         if(!query.getResultList().isEmpty()){
             User user = (User) query.getResultList().get(0);
-            if("former".equals(user.getUserRole())) return true;
+            if("VISITOR".equals(user.getUserRole())) return true;
+        }
+        
+        return false;
+    }
+    
+    public Boolean isAdmin(int id) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
+        EntityManager em1 = emf.createEntityManager();
+        Query query = em1.createQuery("SELECT u FROM User u WHERE u.id_user=:id")
+                .setParameter("id", id);
+        
+        if(!query.getResultList().isEmpty()){
+            User user = (User) query.getResultList().get(0);
+            if("ADMIN".equals(user.getUserRole())) return true;
         }
         
         return false;

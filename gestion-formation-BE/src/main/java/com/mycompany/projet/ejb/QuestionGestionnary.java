@@ -4,14 +4,9 @@
  */
 package com.mycompany.projet.ejb;
 
-import com.mycompany.projet.entities.GfDomain;
 import com.mycompany.projet.entities.GfQuestion;
 import com.mycompany.projet.entities.GfSkill;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.sql.DataSourceDefinition;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -71,28 +66,28 @@ public class QuestionGestionnary {
         return true;
     }
     
-    public Boolean updateQuestion(int id, String level, String difficulty, String contents, String domainName, String skillName) {
+    public Boolean updateQuestion(int id, Integer difficulty, String contents, String skillName) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
         
-        GfDomain domain;
         GfSkill skill;
         try{
-            domain = DomainGestionnary.requestDomain(domainName);
             skill = SkillGestionnary.requestSkill(skillName);
         }catch(Exception e){
             return false;
         }
         
-        em1.createQuery("UPDATE GfQuestion q SET q.level=:level, q.difficulty=:difficulty, q.contents=:contents, q.idDomain=:idDomain, q.idSkill=:idSkill WHERE q.idQuestion=:id")
-                    .setParameter("level", level)
+        try{
+            em1.createQuery("UPDATE GfQuestion q SET q.difficulty=:difficulty, q.contents=:contents, q.idSkill=:idSkill WHERE q.idQuestion=:id")
                     .setParameter("difficulty", difficulty)
                     .setParameter("contents", contents)
-                    .setParameter("idDomain", domain)
                     .setParameter("idSkill", skill)
                     .setParameter("id", id)
                     .executeUpdate();
-        return true;
+            return true;
+        }catch(Exception e){
+            return false;
+        }
     }
 
     public Boolean removeQuestion(int id) {
@@ -145,5 +140,23 @@ public class QuestionGestionnary {
                 .setFirstResult(startAt)
                 .setMaxResults(count)
                 .getResultList();
+    }
+    
+    public boolean isOwnerOfQuestion(int idQuestion, int userID) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
+        EntityManager em1 = emf.createEntityManager();
+        Query query = em1.createQuery("SELECT q FROM GfQuestion q WHERE (q.idTrainer.id_user=:idUser AND q.idQuestion=:idQuestion)")
+                .setParameter("idQuestion", idQuestion)
+                .setParameter("idUser", userID);
+
+        if (!query.getResultList().isEmpty()) {
+            return false;
+        }
+
+        return true;
+    }
+    
+    public int countQuestions() {
+        return em.createQuery("SELECT q FROM GfQuestion q").getResultList().size();
     }
 }

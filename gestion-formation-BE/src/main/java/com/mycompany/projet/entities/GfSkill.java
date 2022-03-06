@@ -46,9 +46,8 @@ public class GfSkill implements Serializable {
     
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 45)
     @Column(name = "weight")
-    private String weight;
+    private int weight;
     
     @JsonbTransient
     @ManyToMany(mappedBy = "gfSkillCollection")
@@ -85,7 +84,7 @@ public class GfSkill implements Serializable {
         this.idSkill = idSkill;
     }
 
-    public GfSkill(User idTrainer, String name, String weight) {
+    public GfSkill(User idTrainer, String name, Integer weight) {
         this.idTrainer = idTrainer;
         this.name = name;
         this.weight = weight;
@@ -172,11 +171,11 @@ public class GfSkill implements Serializable {
         this.name = name;
     }
 
-    public String getWeight() {
+    public int getWeight() {
         return weight;
     }
 
-    public void setWeight(String weight) {
+    public void setWeight(int weight) {
         this.weight = weight;
     }
     
