@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import "./Questionnaire.css"
 import Question from "../../Components/Question/Question";
+import Container from "../../Components/Container/Container";
 
 export default function Questionnaire(){
 
@@ -31,20 +32,18 @@ export default function Questionnaire(){
 
     return (
         <>
-            <div className="d-flex h-100 text-center text-white bg-dark align-items-center">
-                <div className="cover-container d-flex w-100 p-3 mx-auto flex-column">
-                    <h1>Questionnaire d'évalutation</h1>
-                    <Question question={question[numberQuestion].content}
-                              id={question[numberQuestion].id}>
+            <Container>
+                <h1>Questionnaire d'évalutation</h1>
+                <Question question={question[numberQuestion].content}
+                          id={question[numberQuestion].id}>
 
-                        <div className="card-footer text-muted">
-                            <button className={"btn btn-primary"}
-                                    onClick={submitResponse}>Valider</button>
-                        </div>
+                    <div className="card-footer text-muted">
+                        <button className={"btn btn-primary"}
+                                onClick={submitResponse}>Valider</button>
+                    </div>
 
-                    </Question>
-                </div>
-            </div>
+                </Question>
+            </Container>
         </>
     );
 

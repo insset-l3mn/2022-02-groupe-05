@@ -4,6 +4,7 @@ import axios from "axios";
 import {AuthContext} from "../../Context/AuthContext";
 import Error from "../../Components/Error/Error";
 import Success from "../../Components/Success/Success";
+import Container from "../../Components/Container/Container";
 
 export default function Profil(props){
 
@@ -66,79 +67,72 @@ export default function Profil(props){
                         setError(response["data"]["message"])
                     }
                 })
-
-
-
-
         }
     }
 
 
     return (
         <>
+            <Container>
+                <h1>Votre profil</h1>
+                <br/>
 
-            <div className="d-flex h-100 text-center text-white bg-dark align-items-center">
-                <div className="cover-container d-flex w-100 p-3 mx-auto flex-column">
-                    <h1>Votre profil</h1>
-                    <br/>
+                {error && <Error message={error}/>}
+                {success && <Success message={success}/>}
 
-                    {error && <Error message={error}/>}
-                    {success && <Success message={success}/>}
-
-                    <table className="table table-dark table-striped">
-                        <tbody>
-                            <tr>
-                                <th>Pseudo</th>
-                                <td>
-                                    <input type="text"
-                                           name={"userName"}
-                                           value={userUpdate.userName}
-                                           className="form-control form-control-sm"
-                                           onChange={onChangeInput}/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Email</th>
-                                <td>
-                                    <input type="email"
-                                           name={"userEmail"}
-                                           value={userUpdate.userEmail}
-                                           className="form-control form-control-sm"
-                                           onChange={onChangeInput}/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Mot de passe</th>
-                                <td>
-                                    <input type="password"
-                                           name={"userPassword"}
-                                           value={userUpdate.userPassword}
-                                           className="form-control form-control-sm"
-                                           onChange={onChangeInput}/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Confirmation mot de passe</th>
-                                <td>
-                                    <input type="password"
-                                           value={confirmPassword}
-                                           className="form-control form-control-sm"
-                                           onChange={e => setConfirmPassword(e.target.value)}/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Role</th>
-                                <td>{userUpdate.userRole}</td>
-                            </tr>
-                            <tr>
-                                <td colSpan={"2"}>
-                                    <button className={"btn btn-secondary"} onClick={updateProfil}>Modifier</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+                <table className="table table-dark table-striped">
+                    <tbody>
+                        <tr>
+                            <th>Pseudo</th>
+                            <td>
+                                <input type="text"
+                                       name={"userName"}
+                                       value={userUpdate.userName}
+                                       className="form-control form-control-sm"
+                                       onChange={onChangeInput}/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Email</th>
+                            <td>
+                                <input type="email"
+                                       name={"userEmail"}
+                                       value={userUpdate.userEmail}
+                                       className="form-control form-control-sm"
+                                       onChange={onChangeInput}/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Mot de passe</th>
+                            <td>
+                                <input type="password"
+                                       name={"userPassword"}
+                                       value={userUpdate.userPassword}
+                                       className="form-control form-control-sm"
+                                       onChange={onChangeInput}/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Confirmation mot de passe</th>
+                            <td>
+                                <input type="password"
+                                       value={confirmPassword}
+                                       className="form-control form-control-sm"
+                                       onChange={e => setConfirmPassword(e.target.value)}/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Role</th>
+                            <td>{userUpdate.userRole}</td>
+                        </tr>
+                        <tr>
+                            <td colSpan={"2"}>
+                                <button className={"btn btn-secondary"} onClick={updateProfil}>Modifier</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </Container>
         </>
     );
 

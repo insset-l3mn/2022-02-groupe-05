@@ -6,6 +6,7 @@ import {Navigate} from "react-router-dom";
 import {AuthContext} from "../../Context/AuthContext";
 import InputFloating from "../../Components/InputFloating/InputFloating";
 import Error from "../../Components/Error/Error";
+import Container from "../../Components/Container/Container";
 
 export default function Login(){
 
@@ -40,31 +41,27 @@ export default function Login(){
 
 	return (
 		<>
-			{user != null && <Navigate to={"/"}/>}
+			<Container>
+				<Form labelButton={"Connexion"} onSubmit={handleSubmit}>
 
-			<div className="d-flex h-100 text-center text-white bg-dark align-items-center">
-				<div className="cover-container d-flex w-100 p-3 mx-auto flex-column">
-					<Form labelButton={"Connexion"} onSubmit={handleSubmit}>
+					<h1 className="h3 mb-3 fw-normal">Connexion</h1>
 
-						<h1 className="h3 mb-3 fw-normal">Connexion</h1>
+					{error && <Error message={error}/>}
 
-						{error && <Error message={error}/>}
+					<InputFloating id="floatingInputUsername"
+								   type="text"
+								   placeholder={"Pseudo"}
+								   labelContent={"Pseudo"}
+								   onChange={e => setUsername(e.target.value)}/>
 
-						<InputFloating id="floatingInputUsername"
-									   type="text"
-									   placeholder={"Pseudo"}
-									   labelContent={"Pseudo"}
-									   onChange={e => setUsername(e.target.value)}/>
+					<InputFloating id="floatingInputPassword"
+								   type="password"
+								   placeholder={"Mot de passe"}
+								   labelContent={"Mot de passe"}
+								   onChange={e => setPassword(e.target.value)}/>
+				</Form>
 
-						<InputFloating id="floatingInputPassword"
-									   type="password"
-									   placeholder={"Mot de passe"}
-									   labelContent={"Mot de passe"}
-									   onChange={e => setPassword(e.target.value)}/>
-					</Form>
-
-				</div>
-			</div>
+			</Container>
 		</>
 	);
 

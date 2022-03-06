@@ -1,12 +1,16 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import Form from "../../Components/Form/Form";
 import InputFloating from "../../Components/InputFloating/InputFloating";
 import InputSelect from "../../Components/InputSelect/InputSelect";
 import axios from "axios";
 import Error from "../../Components/Error/Error";
 import Success from "../../Components/Success/Success";
+import {AuthContext} from "../../Context/AuthContext";
+import Container from "../../Components/Container/Container";
 
 export default function AddQuestion(props){
+
+    const {user, addUser} = useContext(AuthContext)
 
     const [domainList, setDomainList] = useState([]);
     const [skillList, setSkillList] = useState([]);
@@ -86,94 +90,92 @@ export default function AddQuestion(props){
 
     return (
         <>
-            <div className="d-flex h-100 text-center text-white bg-dark align-items-center">
-                <div className="cover-container d-flex w-100 p-3 mx-auto flex-column">
-			        <h1>Ajouter une question</h1>
-                    <br/>
+            <Container>
+                <h1>Ajouter une question</h1>
+                <br/>
 
-                    {error && <Error message={error}/>}
-                    {success && <Success message={success}/>}
+                {error && <Error message={error}/>}
+                {success && <Success message={success}/>}
 
-                    <Form labelButton={"Ajouter"} onSubmit={handleSubmit}>
+                <Form labelButton={"Ajouter"} onSubmit={handleSubmit}>
 
-                        <InputFloating id="floatingInputQuestionContenu"
-                                       type="text"
-                                       name={"contents"}
-                                       labelContent={"Contenu"}
-                                       placeholder={"Contenu"}
-                                       onChange={onChangeInput}/>
+                    <InputFloating id="floatingInputQuestionContenu"
+                                   type="text"
+                                   name={"contents"}
+                                   labelContent={"Contenu"}
+                                   placeholder={"Contenu"}
+                                   onChange={onChangeInput}/>
 
-                        <InputFloating id="floatingInputQuestionNiveau"
-                                       type="number"
-                                       name={"level"}
-                                       labelContent={"Niveau"}
-                                       placeholder={"Niveau"}
-                                       onChange={onChangeInput}/>
+                    <InputFloating id="floatingInputQuestionNiveau"
+                                   type="number"
+                                   name={"level"}
+                                   labelContent={"Niveau"}
+                                   placeholder={"Niveau"}
+                                   onChange={onChangeInput}/>
 
-                        <InputFloating id="floatingInputQuestionDifficulte"
-                                       type="text"
-                                       name={"difficulty"}
-                                       labelContent={"Difficulté"}
-                                       placeholder={"Difficulté"}
-                                       onChange={onChangeInput}/>
+                    <InputFloating id="floatingInputQuestionDifficulte"
+                                   type="text"
+                                   name={"difficulty"}
+                                   labelContent={"Difficulté"}
+                                   placeholder={"Difficulté"}
+                                   onChange={onChangeInput}/>
 
-                        <InputSelect id="floatingInputQuestionDomaine"
-                                     type="select"
-                                     name={"domainName"}
-                                     labelContent={"Domaine"}
-                                     placeholder={"Domaine"}
-                                     onChange={e => setQuestion(prevState => ({
-                                         ...prevState,
-                                         domainName: e.target.value
-                                     }))}>
-                            {domainList.map((item) => <option value={item.denominate}>{item.denominate}</option>)}
-                        </InputSelect>
+                    <InputSelect id="floatingInputQuestionDomaine"
+                                 type="select"
+                                 name={"domainName"}
+                                 labelContent={"Domaine"}
+                                 placeholder={"Domaine"}
+                                 onChange={e => setQuestion(prevState => ({
+                                     ...prevState,
+                                     domainName: e.target.value
+                                 }))}>
+                        {domainList.map((item) => <option value={item.denominate}>{item.denominate}</option>)}
+                    </InputSelect>
 
-                        <InputSelect id="floatingInputQuestionSkill"
-                                     type="select"
-                                     name={"skillName"}
-                                     labelContent={"Compétence"}
-                                     placeholder={"Compétence"}
-                                     onChange={e => setQuestion(prevState => ({
-                                         ...prevState,
-                                         skillName: e.target.value
-                                     }))}>
-                            {skillList.map((item) => <option value={item.name}>{item.name}</option>)}
-                        </InputSelect>
-                        <div className="row">
-                            <div className="col">
-                                <InputFloating id="floatingInputReponse1"
-                                               type="text"
-                                               name={"right_answer"}
-                                               labelContent={"Bonne réponse"}
-                                               placeholder={"Bonne réponse"}
-                                               onChange={onChangeInput}/>
-                                <InputFloating id="floatingInputReponse2"
-                                               type="text"
-                                               name={"wrong_answer_1"}
-                                               labelContent={"Mauvaise réponse"}
-                                               placeholder={"Mauvaise réponse"}
-                                               onChange={onChangeInput}/>
-                            </div>
-                            <div className="col">
-                                <InputFloating id="floatingInputReponse3"
-                                               type="text"
-                                               name={"wrong_answer_2"}
-                                               labelContent={"Mauvaise réponse"}
-                                               placeholder={"Mauvaise réponse"}
-                                               onChange={onChangeInput}/>
-                                <InputFloating id="floatingInputReponse4"
-                                               type="text"
-                                               name={"wrong_answer_3"}
-                                               labelContent={"Mauvaise réponse"}
-                                               placeholder={"Mauvaise réponse"}
-                                               onChange={onChangeInput}/>
-                            </div>
+                    <InputSelect id="floatingInputQuestionSkill"
+                                 type="select"
+                                 name={"skillName"}
+                                 labelContent={"Compétence"}
+                                 placeholder={"Compétence"}
+                                 onChange={e => setQuestion(prevState => ({
+                                     ...prevState,
+                                     skillName: e.target.value
+                                 }))}>
+                        {skillList.map((item) => <option value={item.name}>{item.name}</option>)}
+                    </InputSelect>
+                    <div className="row">
+                        <div className="col">
+                            <InputFloating id="floatingInputReponse1"
+                                           type="text"
+                                           name={"right_answer"}
+                                           labelContent={"Bonne réponse"}
+                                           placeholder={"Bonne réponse"}
+                                           onChange={onChangeInput}/>
+                            <InputFloating id="floatingInputReponse2"
+                                           type="text"
+                                           name={"wrong_answer_1"}
+                                           labelContent={"Mauvaise réponse"}
+                                           placeholder={"Mauvaise réponse"}
+                                           onChange={onChangeInput}/>
                         </div>
+                        <div className="col">
+                            <InputFloating id="floatingInputReponse3"
+                                           type="text"
+                                           name={"wrong_answer_2"}
+                                           labelContent={"Mauvaise réponse"}
+                                           placeholder={"Mauvaise réponse"}
+                                           onChange={onChangeInput}/>
+                            <InputFloating id="floatingInputReponse4"
+                                           type="text"
+                                           name={"wrong_answer_3"}
+                                           labelContent={"Mauvaise réponse"}
+                                           placeholder={"Mauvaise réponse"}
+                                           onChange={onChangeInput}/>
+                        </div>
+                    </div>
 
-                    </Form>
-                </div>
-            </div>
+                </Form>
+            </Container>
         </>
     );
 

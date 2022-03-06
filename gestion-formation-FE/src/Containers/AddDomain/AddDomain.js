@@ -4,6 +4,7 @@ import InputFloating from "../../Components/InputFloating/InputFloating";
 import axios from "axios";
 import Error from "../../Components/Error/Error";
 import Success from "../../Components/Success/Success";
+import Container from "../../Components/Container/Container";
 
 export default function AddDomain(props){
 
@@ -57,26 +58,24 @@ export default function AddDomain(props){
 
 	return (
 		<>
-			<div className="d-flex h-100 text-center text-white bg-dark align-items-center">
-				<div className="cover-container d-flex w-100 p-3 mx-auto flex-column">
-					<h1>Ajouter un domaine</h1>
-					<br/>
+			<Container>
+				<h1>Ajouter un domaine</h1>
+				<br/>
 
-					{error && <Error message={error}/>}
-					{success && <Success message={success}/>}
+				{error && <Error message={error}/>}
+				{success && <Success message={success}/>}
 
-					<Form labelButton={"Ajouter"} onSubmit={handleSubmit}>
+				<Form labelButton={"Ajouter"} onSubmit={handleSubmit}>
 
-						<InputFloating id="floatingInputDomaine"
-									   type="text"
-									   labelContent={"Nom du domaine"}
-									   placeholder={"Nom du domaine"}
-									   name={"denominate"}
-									   onChange={onChangeInput}/>
+					<InputFloating id="floatingInputDomaine"
+								   type="text"
+								   labelContent={"Nom du domaine"}
+								   placeholder={"Nom du domaine"}
+								   name={"denominate"}
+								   onChange={onChangeInput}/>
 
-					</Form>
-				</div>
-			</div>
+				</Form>
+			</Container>
 		</>
 	);
 

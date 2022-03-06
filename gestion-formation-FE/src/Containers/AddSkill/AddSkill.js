@@ -1,19 +1,21 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import Form from "../../Components/Form/Form";
 import InputFloating from "../../Components/InputFloating/InputFloating";
 import axios from "axios";
 import Error from "../../Components/Error/Error";
 import Success from "../../Components/Success/Success";
+import {AuthContext} from "../../Context/AuthContext";
+import Container from "../../Components/Container/Container";
 
 export default function AddSkill(props){
 
 	const [error, setError] = useState(false);
 	const [success, setSuccess] = useState(false);
+	const {user, addUser} = useContext(AuthContext)
 
 	const [skill, setSkill] = useState({
 		name:"",
-		weight:"",
-		idUser:1
+		weight:""
 	});
 
 	useEffect(() => {
@@ -30,7 +32,7 @@ export default function AddSkill(props){
 		const params = new URLSearchParams()
 		params.append("name", skill.nom)
 		params.append("weight", skill.poids)
-		params.append("idUser", skill.idUser)
+		params.append("idUser", user.userId)
 
 		const config = {
 			headers: {
@@ -62,32 +64,30 @@ export default function AddSkill(props){
 
 	return (
 		<>
-			<div className="d-flex h-100 text-center text-white bg-dark align-items-center">
-				<div className="cover-container d-flex w-100 p-3 mx-auto flex-column">
-					<h1>Ajouter une compétence</h1>
-					<br/>
+			<Container>
+				<h1>Ajouter une compétence</h1>
+				<br/>
 
-					{error && <Error message={error}/>}
-					{success && <Success message={success}/>}
+				{error && <Error message={error}/>}
+				{success && <Success message={success}/>}
 
-					<Form labelButton={"Ajouter"} onSubmit={handleSubmit}>
+				<Form labelButton={"Ajouter"} onSubmit={handleSubmit}>
 
-						<InputFloating id="floatingInputCompetenceNom"
-									   type="text"
-									   name={"name"}
-									   labelContent={"Nom de la compétence"}
-									   placeholder={"Nom de la compétence"}
-									   onChange={onChangeInput}/>
-						<InputFloating id="floatingInputCompetencePoids"
-									   type="number"
-									   name={"weight"}
-									   labelContent={"Poids de la compétence"}
-									   placeholder={"Poids de la compétence"}
-									   onChange={onChangeInput}/>
+					<InputFloating id="floatingInputCompetenceNom"
+								   type="text"
+								   name={"name"}
+								   labelContent={"Nom de la compétence"}
+								   placeholder={"Nom de la compétence"}
+								   onChange={onChangeInput}/>
+					<InputFloating id="floatingInputCompetencePoids"
+								   type="number"
+								   name={"weight"}
+								   labelContent={"Poids de la compétence"}
+								   placeholder={"Poids de la compétence"}
+								   onChange={onChangeInput}/>
 
-					</Form>
-				</div>
-			</div>
+				</Form>
+			</Container>
 		</>
 	);
 
