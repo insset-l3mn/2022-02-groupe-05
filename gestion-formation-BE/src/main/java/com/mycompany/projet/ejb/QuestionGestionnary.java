@@ -155,4 +155,8 @@ public class QuestionGestionnary {
 
         return true;
     }
+    
+    public int countQuestions() {
+        return em.createQuery("SELECT q FROM GfQuestion q").getResultList().size();
+    }
 }

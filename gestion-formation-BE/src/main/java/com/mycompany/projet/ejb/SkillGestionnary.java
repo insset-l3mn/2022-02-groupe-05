@@ -129,7 +129,12 @@ public class SkillGestionnary {
                 .getResultList();
     }
     
-     public int countSkills() {
+    public List readAll() {
+        return em.createQuery("SELECT s FROM GfSkill s")
+                .getResultList();
+    }
+    
+    public int countSkills() {
         return em.createQuery("SELECT s FROM GfSkill s").getResultList().size();
     }
 }

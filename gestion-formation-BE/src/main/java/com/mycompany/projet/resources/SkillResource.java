@@ -101,7 +101,7 @@ public class SkillResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/read/{idSkill}")
-    public Object readDomain(@PathParam("idSkill") int id) {
+    public Object readSkill(@PathParam("idSkill") int id) {
         if (skillGestionnary.existSkill(id)) {
             GfSkill skill = skillGestionnary.readSkill(id);    
             return skill;
@@ -113,9 +113,31 @@ public class SkillResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/read/{count}/{startAt}")
-    public Object readDomains(@PathParam("count") int count, @PathParam("startAt") int startAt) {
+    public Object readSkills(@PathParam("count") int count, @PathParam("startAt") int startAt) {
         try{
             return skillGestionnary.readSkills(count, startAt);
+        }catch(Exception e){
+            return new Message("error", "Une erreur est survenue.");
+        }
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/read/all")
+    public Object readAllSkills() {
+        try{
+            return skillGestionnary.readAll();
+        }catch(Exception e){
+            return new Message("error", "Une erreur est survenue.");
+        }
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/count")
+    public Object readSkills() {
+        try{
+            return skillGestionnary.countSkills();
         }catch(Exception e){
             return new Message("error", "Une erreur est survenue.");
         }

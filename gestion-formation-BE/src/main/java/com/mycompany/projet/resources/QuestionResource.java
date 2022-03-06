@@ -169,4 +169,15 @@ public class QuestionResource {
             return new Message("error", "Une erreur est survenue.");
         }
     }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/count")
+    public Object readQuestions() {
+        try{
+            return questionGestionnary.countQuestions();
+        }catch(Exception e){
+            return new Message("error", "Une erreur est survenue.");
+        }
+    }
 }
