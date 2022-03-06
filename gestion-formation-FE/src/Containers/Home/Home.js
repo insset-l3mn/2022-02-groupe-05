@@ -1,6 +1,7 @@
 import React from "react";
 import './Home.css';
 import Particles from "react-tsparticles";
+import Container from "../../Components/Container/Container";
 
 export default function Home(){
 
@@ -87,24 +88,21 @@ export default function Home(){
 
     return (
         <>
-            <div id="particles-js" class="d-flex h-100 text-center text-white bg-dark align-items-center">
-                <div className="cover-container d-flex w-100 p-3 mx-auto flex-column">
-                    <main className="px-3">
-                        <h1>Evaluez vos compétences !</h1>
-                        <p className="lead">
-                            Avec Skill-Reader, montrez vos compétences afin de nous permettre de vous proposer des parcours
-                            de formation personnalisés générés pour vous.
-                        </p>
-                        <p className="lead">
-                            <a style={{color:"#333"}} className="btn btn-lg btn-secondary fw-bold border-white bg-white">C'est parti !</a>
-                        </p>
-                    </main>
-                    {/* Particules */}
-                    {home()}
+            <Container>
+                <main className="px-3">
+                    <h1>Evaluez vos compétences !</h1>
+                    <p className="lead">
+                        Avec Skill-Reader, montrez vos compétences afin de nous permettre de vous proposer des parcours
+                        de formation personnalisés générés pour vous.
+                    </p>
+                    <p className="lead">
+                        <a style={{color:"#333"}} className="btn btn-lg btn-secondary fw-bold border-white bg-white">C'est parti !</a>
+                    </p>
+                </main>
+                {/* Particules */}
+                {home()}
 
-
-                </div>
-            </div>
+            </Container>
         </>
 
     );
