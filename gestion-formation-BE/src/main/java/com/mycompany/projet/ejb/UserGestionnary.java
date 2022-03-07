@@ -79,6 +79,8 @@ public class UserGestionnary {
         if(!query.getResultList().isEmpty()){
             User user = (User) query.getResultList().get(0);
             if("VISITOR".equals(user.getUserRole())) return true;
+        }else if(query.getResultList().isEmpty()){
+            return true;
         }
         
         return false;
@@ -157,6 +159,10 @@ public class UserGestionnary {
                 .setFirstResult(startAt)
                 .setMaxResults(count)
                 .getResultList();
+    }
+    
+    public int countUsers() {
+        return em.createQuery("SELECT s FROM User s").getResultList().size();
     }
 }
     

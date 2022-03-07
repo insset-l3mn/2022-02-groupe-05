@@ -6,12 +6,12 @@ package com.mycompany.projet.resources;
 
 import com.mycompany.projet.ejb.QuestionGestionnary;
 import com.mycompany.projet.ejb.SkillGestionnary;
+import com.mycompany.projet.ejb.UserGestionnary;
 import com.mycompany.projet.entities.Message;
+import com.mycompany.projet.entities.User;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -30,20 +30,31 @@ public class QuestionnaryResource {
     @EJB
     private SkillGestionnary skillGestionnary;
     
+    @EJB
+    private UserGestionnary userGestionnary;
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/add/{id}")
     public Message addQuestionnary(@PathParam("id") int id) {
+        User user = userGestionnary.requestUser(id);
+        if(user != null){
+            //userGestionnary.setSurvey(id, questionnaryGestionnary.readQuestionnary(questionnaryGestionnary.countQuestionnaries()));
+        }else{
+            return new Message("error", "Une erreur est survenue lors de la création d'un questionnaire.");
+        }
+        
+        
         int nbrQuestion = 0;
         int nbrSkill = skillGestionnary.countSkills();
         
         return new Message("info", "" + nbrSkill);
     }
     
-    @POST
+    @GET
     @Consumes("application/x-www-form-urlencoded")
-    @Path("/next")
-    public void updateQuestion(@FormParam("wrong_answer_3") String wrong_answer_3) {
+    @Path("/next/{userId}")
+    public void updateQuestion(@PathParam("id") int id) {
         //Entrée : IdQuestion ; Answer
         
         /**Traitemement : 

@@ -6,7 +6,6 @@ package com.mycompany.projet.entities;
 
 import java.io.Serializable;
 import java.util.Collection;
-import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -38,14 +37,19 @@ public class GfQuestion implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "difficulty")
+    @Column(name = "difficulty", nullable = false)
     private int difficulty;
     @Basic(optional = false)
     @NotNull
     @Lob
     @Size(min = 1, max = 65535)
-    @Column(name = "contents")
+    @Column(name = "contents", nullable = false, length = 65535)
+    
     private String contents;
+    @JoinTable(name = "survey_has_question", joinColumns = {
+        @JoinColumn(name = "id_question", referencedColumnName = "id_question", nullable = false)}, inverseJoinColumns = {
+        @JoinColumn(name = "id_survey", referencedColumnName = "id_survey", nullable = false)})
+
     
     @JoinColumn(name = "id_trainer", referencedColumnName = "id_user")
     @ManyToOne(optional = false)
@@ -125,6 +129,15 @@ public class GfQuestion implements Serializable {
         return "com.mycompany.projet.entities.GfQuestion[ idQuestion=" + idQuestion + " ]";
     }
 
+
+    public User getIdTrainer() {
+        return idTrainer;
+    }
+
+    public void setIdTrainer(User idTrainer) {
+        this.idTrainer = idTrainer;
+    }
+
     public int getDifficulty() {
         return difficulty;
     }
@@ -140,13 +153,4 @@ public class GfQuestion implements Serializable {
     public void setContents(String contents) {
         this.contents = contents;
     }
-
-    public User getIdTrainer() {
-        return idTrainer;
-    }
-
-    public void setIdTrainer(User idTrainer) {
-        this.idTrainer = idTrainer;
-    }
-    
 }

@@ -49,6 +49,10 @@ public class GfSkill implements Serializable {
     @Column(name = "weight")
     private int weight;
     
+    @JoinColumn(name = "id_subdomain", referencedColumnName = "id_subdomain")
+    @ManyToOne(optional = false)
+    private GfSubdomain idSubdomain;
+    
     @JsonbTransient
     @ManyToMany(mappedBy = "gfSkillCollection")
     private Collection<GfSkill> gfSkillCollection1;
@@ -84,10 +88,11 @@ public class GfSkill implements Serializable {
         this.idSkill = idSkill;
     }
 
-    public GfSkill(User idTrainer, String name, Integer weight) {
+    public GfSkill(User idTrainer, String name, Integer weight, GfSubdomain idSubdomain) {
         this.idTrainer = idTrainer;
         this.name = name;
         this.weight = weight;
+        this.idSubdomain = idSubdomain;
     }
     
     /*public GfSkill(Integer idSkill, String name, String weight) {
@@ -177,6 +182,14 @@ public class GfSkill implements Serializable {
 
     public void setWeight(int weight) {
         this.weight = weight;
+    }
+
+    public GfSubdomain getIdSubdomain() {
+        return idSubdomain;
+    }
+
+    public void setIdSubdomain(GfSubdomain idSubdomain) {
+        this.idSubdomain = idSubdomain;
     }
     
 }

@@ -5,8 +5,10 @@
 package com.mycompany.projet.resources;
 
 import com.mycompany.projet.ejb.SkillGestionnary;
+import com.mycompany.projet.ejb.SubdomainGestionnary;
 import com.mycompany.projet.ejb.UserGestionnary;
 import com.mycompany.projet.entities.GfSkill;
+import com.mycompany.projet.entities.GfSubdomain;
 import com.mycompany.projet.entities.Message;
 import com.mycompany.projet.entities.User;
 import javax.ejb.EJB;
@@ -28,19 +30,28 @@ public class SkillResource {
 
     @EJB
     private SkillGestionnary skillGestionnary;
+    
     @EJB
     private UserGestionnary userGestionnary;
+    
+    @EJB
+    private SubdomainGestionnary subdomainGestionnary;
 
     @POST
     @Consumes("application/x-www-form-urlencoded")
     @Path("/add")
-    public Message addSkill(@FormParam("name") String name, @FormParam("weight") Integer weight, @FormParam("idUser") int id) {
+    public Message addSkill(@FormParam("name") String name, @FormParam("weight") Integer weight, @FormParam("subdomain") String subdomainName, @FormParam("idUser") int id) {
         if (name != null && weight != null) {
             if (!userGestionnary.isVisitor(id)) {
                 User user = userGestionnary.requestUser(id);
                 if (!skillGestionnary.existSkill(name)) {
-                    skillGestionnary.createSkill(new GfSkill(user, name, weight));
-                    return new Message("success", "La compétence a bien été ajoutée.");
+                    GfSubdomain subdomain = subdomainGestionnary.requestSubdomain(subdomainName);
+                    if(subdomain != null){
+                        skillGestionnary.createSkill(new GfSkill(user, name, weight, subdomain));
+                        return new Message("success", "La compétence a bien été ajoutée.");
+                    }else{
+                        return new Message("error", "Le sous-domaine n'existe pas.");
+                    }
                 } else {
                     return new Message("error", "La compétence existe déjà");
                 }

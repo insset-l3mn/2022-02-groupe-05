@@ -50,7 +50,7 @@ public class UserResource {
         if (username != null && password != null && email != null && password2 != null) {
             if (!userGestionnary.existUser(username)) {
                 if (password.equals(password2)) {
-                    userGestionnary.createUser(new User(username, email, password, "visitor"));
+                    userGestionnary.createUser(new User(username, email, password, "VISITOR"));
                     return new Message("success", "L'utilisateur a bien été enregistré.");
                 } else {
                     return new Message("error", "Les mots de passe doivent être identiques.");
@@ -113,6 +113,17 @@ public class UserResource {
         try {
             return userGestionnary.readUsers(count, startAt);
         } catch (Exception e) {
+            return new Message("error", "Une erreur est survenue.");
+        }
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/count")
+    public Object readQuestions() {
+        try{
+            return userGestionnary.countUsers();
+        }catch(Exception e){
             return new Message("error", "Une erreur est survenue.");
         }
     }

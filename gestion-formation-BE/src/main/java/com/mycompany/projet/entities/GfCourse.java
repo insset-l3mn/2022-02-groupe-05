@@ -38,6 +38,9 @@ public class GfCourse implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "name")
     private String name;
+    @JoinColumn(name = "id_subdomain", referencedColumnName = "id_subdomain")
+    @ManyToOne(optional = false)
+    private GfSubdomain idSubdomain;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -116,6 +119,14 @@ public class GfCourse implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public GfSubdomain getIdSubdomain() {
+        return idSubdomain;
+    }
+
+    public void setIdSubdomain(GfSubdomain idSubdomain) {
+        this.idSubdomain = idSubdomain;
     }
     
 }
