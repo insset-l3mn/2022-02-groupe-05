@@ -13,17 +13,17 @@ export default function Navbar(){
             <h3 className="float-md-start mb-0">Skill-Reader</h3>
             <nav className="nav nav-masthead justify-content-center">
                 <NavLink className="nav-link"
-                         activeClassName={"active"}
+                         activeclassname={"active"}
                          aria-current="page"
                          to={"/"}>Accueil</NavLink>
 
                 {user === null &&
                     <>
                         <NavLink className="nav-link"
-                                 activeClassName={"active"}
+                                 activeclassname={"active"}
                                  to={"/login"}>Connexion</NavLink>
                         <NavLink className="nav-link"
-                                 activeClassName={"active"}
+                                 activeclassname={"active"}
                                  to={"/register"}>Inscription</NavLink>
                     </>
                 }
@@ -32,20 +32,20 @@ export default function Navbar(){
 
                     <>
                         <NavLink className="nav-link"
-                                 activeClassName={"active"}
+                                 activeclassname={"active"}
                                  to={"/dashboard"}>Tableau de bord</NavLink>
                     </>
                 }
 
                 <NavLink className="nav-link"
-                         activeClassName={"active"}
+                         activeclassname={"active"}
                          style={{marginLeft:"1rem"}}
                          to={"/contact"}>Contact</NavLink>
 
                 {user != null &&
                     <>
                         <NavLink className="nav-link"
-                                 activeClassName={"active"}
+                                 activeclassname={"active"}
                                  to={"/profil"}>Profil</NavLink>
                         <NavLink className="nav-link"
                                  to={"/logout"}>Déconnexion</NavLink>

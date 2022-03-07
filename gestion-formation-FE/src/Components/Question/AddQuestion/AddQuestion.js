@@ -108,13 +108,14 @@ export default function AddQuestion(props){
                 <InputSelect id="floatingInputQuestionSkill"
                              type="select"
                              name={"skillName"}
+                             defaultValue={"DEFAULT"}
                              labelContent={"Compétence"}
                              placeholder={"Compétence"}
                              onChange={e => setQuestion(prevState => ({
                                  ...prevState,
                                  skillName: e.target.value
                              }))}>
-                    {skillList.map((item) => <option value={item.name}>{item.name}</option>)}
+                    {skillList.map((item) => <option key={item.name} value={item.name}>{item.name}</option>)}
                 </InputSelect>
                 <div className="row">
                     <div className="col">

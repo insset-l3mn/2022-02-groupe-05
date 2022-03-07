@@ -15,6 +15,8 @@ export default function Logout(){
 
     return (
         <>
+            {user === null && <Navigate to={"/login"}/>}
+
             <Container>
                 <p>Déconnexion !</p>
             </Container>

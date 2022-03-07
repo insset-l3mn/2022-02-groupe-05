@@ -1,14 +1,30 @@
 import React from "react";
+import {Table} from "react-bootstrap";
 
 export default function Items(props){
 
     return (
         <>
-            {props.currentItems && props.currentItems.map((item) => (
-                <div key={item.name}>
-                    <h3>{item.name}</h3>
-                </div>
-            ))}
+            <Table striped bordered hover variant={"dark"} responsive>
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Question</th>
+                </tr>
+                </thead>
+                <tbody>
+                {props.currentItems && props.currentItems.map((item) => (
+                    <tr >
+                        <td key={item.id}>
+
+                            {item.idQuestion}
+                        </td>
+                        <td>{item.contents}</td>
+                    </tr>
+                ))}
+                </tbody>
+            </Table>
+
         </>
     );
 
