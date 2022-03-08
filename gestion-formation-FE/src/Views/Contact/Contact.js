@@ -1,13 +1,13 @@
 import React, {useContext, useEffect} from "react";
 import './Contact.css'
 import {AuthContext} from "../../Context/AuthContext";
-import {Navigate} from "react-router-dom";
+import {Navigate, useLocation} from "react-router-dom";
 import Container from "../../Components/Container/Container";
 
-export default function Contact(){
+export default function Contact(props){
 
 	const {user, setUser} = useContext(AuthContext)
-
+	const location = useLocation()
     return (
         <>
 			<Container>

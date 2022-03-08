@@ -19,7 +19,6 @@ export default function PaginatedSkills(props){
         setPageCount(p)
     }
 
-
     const handlePageClick = (e) => {
         const newOffset = (e.selected * props.itemsPerPage) % props.value.length;
         modidyItemOffset(newOffset)

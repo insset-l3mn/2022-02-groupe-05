@@ -12,6 +12,7 @@ import Profil from "./Views/Profil/Profil";
 import {AuthContext} from "./Context/AuthContext";
 import Dashboard from "./Views/Dashboard/Dashboard";
 import Header from "./Components/Header/Header";
+import ViewSkill from "./Views/Skill/ViewSkill/ViewSkill";
 
 function App() {
 
@@ -32,6 +33,8 @@ function App() {
 				<Route path={"/register"} element={user === null ? <Register/> : <Profil/>}/>
 
 				<Route path={"/dashboard"} element={user != null && user.role !== "basic" ? <Dashboard/> : <Login/>}/>
+				<Route path={"/dashboard/skill/view"} element={<ViewSkill/>}/>
+
 
 				<Route path={"*"} element={<NotFound/>}/>
 			</Routes>

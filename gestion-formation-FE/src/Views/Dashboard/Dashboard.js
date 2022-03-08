@@ -16,7 +16,7 @@ export default function Dashboard(props){
         <>
             <br/>
             <div className={"container"}>
-                <Tab.Container id="left-tabs-example" defaultActiveKey="listSubDomains">
+                <Tab.Container id="left-tabs-example" defaultActiveKey="listSkills">
                     <Row>
                         <Col sm={3}>
                             <Nav variant="pills" className="flex-column">
@@ -58,7 +58,7 @@ export default function Dashboard(props){
                                     <ListSubDomains/>
                                 </Tab.Pane>
                                 <Tab.Pane eventKey="listQuestions">
-
+                                    <ListQuestions/>
                                 </Tab.Pane>
                             </Tab.Content>
                         </Col>
