@@ -1,11 +1,11 @@
 import React, {useContext, useEffect, useState} from "react";
-import Form from "../Form/Form";
-import InputFloating from "../InputFloating/InputFloating";
+import Form from "../../Form/Form";
+import InputFloating from "../../InputFloating/InputFloating";
 import axios from "axios";
-import Error from "../Error/Error";
-import Success from "../Success/Success";
-import {AuthContext} from "../../Context/AuthContext";
-import InputSelect from "../InputSelect/InputSelect";
+import Error from "../../Error/Error";
+import Success from "../../Success/Success";
+import {AuthContext} from "../../../Context/AuthContext";
+import InputSelect from "../../InputSelect/InputSelect";
 
 export default function AddSkill(props){
 
@@ -25,7 +25,6 @@ export default function AddSkill(props){
 		axios.get("http://localhost:8080/gestion-formation-BE/api/subdomain/read/99/0")
 			.then((response) => {
 				setSubDomainList(response["data"]);
-				console.log(response)
 			});
 
 		setSuccess(false)

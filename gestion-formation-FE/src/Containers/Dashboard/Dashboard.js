@@ -1,10 +1,11 @@
 import React, {useContext} from "react";
 import {AuthContext} from "../../Context/AuthContext";
 import {Col, Nav, Row, Tab, Tabs} from "react-bootstrap";
-import AddSkill from "../../Components/AddSkill/AddSkill";
+import AddSkill from "../../Components/Skill/AddSkill/AddSkill";
 import AddQuestion from "../../Components/Question/AddQuestion/AddQuestion";
 import ListQuestion from "../../Components/Question/ListQuestion/ListQuestion";
 import AddSubDomain from "../../Components/SubDomain/AddSubDomain/AddSubDomain";
+import ListSkill from "../../Components/Skill/ListSkill/ListSkill";
 
 export default function Dashboard(props){
 
@@ -14,7 +15,7 @@ export default function Dashboard(props){
         <>
             <br/>
             <div className={"container"}>
-                <Tab.Container id="left-tabs-example" defaultActiveKey="addSkill">
+                <Tab.Container id="left-tabs-example" defaultActiveKey="listSkill">
                     <Row>
                         <Col sm={3}>
                             <Nav variant="pills" className="flex-column">
@@ -26,6 +27,9 @@ export default function Dashboard(props){
                                 </Nav.Item>
                                 <Nav.Item>
                                     <Nav.Link eventKey="addQuestion">Ajout question</Nav.Link>
+                                </Nav.Item>
+                                <Nav.Item>
+                                    <Nav.Link eventKey="listSkill">Liste des compétences</Nav.Link>
                                 </Nav.Item>
                                 <Nav.Item>
                                     <Nav.Link eventKey="listQuestion">Liste des questions</Nav.Link>
@@ -42,6 +46,9 @@ export default function Dashboard(props){
                                 </Tab.Pane>
                                 <Tab.Pane eventKey="addQuestion">
                                     <AddQuestion />
+                                </Tab.Pane>
+                                <Tab.Pane eventKey="listSkill">
+                                    <ListSkill/>
                                 </Tab.Pane>
                                 <Tab.Pane eventKey="listQuestion">
 

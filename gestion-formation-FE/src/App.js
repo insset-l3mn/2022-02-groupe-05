@@ -12,7 +12,7 @@ import Login from "./Containers/Login/Login";
 import Contact from "./Containers/Contact/Contact";
 import Profil from "./Containers/Profil/Profil";
 import AddQuestion from "./Components/Question/AddQuestion/AddQuestion";
-import AddSkill from "./Components/AddSkill/AddSkill";
+import AddSkill from "./Components/Skill/AddSkill/AddSkill";
 import {AuthContext} from "./Context/AuthContext";
 import Dashboard from "./Containers/Dashboard/Dashboard";
 import AddSubDomain from "./Components/SubDomain/AddSubDomain/AddSubDomain";
