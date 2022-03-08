@@ -1,12 +1,12 @@
 import React, {useContext, useEffect, useState} from "react";
-import Form from "../../Form/Form";
-import InputFloating from "../../InputFloating/InputFloating";
-import InputSelect from "../../InputSelect/InputSelect";
+import Form from "../../../Components/Form/Form";
+import InputFloating from "../../../Components/Form/Components/InputFloating/InputFloating";
+import InputSelect from "../../../Components/Form/Components/InputSelect/InputSelect";
 import axios from "axios";
-import Error from "../../Error/Error";
-import Success from "../../Success/Success";
+import Error from "../../../Components/Error/Error";
+import Success from "../../../Components/Success/Success";
 import {AuthContext} from "../../../Context/AuthContext";
-import Container from "../../Container/Container";
+import Container from "../../../Components/Container/Container";
 
 export default function AddQuestion(props){
 

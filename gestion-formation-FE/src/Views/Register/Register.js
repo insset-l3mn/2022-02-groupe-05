@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import './Register.css'
 import Form from "../../Components/Form/Form";
 import axios from "axios";
-import InputFloating from "../../Components/InputFloating/InputFloating";
+import InputFloating from "../../Components/Form/Components/InputFloating/InputFloating";
 import Container from "../../Components/Container/Container";
 
 export default function Register(props){

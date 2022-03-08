@@ -1,7 +1,7 @@
 import React, {useContext} from "react";
 import "./Navbar.css";
 import {NavLink} from "react-router-dom";
-import {AuthContext} from "../../Context/AuthContext";
+import {AuthContext} from "../../../../Context/AuthContext";
 
 export default function Navbar(){
 
@@ -9,7 +9,7 @@ export default function Navbar(){
 
     return (
 
-        <header className="mb-auto bg-dark text-white px-3 pt-3">
+        <>
             <h3 className="float-md-start mb-0">Skill-Reader</h3>
             <nav className="nav nav-masthead justify-content-center">
                 <NavLink className="nav-link"
@@ -53,8 +53,7 @@ export default function Navbar(){
                 }
 
             </nav>
-        </header>
-
+        </>
     );
 
 }

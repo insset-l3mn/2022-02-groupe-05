@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import PaginatedItems from "../../PaginatedItems/PaginatedItems";
+import PaginatedQuestions from "../../../Components/Pagination/Components/PaginatedQuestions/PaginatedQuestions";
+import Pagination from "../../../Components/Pagination/Pagination";
 
-export default function ListQuestion(props){
+export default function ListQuestions(props){
 
     const [questions, setQuestions] = useState([]);
     const [isLoad, setIsLoad] = useState(false);
@@ -25,9 +26,11 @@ export default function ListQuestion(props){
             <h1 className={"text-center"}>Les questions</h1>
             <br/>
 
-            {isLoad && <PaginatedItems
-                itemsPerPage={10}
-                value={questions}/>}
+            <Pagination>
+                {isLoad && <PaginatedQuestions
+                    itemsPerPage={10}
+                    value={questions}/>}
+            </Pagination>
 
         </>
     );

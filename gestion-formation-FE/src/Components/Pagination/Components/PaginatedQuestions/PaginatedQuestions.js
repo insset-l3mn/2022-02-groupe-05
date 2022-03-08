@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
-import Items from "../Items/Items";
 import ReactPaginate from "react-paginate";
+import ItemsQuestions from "./Components/ItemsQuestions/ItemsQuestions";
 
-export default function PaginatedItems(props){
+export default function PaginatedQuestions(props){
 
     const [currentItems, setCurrentItems] = useState(null)
     const [pageCount, setPageCount] = useState(0)
@@ -38,7 +38,7 @@ export default function PaginatedItems(props){
             {isLoad && (
 
                 <>
-                    <Items currentItems={currentItems}/>
+                    <ItemsQuestions currentItems={currentItems}/>
 
                     {pageCount > 1 &&
                         <ReactPaginate
