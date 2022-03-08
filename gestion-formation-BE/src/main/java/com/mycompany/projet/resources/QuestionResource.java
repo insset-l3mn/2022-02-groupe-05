@@ -47,13 +47,12 @@ public class QuestionResource {
     @Path("/add")
     public Message addQuestion(@FormParam("difficulty") Integer difficulty, @FormParam("contents") String contents, @FormParam("skillName") String skillName, @FormParam("right_answer") String right_answer, @FormParam("wrong_answer_1") String wrong_answer_1, @FormParam("wrong_answer_2") String wrong_answer_2, @FormParam("wrong_answer_3") String wrong_answer_3, @FormParam("userId") int userId) {
         if (difficulty != null && contents != null && skillName != null && right_answer != null && wrong_answer_1 != null && wrong_answer_2 != null && wrong_answer_3 != null) {
-            GfSkill skill = skillGestionnary.requestSkill(skillName);
-
-            if (skill != null) {
-                if (!questionGestionnary.existQuestion(contents)) {
-                    User user = userGestionnary.requestUser(userId);
-                    if (user != null) {
-                        if (!user.getUserRole().equals("VISITOR")) {
+            User user = userGestionnary.requestUser(userId);
+            if (user != null) {
+                if (!user.getUserRole().equals("VISITOR")) {
+                    GfSkill skill = skillGestionnary.requestSkill(skillName);
+                    if (skill != null) {
+                        if (!questionGestionnary.existQuestion(contents)) {
                             questionGestionnary.createQuestion(new GfQuestion(difficulty, contents, skill, user));
 
                             GfQuestion question = questionGestionnary.readQuestion(contents);
@@ -70,16 +69,16 @@ public class QuestionResource {
                             }
                             return new Message("success", "La question a bien été ajoutée.");
                         } else {
-                            return new Message("error", "Vous n'êtes pas autorisé à effectuer cette action.");
+                            return new Message("error", "La question existe déjà.");
                         }
                     } else {
-                        return new Message("error", "Vous n'êtes pas autorisé à effectuer cette action.");
+                        return new Message("error", "La compétance n'éxiste pas.");
                     }
                 } else {
-                    return new Message("error", "La question existe déjà.");
+                    return new Message("error", "Vous n'êtes pas autorisé à effectuer cette action.");
                 }
             } else {
-                return new Message("error", "Le domaine ou la compétance n'éxiste pas.");
+                return new Message("error", "Vous n'êtes pas autorisé à effectuer cette action.");
             }
         } else {
             return new Message("error", "Une erreur est survenue lors de l'ajout d'une nouvelle question.");
@@ -99,7 +98,7 @@ public class QuestionResource {
                 } else {
                     return new Message("error", "Une erreur est survenue lors de la suppression de la question.");
                 }
-            }else{
+            } else {
                 return new Message("error", "Vous n'êtes pas autorisé à effectuer cette action.");
             }
         } else {
@@ -169,14 +168,14 @@ public class QuestionResource {
             return new Message("error", "Une erreur est survenue.");
         }
     }
-    
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/count")
     public Object readQuestions() {
-        try{
+        try {
             return questionGestionnary.countQuestions();
-        }catch(Exception e){
+        } catch (Exception e) {
             return new Message("error", "Une erreur est survenue.");
         }
     }

@@ -5,7 +5,6 @@
 package com.mycompany.projet.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,9 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -44,12 +41,7 @@ public class GfQuestion implements Serializable {
     @Lob
     @Size(min = 1, max = 65535)
     @Column(name = "contents", nullable = false, length = 65535)
-    
     private String contents;
-    @JoinTable(name = "survey_has_question", joinColumns = {
-        @JoinColumn(name = "id_question", referencedColumnName = "id_question", nullable = false)}, inverseJoinColumns = {
-        @JoinColumn(name = "id_survey", referencedColumnName = "id_survey", nullable = false)})
-
     
     @JoinColumn(name = "id_trainer", referencedColumnName = "id_user")
     @ManyToOne(optional = false)
