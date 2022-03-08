@@ -1,21 +1,17 @@
 import './App.css';
 import {Route, Routes} from "react-router-dom";
-import Home from "./Containers/Home/Home";
-import NotFound from "./Containers/NotFound/NotFound";
+import Home from "./Views/Home/Home";
+import NotFound from "./Views/NotFound/NotFound";
 import React, {useContext} from "react";
-import Footer from "./Components/Footer/Footer";
-import Register from "./Containers/Register/Register";
-import Logout from "./Containers/Logout/Logout";
+import Register from "./Views/Register/Register";
+import Logout from "./Views/Logout/Logout";
 import Questionnaire from "./Containers/Questionnaire/Questionnaire";
-import Navbar from "./Components/Navbar/Navbar";
-import Login from "./Containers/Login/Login";
-import Contact from "./Containers/Contact/Contact";
-import Profil from "./Containers/Profil/Profil";
-import AddQuestion from "./Components/Question/AddQuestion/AddQuestion";
-import AddSkill from "./Components/Skill/AddSkill/AddSkill";
+import Login from "./Views/Login/Login";
+import Contact from "./Views/Contact/Contact";
+import Profil from "./Views/Profil/Profil";
 import {AuthContext} from "./Context/AuthContext";
-import Dashboard from "./Containers/Dashboard/Dashboard";
-import AddSubDomain from "./Components/SubDomain/AddSubDomain/AddSubDomain";
+import Dashboard from "./Views/Dashboard/Dashboard";
+import Header from "./Components/Header/Header";
 
 function App() {
 
@@ -23,7 +19,7 @@ function App() {
 
 	return (
 		<div className="App bg-dark text-white">
-			<Navbar/>
+			<Header/>
 			<Routes>
 				<Route path={"/"} element={<Home/>}/>
 

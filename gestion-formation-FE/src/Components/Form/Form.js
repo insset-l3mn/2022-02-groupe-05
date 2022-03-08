@@ -1,5 +1,6 @@
 import React from "react";
 import './Form.css'
+import {Button} from "react-bootstrap";
 
 export default function Form(props){
 
@@ -7,7 +8,7 @@ export default function Form(props){
         <>
             <form onSubmit={props.onSubmit}>
                 {props.children}
-                <button className="w-100 btn btn-lg btn-primary" type="submit">{props.labelButton}</button>
+                <Button onClick={props.onSubmit}>{props.labelButton}</Button>
             </form>
         </>
     );
