@@ -5,23 +5,32 @@ import axios from "axios";
 import Error from "../Error/Error";
 import Success from "../Success/Success";
 import {AuthContext} from "../../Context/AuthContext";
-import Container from "../Container/Container";
+import InputSelect from "../InputSelect/InputSelect";
 
 export default function AddSkill(props){
 
 	const [error, setError] = useState(false);
 	const [success, setSuccess] = useState(false);
 	const {user, addUser} = useContext(AuthContext)
+	const [subDomainList, setSubDomainList] = useState([]);
 
 	const [skill, setSkill] = useState({
 		name:"",
-		weight:""
+		weight:"",
+		subDomain:"",
+		idUser:""
 	});
 
 	useEffect(() => {
+		axios.get("http://localhost:8080/gestion-formation-BE/api/subdomain/read/99/0")
+			.then((response) => {
+				setSubDomainList(response["data"]);
+				console.log(response)
+			});
+
 		setSuccess(false)
 		setError(false)
-	},[props.type])
+	},[])
 
 	const handleSubmit = e => {
 		setSuccess(false)
@@ -30,8 +39,9 @@ export default function AddSkill(props){
 		const url = "http://localhost:8080/gestion-formation-BE/api/skill/add"
 
 		const params = new URLSearchParams()
-		params.append("name", skill.nom)
-		params.append("weight", skill.poids)
+		params.append("name", skill.name)
+		params.append("weight", skill.weight)
+		params.append("subdomain", skill.subDomain)
 		params.append("idUser", user.userId)
 
 		const config = {
@@ -84,7 +94,18 @@ export default function AddSkill(props){
 							   labelContent={"Poids de la compétence"}
 							   placeholder={"Poids de la compétence"}
 							   onChange={onChangeInput}/>
-
+				<InputSelect id="floatingInputSkillSubDomain"
+							 type="select"
+							 name={"subDomain"}
+							 defaultValue={"DEFAULT"}
+							 labelContent={"Sous domaine"}
+							 placeholder={"Sous domaine"}
+							 onChange={e => setSkill(prevState => ({
+								 ...prevState,
+								 subDomain: e.target.value
+							 }))}>
+					{subDomainList.map((item) => <option key={item.name} value={item.name}>{item.name}</option>)}
+				</InputSelect>
 			</Form>
 		</>
 	);

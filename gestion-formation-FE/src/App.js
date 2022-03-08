@@ -15,6 +15,7 @@ import AddQuestion from "./Components/Question/AddQuestion/AddQuestion";
 import AddSkill from "./Components/AddSkill/AddSkill";
 import {AuthContext} from "./Context/AuthContext";
 import Dashboard from "./Containers/Dashboard/Dashboard";
+import AddSubDomain from "./Components/SubDomain/AddSubDomain/AddSubDomain";
 
 function App() {
 
@@ -35,8 +36,6 @@ function App() {
 				<Route path={"/register"} element={user === null ? <Register/> : <Profil/>}/>
 
 				<Route path={"/dashboard"} element={user != null && user.role !== "basic" ? <Dashboard/> : <Login/>}/>
-				<Route path={"/question/add"} element={user != null && user.role !== "basic" ? <AddQuestion/> : <Login/>}/>
-				<Route path={"/skill/add"} element={user != null && user.role !== "basic" ? <AddSkill/> : <Login/>}/>
 
 				<Route path={"*"} element={<NotFound/>}/>
 			</Routes>
