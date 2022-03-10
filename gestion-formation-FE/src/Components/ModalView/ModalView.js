@@ -17,7 +17,7 @@ const ModalView = forwardRef((props, ref) => {
     return (
         <>
 
-            <Modal {...props} show={show} onHide={handleClose}>
+            <Modal {...props} show={show}>
                 {props.children}
             </Modal>
         </>
