@@ -91,7 +91,7 @@ public class SkillGestionnary {
         }
     }
 
-    public Boolean updateSkill(int ID, String NAME, String WEIGHT) {
+    public Boolean updateSkill(int ID, String NAME, int WEIGHT) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
         try {

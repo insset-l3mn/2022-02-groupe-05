@@ -85,11 +85,13 @@ public class SkillResource {
     @POST
     @Consumes("application/x-www-form-urlencoded")
     @Path("/update")
-    public Message updateSkill(@FormParam("idSkill") int idSkill, @FormParam("name") String name, @FormParam("weight") String weight, @FormParam("idUser") int idUser) {
-        if (name != null && weight != null) {
+    public Message updateSkill(@FormParam("idSkill") int idSkill, @FormParam("name") String name, @FormParam("weight") int weight, @FormParam("idUser") int idUser) {
+        if (name != null && weight > 0) {
             if (!userGestionnary.isVisitor(idUser)) {
                 if (skillGestionnary.existSkill(idSkill)) {
-                    if (!skillGestionnary.existSkill(name)) {
+                    GfSkill skill = skillGestionnary.readSkill(idSkill);
+                    
+                    if (!skillGestionnary.existSkill(name) || name.equals(skill.getName())) {
                         if (skillGestionnary.updateSkill(idSkill, name, weight)) {
                             return new Message("success", "La compétance a bien été mise à jour.");
                         } else {
