@@ -57,6 +57,7 @@ public class User implements Serializable {
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -68,6 +69,10 @@ public class User implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "role")
     private String role;
+    
+    @JsonbTransient
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private Collection<UserHasSkill> userHasSkillCollection;
     
     @JsonbTransient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTrainer")
@@ -200,39 +205,11 @@ public class User implements Serializable {
         this.gfQuestionCollection = gfQuestionCollection;
     }
 
-    @JsonbTransient
-    public String getName() {
-        return name;
+    public Collection<UserHasSkill> getUserHasSkillCollection() {
+        return userHasSkillCollection;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @JsonbTransient
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    @JsonbTransient
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    @JsonbTransient 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
+    public void setUserHasSkillCollection(Collection<UserHasSkill> userHasSkillCollection) {
+        this.userHasSkillCollection = userHasSkillCollection;
     }
 }

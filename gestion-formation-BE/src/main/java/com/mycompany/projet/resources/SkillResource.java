@@ -70,12 +70,12 @@ public class SkillResource {
         if (!userGestionnary.isVisitor(idUser)) {
             if (skillGestionnary.existSkill(idSkill)) {
                 if (skillGestionnary.removeSkill(idSkill)) {
-                    return new Message("success", "La compétance a bien été supprimée.");
+                    return new Message("success", "La compétence a bien été supprimée.");
                 } else {
-                    return new Message("error", "Une erreur est survenue lors de la suppression de la compétance.");
+                    return new Message("error", "Une erreur est survenue lors de la suppression de la compétence.");
                 }
             } else {
-                return new Message("error", "La compétance n'existe pas.");
+                return new Message("error", "La compétence n'existe pas.");
             }
         } else {
             return new Message("error", "Vous n'êtes pas autorisé à effectuer cette action.");
@@ -93,21 +93,21 @@ public class SkillResource {
                     
                     if (!skillGestionnary.existSkill(name) || name.equals(skill.getName())) {
                         if (skillGestionnary.updateSkill(idSkill, name, weight)) {
-                            return new Message("success", "La compétance a bien été mise à jour.");
+                            return new Message("success", "La compétence a bien été mise à jour.");
                         } else {
-                            return new Message("error", "Une erreur est survenue lors de la mise à jour de la compétance.");
+                            return new Message("error", "Une erreur est survenue lors de la mise à jour de la compétence.");
                         }
                     }else{
-                        return new Message("error", "Une compétance porte déjà ce nom.");
+                        return new Message("error", "Une compétence porte déjà ce nom.");
                     }
                 } else {
-                    return new Message("error", "La compétance n'existe pas.");
+                    return new Message("error", "La compétence n'existe pas.");
                 }
             } else {
                 return new Message("error", "Vous n'êtes pas autorisé à effectuer cette action.");
             }
         } else {
-            return new Message("error", "Une erreur est survenue lors de la mise à jour de la compétance.");
+            return new Message("error", "Une erreur est survenue lors de la mise à jour de la compétence.");
         }
     }
     

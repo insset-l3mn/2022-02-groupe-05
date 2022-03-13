@@ -33,6 +33,12 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "GfSubdomain.findByName", query = "SELECT g FROM GfSubdomain g WHERE g.name = :name")})
 public class GfSubdomain implements Serializable {
 
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(name = "name")
+    private String name;
+
     private static final long serialVersionUID = 1L;
     
     @Id
@@ -41,11 +47,6 @@ public class GfSubdomain implements Serializable {
     @Column(name = "id_subdomain")
     private Integer idSubdomain;
     
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
-    @Column(name = "name")
-    private String name;
     
     @JsonbTransient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSubdomain")
@@ -79,13 +80,6 @@ public class GfSubdomain implements Serializable {
         this.idSubdomain = idSubdomain;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public Collection<GfSkill> getGfSkillCollection() {
         return gfSkillCollection;
@@ -126,6 +120,14 @@ public class GfSubdomain implements Serializable {
     @Override
     public String toString() {
         return "com.mycompany.projet.entities.GfSubdomain[ idSubdomain=" + idSubdomain + " ]";
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
     
 }
