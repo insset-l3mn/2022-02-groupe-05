@@ -44,7 +44,7 @@ public class ProposalGestionnary {
     public List readProposals(int qID) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
-        Query query = em1.createQuery("SELECT g FROM GfProposal g WHERE g.idQuestion.idQuestion=:id").setParameter("id", qID);
+        Query query = em1.createQuery("SELECT g FROM GfProposal g WHERE g.idQuestion.idQuestion=:id ORDER BY g.state DESC").setParameter("id", qID);
         return query.getResultList();
     }
     

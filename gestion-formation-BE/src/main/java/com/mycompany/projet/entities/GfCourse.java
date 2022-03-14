@@ -35,7 +35,7 @@ public class GfCourse implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 45)
+    @Size(min = 1, max = 255)
     @Column(name = "name")
     private String name;
     @JoinColumn(name = "id_subdomain", referencedColumnName = "id_subdomain")
@@ -113,13 +113,6 @@ public class GfCourse implements Serializable {
         return "com.mycompany.projet.entities.GfCourse[ idCourse=" + idCourse + " ]";
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public GfSubdomain getIdSubdomain() {
         return idSubdomain;
@@ -127,6 +120,14 @@ public class GfCourse implements Serializable {
 
     public void setIdSubdomain(GfSubdomain idSubdomain) {
         this.idSubdomain = idSubdomain;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
     
 }

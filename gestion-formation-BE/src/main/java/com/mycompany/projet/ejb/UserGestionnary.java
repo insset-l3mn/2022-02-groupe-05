@@ -55,7 +55,7 @@ public class UserGestionnary {
         
         return user;
     }
-    
+
     public User requestUser(int id) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();

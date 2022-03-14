@@ -4,9 +4,14 @@
  */
 package com.mycompany.projet.resources;
 
+import com.mycompany.projet.ejb.SkillGestionnary;
+import com.mycompany.projet.ejb.SubdomainGestionnary;
 import com.mycompany.projet.ejb.UserGestionnary;
+import com.mycompany.projet.ejb.UserHasSkillGestionnary;
 import com.mycompany.projet.entities.Message;
 import com.mycompany.projet.entities.User;
+import com.mycompany.projet.entities.UserHasSkill;
+import com.mycompany.projet.entities.UserHasSkillPK;
 import javax.ws.rs.Consumes;
 import javax.ejb.EJB;
 import javax.ws.rs.FormParam;
@@ -26,6 +31,15 @@ public class UserResource {
 
     @EJB
     private UserGestionnary userGestionnary;
+    
+    @EJB
+    private SkillGestionnary skillGestionnary;
+    
+    @EJB
+    private SubdomainGestionnary subdomainGestionnary;
+    
+    @EJB
+    private UserHasSkillGestionnary userHasSkillGestionnary;
 
     @POST
     @Consumes("application/x-www-form-urlencoded")
@@ -120,11 +134,52 @@ public class UserResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/count")
-    public Object readQuestions() {
+    public Object countUsers() {
         try{
             return userGestionnary.countUsers();
         }catch(Exception e){
             return new Message("error", "Une erreur est survenue.");
+        }
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{userId}/skill/add/{skillId}")
+    public void addUserHasSkill(@PathParam("userId") int userId, @PathParam("skillId") int skillId) {
+        if (userGestionnary.existUser(userId) && skillGestionnary.existSkill(skillId)) {
+            UserHasSkillPK relation = new UserHasSkillPK(userId, skillId);
+            UserHasSkill userHasSkill = new UserHasSkill(relation, 0, 0);
+            
+            userHasSkillGestionnary.addSkillToUser(userHasSkill);
+        }
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{userId}/skill/remove/{skillId}")
+    public void removeUserHasSkill(@PathParam("userId") int userId, @PathParam("skillId") int skillId) {
+        if (userGestionnary.existUser(userId) && skillGestionnary.existSkill(skillId)) {
+            userHasSkillGestionnary.remove(userId, skillId);
+        }
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{userId}/skill/addBySubdomainId/{subdomainId}")
+    public void removeUserHasSkillBySubdomainId(@PathParam("userId") int userId, @PathParam("subdomainId") int subdomainId) {
+        if (userGestionnary.existUser(userId) && subdomainGestionnary.existSubdomain(subdomainId)) {
+            userHasSkillGestionnary.addBySubdomain(userId, subdomainId);
+        }
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{userId}/skill/count")
+    public Object countUserHasSKill(@PathParam("userId") int userId) {
+        if (userGestionnary.existUser(userId)) {
+            return userHasSkillGestionnary.count(userId);
+        }else{
+            return new Message("error", "L'utilisateur n'existe pas.");
         }
     }
 }

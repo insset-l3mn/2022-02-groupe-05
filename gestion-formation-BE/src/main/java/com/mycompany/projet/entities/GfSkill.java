@@ -40,7 +40,7 @@ public class GfSkill implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 45)
+    @Size(min = 1, max = 255)
     @Column(name = "name")
     private String name;
     
@@ -48,6 +48,8 @@ public class GfSkill implements Serializable {
     @NotNull
     @Column(name = "weight")
     private int weight;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "gfSkill")
+    private Collection<UserHasSkill> userHasSkillCollection;
     
     @JoinColumn(name = "id_subdomain", referencedColumnName = "id_subdomain")
     @ManyToOne(optional = false)
@@ -168,6 +170,15 @@ public class GfSkill implements Serializable {
         this.gfSkillCollection1 = gfSkillCollection1;
     }
 
+
+    public GfSubdomain getIdSubdomain() {
+        return idSubdomain;
+    }
+
+    public void setIdSubdomain(GfSubdomain idSubdomain) {
+        this.idSubdomain = idSubdomain;
+    }
+
     public String getName() {
         return name;
     }
@@ -184,12 +195,12 @@ public class GfSkill implements Serializable {
         this.weight = weight;
     }
 
-    public GfSubdomain getIdSubdomain() {
-        return idSubdomain;
+    public Collection<UserHasSkill> getUserHasSkillCollection() {
+        return userHasSkillCollection;
     }
 
-    public void setIdSubdomain(GfSubdomain idSubdomain) {
-        this.idSubdomain = idSubdomain;
+    public void setUserHasSkillCollection(Collection<UserHasSkill> userHasSkillCollection) {
+        this.userHasSkillCollection = userHasSkillCollection;
     }
     
 }

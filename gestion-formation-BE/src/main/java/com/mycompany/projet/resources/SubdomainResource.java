@@ -6,7 +6,6 @@ package com.mycompany.projet.resources;
 
 import com.mycompany.projet.ejb.SubdomainGestionnary;
 import com.mycompany.projet.ejb.UserGestionnary;
-import com.mycompany.projet.entities.GfSkill;
 import com.mycompany.projet.entities.GfSubdomain;
 import com.mycompany.projet.entities.Message;
 import com.mycompany.projet.entities.User;

@@ -13,6 +13,7 @@
     <class>com.mycompany.projet.entities.GfSurvey_1</class>
     <class>com.mycompany.projet.entities.GfSurvey</class>
     <class>com.mycompany.projet.entities.GfSubdomain</class>
+    <class>com.mycompany.projet.entities.UserHasSkill</class>
     <properties>
       <property name="eclipselink.logging.level" value="FINE"/>
       <property name="javax.persistence.schema-generation.database.action" value="none"/>
