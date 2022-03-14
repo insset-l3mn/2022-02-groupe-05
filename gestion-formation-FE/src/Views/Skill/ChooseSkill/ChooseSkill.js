@@ -90,6 +90,13 @@ export default function ChooseSkill(){
                         node.position = {x: 0, y: 0}
                         node.data = item["data"][0]
                         node.dragging = false
+                        if(node.data.context === "Skill"){
+                            node.style = {...node.style, backgroundColor: "#0041D0", color:"#fff"}
+                        }else if(node.data.context === "Subdomain"){
+                            node.style = {...node.style, backgroundColor: "#FF0072", color:"#fff"}
+                        }else{
+                            node.style = {...node.style, backgroundColor: "#F8F9F9"}
+                        }
                         setGraph(prevState => [...prevState, node])
 
                     } else {
@@ -112,7 +119,19 @@ export default function ChooseSkill(){
     }
 
     const onClickElement = (event, node) => {
-        console.log(node)
+        switch (node["data"].context){
+            case 'Skill':
+                console.log("Requete skill")
+                break
+            case 'Subdomain':
+                console.log("Requete subdomain")
+                break
+            case 'Domain':
+                console.log("Requete domain")
+                break
+            default:
+                console.log("Defaut")
+        }
     }
 
     return (
