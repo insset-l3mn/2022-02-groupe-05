@@ -78,6 +78,7 @@ public class GraphResource {
             //itemData.put("label", "Aviation");
             itemData.put("label", subdomains.get(i).getName());
             itemData.put("object_id", subdomains.get(i).getIdSubdomain());
+            itemData.put("context", "Subdomain");
             data.put(itemData);
             item.put("data", data);
 
@@ -107,6 +108,7 @@ public class GraphResource {
                 //itemData.put("label", "Aviation");
                 itemDataSkill.put("label", skills.get(j).getName());
                 itemDataSkill.put("object_id", skills.get(j).getIdSkill());
+                itemDataSkill.put("context", "Skill");
                 dataSkill.put(itemDataSkill);
                 itemSkill.put("data", dataSkill);
 
@@ -144,6 +146,7 @@ public class GraphResource {
         //itemData.put("label", "Aviation");
         itemData.put("label", "Aviation");
         itemData.put("object_id", -1);
+        itemData.put("context", "Domain");
         data.put(itemData);
         item.put("data", data);
 
