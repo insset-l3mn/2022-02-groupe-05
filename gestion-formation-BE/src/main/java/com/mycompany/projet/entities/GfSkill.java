@@ -22,6 +22,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -82,6 +83,9 @@ public class GfSkill implements Serializable {
     @JsonbTransient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSkill")
     private Collection<GfQuestion> gfQuestionCollection;
+    
+    @Transient
+    private int temp_id;
 
     public GfSkill() {
     }
@@ -202,5 +206,12 @@ public class GfSkill implements Serializable {
     public void setUserHasSkillCollection(Collection<UserHasSkill> userHasSkillCollection) {
         this.userHasSkillCollection = userHasSkillCollection;
     }
-    
+
+    public int getTemp_id() {
+        return temp_id;
+    }
+
+    public void setTemp_id(int temp_id) {
+        this.temp_id = temp_id;
+    }
 }

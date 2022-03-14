@@ -18,6 +18,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -32,7 +33,9 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "GfSubdomain.findByIdSubdomain", query = "SELECT g FROM GfSubdomain g WHERE g.idSubdomain = :idSubdomain"),
     @NamedQuery(name = "GfSubdomain.findByName", query = "SELECT g FROM GfSubdomain g WHERE g.name = :name")})
 public class GfSubdomain implements Serializable {
-
+    @Transient
+    private int temp_id;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -55,7 +58,7 @@ public class GfSubdomain implements Serializable {
     @JsonbTransient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSubdomain")
     private Collection<GfCourse> gfCourseCollection;
-
+    
     public GfSubdomain() {
     }
 
@@ -130,4 +133,11 @@ public class GfSubdomain implements Serializable {
         this.name = name;
     }
     
+    public int getTemp_id() {
+        return temp_id;
+    }
+
+    public void setTemp_id(int temp_id) {
+        this.temp_id = temp_id;
+    }
 }

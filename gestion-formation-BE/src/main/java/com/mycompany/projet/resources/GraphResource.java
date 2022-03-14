@@ -4,12 +4,10 @@
  */
 package com.mycompany.projet.resources;
 
+import com.mycompany.projet.ejb.SkillGestionnary;
 import com.mycompany.projet.ejb.SubdomainGestionnary;
+import com.mycompany.projet.entities.GfSkill;
 import com.mycompany.projet.entities.GfSubdomain;
-import com.mycompany.projet.entities.Message;
-import jakarta.json.Json;
-import jakarta.json.JsonObject;
-import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ws.rs.GET;
@@ -28,6 +26,9 @@ public class GraphResource {
 
     @EJB
     private SubdomainGestionnary subdomainGestionnary;
+
+    @EJB
+    private SkillGestionnary skillGestionnary;
 
     /*@POST
     @Consumes("application/x-www-form-urlencoded")
@@ -63,17 +64,90 @@ public class GraphResource {
         int id = 1;
         int x = 0;
         int y = 0;
-        
+
         JSONArray json = new JSONArray();
-        
-        for(int i = 0; i < subdomains.size()+1; i++){
+
+        for (int i = 0; i < subdomains.size(); i++) {
+            subdomains.get(i).setTemp_id(id);
+
             JSONObject item = new JSONObject();
-                item.put("id", id);
+            item.put("id", subdomains.get(i).getTemp_id());
+
+            JSONArray data = new JSONArray();
+            JSONObject itemData = new JSONObject();
+            //itemData.put("label", "Aviation");
+            itemData.put("label", subdomains.get(i).getName());
+            itemData.put("object_id", subdomains.get(i).getIdSubdomain());
+            data.put(itemData);
+            item.put("data", data);
+
+            JSONArray position = new JSONArray();
+            JSONObject positionData = new JSONObject();
+            positionData.put("x", x);
+            positionData.put("y", y);
+            position.put(positionData);
+            item.put("position", position);
+
+            json.put(item);
+            id++;
+            x += 5;
+            y += 5;
+            
+            List<GfSkill> skills = skillGestionnary.readAllFromSubdomainId(subdomains.get(i).getIdSubdomain());
+
+            for (int j = 0; j < skills.size(); j++) {
+                //PARTIE AJOUT DE LA COMPETANCE
+                skills.get(j).setTemp_id(id);
+
+                JSONObject itemSkill = new JSONObject();
+                itemSkill.put("id", skills.get(j).getTemp_id());
+
+                JSONArray dataSkill = new JSONArray();
+                JSONObject itemDataSkill = new JSONObject();
+                //itemData.put("label", "Aviation");
+                    itemDataSkill.put("label", skills.get(j).getName());
+                    itemDataSkill.put("object_id", skills.get(j).getIdSkill());
+                dataSkill.put(itemDataSkill);
+                itemSkill.put("data", dataSkill);
+
+                JSONArray positionSkill = new JSONArray();
+                JSONObject positionDataSkill = new JSONObject();
+                    positionDataSkill.put("x", x);
+                    positionDataSkill.put("y", y);
+                positionSkill.put(positionDataSkill);
+                itemSkill.put("position", positionSkill);
+
+                json.put(itemSkill);
+                
+                
+                //PARTIE AJOUT DU LIEN ENTRE LE SOUSDOMAINE ET LE SKILL
+                JSONArray link = new JSONArray();
+                JSONObject linkData = new JSONObject();
+                    linkData.put("id", "'e" + subdomains.get(i).getTemp_id() + "-" + skills.get(j).getTemp_id() + "'");
+                    linkData.put("source", subdomains.get(i).getTemp_id());
+                    linkData.put("target", skills.get(j).getTemp_id());
+                link.put(linkData);
+                json.put(linkData);
+                
+                
+                x += 5;
+                y += 5;
+
+                id++;
+            }
+        }
+
+        /*for(int i = 0; i < subdomains.size(); i++){
+            subdomains.get(i).setTemp_id(id);
+            
+            JSONObject item = new JSONObject();
+                item.put("id", subdomains.get(i).getIdSubdomain());
+                item.put("object_id", subdomains.get(i).getTemp_id());
                 
             JSONArray data = new JSONArray();
             JSONObject itemData = new JSONObject();
-                if(id == 1)itemData.put("label", "Aviation");
-                else itemData.put("label", subdomains.get(i-1).getName());
+                //itemData.put("label", "Aviation");
+                itemData.put("label", subdomains.get(i).getName());
             data.put(itemData);
             item.put("data", data);
             
@@ -88,8 +162,7 @@ public class GraphResource {
             id++;
             x+=5;
             y+=5;
-        }
-               
+        }*/
         return json.toString();
     }
 }

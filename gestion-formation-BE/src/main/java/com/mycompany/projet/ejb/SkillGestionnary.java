@@ -137,4 +137,13 @@ public class SkillGestionnary {
     public int countSkills() {
         return em.createQuery("SELECT s FROM GfSkill s").getResultList().size();
     }
+    
+    public List readAllFromSubdomainId(int id){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
+        EntityManager em1 = emf.createEntityManager();
+        Query query = em1.createQuery("SELECT s FROM GfSkill s WHERE s.idSubdomain.idSubdomain=:id")
+                .setParameter("id", id);
+        
+        return query.getResultList();
+    }
 }
