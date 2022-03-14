@@ -6,7 +6,7 @@ export default function Form(props){
 
     return (
         <>
-            <form onSubmit={props.onSubmit}>
+            <form {...props}>
                 {props.children}
                 <Button onClick={props.onSubmit}>{props.labelButton}</Button>
             </form>
