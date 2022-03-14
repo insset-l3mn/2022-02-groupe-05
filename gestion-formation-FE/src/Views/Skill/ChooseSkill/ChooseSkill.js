@@ -1,0 +1,114 @@
+import React, {useCallback, useEffect, useState} from 'react';
+import ReactFlow, {
+    ReactFlowProvider,
+    addEdge,
+    removeElements,
+    isNode,
+} from 'react-flow-renderer';
+import axios from "axios";
+import dagre from "dagre";
+
+const elements = [
+    {
+        id: '1',
+        type: 'input', // input node
+        data: { label: 'Input Node' },
+        position: { x: 250, y: 25 },
+    },
+    // default node
+    {
+        id: '2',
+        // you can also pass a React component as a label
+        data: { label: <div>Default Node</div> },
+        position: { x: 100, y: 125 },
+    },
+    {
+        id: '3',
+        type: 'output', // output node
+        data: { label: 'Output Node' },
+        position: { x: 250, y: 250 },
+    },
+    // animated edge
+    { id: 'e1-2', source: '1', target: '2', animated: true },
+    { id: 'e2-3', source: '2', target: '3' },
+];
+
+
+
+
+export default function ChooseSkill(){
+
+    const [graph, setGraph] = useState([])
+
+    const dagreGraph = new dagre.graphlib.Graph();
+    dagreGraph.setDefaultEdgeLabel(() => ({}));
+
+    const nodeWidth = 172;
+    const nodeHeight = 36;
+
+    const getLayoutedElements = (elements, direction = 'TB') => {
+        const isHorizontal = direction === 'LR';
+        dagreGraph.setGraph({ rankdir: direction });
+
+        elements.forEach((el) => {
+            if (isNode(el)) {
+                dagreGraph.setNode(el.id, { width: nodeWidth, height: nodeHeight });
+            } else {
+                dagreGraph.setEdge(el.source, el.target);
+            }
+        });
+
+        dagre.layout(dagreGraph);
+
+        return elements.map((el) => {
+            if (isNode(el)) {
+                const nodeWithPosition = dagreGraph.node(el.id);
+                el.targetPosition = isHorizontal ? 'left' : 'top';
+                el.sourcePosition = isHorizontal ? 'right' : 'bottom';
+
+                el.position = {
+                    x: nodeWithPosition.x - nodeWidth / 2 + Math.random() / 1000,
+                    y: nodeWithPosition.y - nodeHeight / 2,
+                };
+            }
+
+            return el;
+        });
+    };
+
+    useEffect(async () => {
+        await axios.get("http://localhost:8080/gestion-formation-BE/api/graph/global")
+            .then((response) => {
+                response["data"].map((item) => {
+                    let node = {};
+                    node.id = item["id"];
+                    node.position = {x: 0, y: 0};
+                    node.data = item["data"][0]
+                    setGraph(prevState => [...prevState, node])
+                    console.log(graph)
+
+                })
+            })
+
+    }, [])
+
+
+    const t = () => {
+        console.log(graph.length)
+        console.log(graph)
+    }
+
+    return (
+        <div className="layoutflow" style={{ height: 300 }}>
+            <ReactFlowProvider>
+                <ReactFlow
+                    elements={getLayoutedElements(graph, 'TB')}
+
+                    connectionLineType="smoothstep"
+                />
+            </ReactFlowProvider>
+            <button onClick={t}>click</button>
+        </div>
+    );
+
+}
