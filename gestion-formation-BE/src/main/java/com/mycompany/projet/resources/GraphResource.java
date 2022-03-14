@@ -92,7 +92,7 @@ public class GraphResource {
             id++;
             x += 5;
             y += 5;
-            
+
             List<GfSkill> skills = skillGestionnary.readAllFromSubdomainId(subdomains.get(i).getIdSubdomain());
 
             for (int j = 0; j < skills.size(); j++) {
@@ -105,31 +105,29 @@ public class GraphResource {
                 JSONArray dataSkill = new JSONArray();
                 JSONObject itemDataSkill = new JSONObject();
                 //itemData.put("label", "Aviation");
-                    itemDataSkill.put("label", skills.get(j).getName());
-                    itemDataSkill.put("object_id", skills.get(j).getIdSkill());
+                itemDataSkill.put("label", skills.get(j).getName());
+                itemDataSkill.put("object_id", skills.get(j).getIdSkill());
                 dataSkill.put(itemDataSkill);
                 itemSkill.put("data", dataSkill);
 
                 JSONArray positionSkill = new JSONArray();
                 JSONObject positionDataSkill = new JSONObject();
-                    positionDataSkill.put("x", x);
-                    positionDataSkill.put("y", y);
+                positionDataSkill.put("x", x);
+                positionDataSkill.put("y", y);
                 positionSkill.put(positionDataSkill);
                 itemSkill.put("position", positionSkill);
 
                 json.put(itemSkill);
-                
-                
+
                 //PARTIE AJOUT DU LIEN ENTRE LE SOUSDOMAINE ET LE SKILL
                 JSONArray link = new JSONArray();
                 JSONObject linkData = new JSONObject();
-                    linkData.put("id", "'e" + subdomains.get(i).getTemp_id() + "-" + skills.get(j).getTemp_id() + "'");
-                    linkData.put("source", subdomains.get(i).getTemp_id());
-                    linkData.put("target", skills.get(j).getTemp_id());
+                linkData.put("id", "e" + subdomains.get(i).getTemp_id() + "-" + skills.get(j).getTemp_id());
+                linkData.put("source", subdomains.get(i).getTemp_id());
+                linkData.put("target", skills.get(j).getTemp_id());
                 link.put(linkData);
                 json.put(linkData);
-                
-                
+
                 x += 5;
                 y += 5;
 
@@ -137,32 +135,40 @@ public class GraphResource {
             }
         }
 
-        /*for(int i = 0; i < subdomains.size(); i++){
-            subdomains.get(i).setTemp_id(id);
-            
-            JSONObject item = new JSONObject();
-                item.put("id", subdomains.get(i).getIdSubdomain());
-                item.put("object_id", subdomains.get(i).getTemp_id());
+        //Ajout de aviation
+        JSONObject item = new JSONObject();
+        item.put("id", 999);
+
+        JSONArray data = new JSONArray();
+        JSONObject itemData = new JSONObject();
+        //itemData.put("label", "Aviation");
+        itemData.put("label", "Aviation");
+        itemData.put("object_id", -1);
+        data.put(itemData);
+        item.put("data", data);
+
+        JSONArray position = new JSONArray();
+        JSONObject positionData = new JSONObject();
+        positionData.put("x", x);
+        positionData.put("y", y);
+        position.put(positionData);
+        item.put("position", position);
+
+        json.put(item);
+        
+        
+        //PARTIE AJOUT DU LIEN ENTRE AVIATION ET LES SOUS-DOMAINES
+        for (int i = 0; i < subdomains.size(); i++) {
+            JSONArray link = new JSONArray();
+                JSONObject linkData = new JSONObject();
+                linkData.put("id", "e999" + "-" + subdomains.get(i).getTemp_id());
+                linkData.put("source", 999);
+                linkData.put("target", subdomains.get(i).getTemp_id());
+                link.put(linkData);
+                json.put(linkData);
+        }
+        
                 
-            JSONArray data = new JSONArray();
-            JSONObject itemData = new JSONObject();
-                //itemData.put("label", "Aviation");
-                itemData.put("label", subdomains.get(i).getName());
-            data.put(itemData);
-            item.put("data", data);
-            
-            JSONArray position = new JSONArray();
-            JSONObject positionData = new JSONObject();
-                positionData.put("x",x);
-                positionData.put("y",y);
-            position.put(positionData);
-            item.put("position", position);
-                    
-            json.put(item);
-            id++;
-            x+=5;
-            y+=5;
-        }*/
         return json.toString();
     }
 }
