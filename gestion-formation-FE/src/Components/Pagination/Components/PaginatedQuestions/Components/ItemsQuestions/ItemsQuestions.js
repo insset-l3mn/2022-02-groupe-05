@@ -8,6 +8,7 @@ import InputFloating from "../../../../../Form/Components/InputFloating/InputFlo
 import Error from "../../../../../Error/Error";
 import Success from "../../../../../Success/Success";
 import TextareaFloating from "../../../../../Form/Components/TextareaFloating/TextareaFloating";
+import "./ItemsQuestions.css"
 
 export default function ItemsQuestions(props){
 
@@ -138,7 +139,7 @@ export default function ItemsQuestions(props){
                            centered
                            size={"lg"}>
                     <Modal.Header>
-                        <Modal.Title>{question.idQuestion}</Modal.Title>
+                        <Modal.Title>Question n°{question.idQuestion}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Form>
@@ -148,51 +149,24 @@ export default function ItemsQuestions(props){
                                            placeholder={"Contenu de la question"}
                                            labelContent={"Contenu de la question"}
                                            onChange={onChangeInput}/>
-                            <div className="row">
-                                <div className="col">
-                                    <InputFloating id="floatingInputDifficulty"
-                                                   type="text"
-                                                   name={"difficulty"}
-                                                   value={question.difficulty}
-                                                   placeholder={"Difficulté"}
-                                                   labelContent={"Difficulté"}
-                                                   onChange={onChangeInput}/>
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col">
-                                    <InputFloating id="floatingInputProposal1"
-                                                   type="text"
-                                                   name={"difficulty"}
-                                                   value={proposals[0].denominate}
-                                                   placeholder={"Difficulté"}
-                                                   labelContent={"Difficulté"}
-                                                   onChange={onChangeInput}/>
-                                    <InputFloating id="floatingInputProposal2"
-                                                   type="text"
-                                                   name={"difficulty"}
-                                                   value={proposals[1].denominate}
-                                                   placeholder={"Difficulté"}
-                                                   labelContent={"Difficulté"}
-                                                   onChange={onChangeInput}/>
-                                </div>
-                                <div className="col">
-                                    <InputFloating id="floatingInputProposal3"
-                                                   type="text"
-                                                   name={"difficulty"}
-                                                   value={proposals[2].denominate}
-                                                   placeholder={"Difficulté"}
-                                                   labelContent={"Difficulté"}
-                                                   onChange={onChangeInput}/>
-                                    <InputFloating id="floatingInputProposal4"
-                                                   type="text"
-                                                   name={"difficulty"}
-                                                   value={proposals[3].denominate}
-                                                   placeholder={"Difficulté"}
-                                                   labelContent={"Difficulté"}
-                                                   onChange={onChangeInput}/>
-                                </div>
-                            </div>
+                            <InputFloating id="floatingInputDifficulty"
+                                           type="text"
+                                           name={"difficulty"}
+                                           value={question.difficulty}
+                                           placeholder={"Difficulté"}
+                                           labelContent={"Difficulté"}
+                                           onChange={onChangeInput}/>
+
+                            {proposals.map((item) => (
+                                <InputFloating id="floatingInputProposal"
+                                               className={item.state === 1 ? "valid" : "invalid"}
+                                               type="text"
+                                               name={"proposal"}
+                                               value={item.denominate}
+                                               placeholder={"Proposition"}
+                                               labelContent={"Proposition"}
+                                               onChange={onChangeInput}/>
+                            ))}
 
                         </Form>
                         {error && <Error message={error}/>}

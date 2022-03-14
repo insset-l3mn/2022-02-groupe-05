@@ -15,13 +15,8 @@ export default function InputFloating(props){
         <>
             <div className="form-floating">
                 <input
-                    type={props.type}
-                    className={"form-control"}
-                    id={props.id}
-                    name={props.name}
-                    value={props.value}
-                    onChange={props.onChange}
-                    placeholder={props.placeholder}/>
+                    {...props}
+                    className={"form-control " + props.className}/>
                 <label htmlFor={props.id} className={"text-black"}>{props.labelContent}</label>
             </div>
             <br/>

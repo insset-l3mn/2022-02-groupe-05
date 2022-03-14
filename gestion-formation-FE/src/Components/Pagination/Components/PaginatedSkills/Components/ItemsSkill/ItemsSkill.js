@@ -103,7 +103,7 @@ export default function ItemsSkill(props){
                 <tr>
                     <th>#</th>
                     <th>Compétences</th>
-                    <th>Sous domaine</th>
+                    <th>Sous-domaine</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -123,7 +123,7 @@ export default function ItemsSkill(props){
                            centered
                            size={"lg"}>
                     <Modal.Header>
-                        <Modal.Title>{skill.name}</Modal.Title>
+                        <Modal.Title>Compétence n°{skill.idSkill}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Form>
@@ -140,6 +140,14 @@ export default function ItemsSkill(props){
                                            value={skill.weight}
                                            placeholder={"Poids de la compétence"}
                                            labelContent={"Poids de la compétence"}
+                                           onChange={onChangeInput}/>
+                            <InputFloating id="floatingInputSubDomain"
+                                           type="text"
+                                           disabled={"true"}
+                                           name={"subDomain"}
+                                           value={skill.idSubdomain.name}
+                                           placeholder={"Sous-domaine"}
+                                           labelContent={"Sous-domaine"}
                                            onChange={onChangeInput}/>
                         </Form>
                         {error && <Error message={error}/>}

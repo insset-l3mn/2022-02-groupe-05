@@ -120,7 +120,7 @@ export default function ItemsSubDomain(props){
                            centered
                            size={"lg"}>
                     <Modal.Header>
-                        <Modal.Title>{subDomain.name}</Modal.Title>
+                        <Modal.Title>Sous domaine n°{subDomain.idSubdomain}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Form>

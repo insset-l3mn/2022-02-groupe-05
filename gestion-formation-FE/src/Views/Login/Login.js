@@ -2,7 +2,6 @@ import React, {useState, useContext} from "react";
 import './Login.css';
 import Form from "../../Components/Form/Form";
 import axios from "axios";
-import {Navigate} from "react-router-dom";
 import {AuthContext} from "../../Context/AuthContext";
 import InputFloating from "../../Components/Form/Components/InputFloating/InputFloating";
 import Error from "../../Components/Error/Error";
