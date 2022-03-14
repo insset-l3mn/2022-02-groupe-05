@@ -39,6 +39,7 @@ const elements = [
 export default function ChooseSkill(){
 
     const [graph, setGraph] = useState([])
+    const [load, setLoad] = useState(false)
 
     const dagreGraph = new dagre.graphlib.Graph();
     dagreGraph.setDefaultEdgeLabel(() => ({}));
@@ -77,19 +78,31 @@ export default function ChooseSkill(){
     };
 
     useEffect(async () => {
+        setGraph([])
+        setLoad(false)
         await axios.get("http://localhost:8080/gestion-formation-BE/api/graph/global")
             .then((response) => {
+                console.log(response["data"])
                 response["data"].map((item) => {
-                    let node = {};
-                    node.id = item["id"];
-                    node.position = {x: 0, y: 0};
-                    node.data = item["data"][0]
-                    setGraph(prevState => [...prevState, node])
-                    console.log(graph)
+                    if (!item["target"]) {
+                        let node = {}
+                        node.id = item["id"]
+                        node.position = {x: 0, y: 0}
+                        node.data = item["data"][0]
+                        node.dragging = false
+                        setGraph(prevState => [...prevState, node])
 
+                    } else {
+                        let edge = {}
+                        edge.id = item["id"]
+                        edge.target = JSON.stringify(item["target"])
+                        edge.source = JSON.stringify(item["source"])
+                        setGraph(prevState => [...prevState, edge])
+
+                    }
                 })
             })
-
+        setLoad(true)
     }, [])
 
 
@@ -98,15 +111,26 @@ export default function ChooseSkill(){
         console.log(graph)
     }
 
-    return (
-        <div className="layoutflow" style={{ height: 300 }}>
-            <ReactFlowProvider>
-                <ReactFlow
-                    elements={getLayoutedElements(graph, 'TB')}
+    const onClickElement = (event, node) => {
+        console.log(node)
+    }
 
-                    connectionLineType="smoothstep"
-                />
-            </ReactFlowProvider>
+    return (
+        <div className="layoutflow" style={{ height: 1000 }}>
+
+            { load &&
+                <ReactFlowProvider>
+                    <ReactFlow
+                        elements={getLayoutedElements(graph, 'LR')}
+                        nodesDraggable={false}
+                        onElementClick={onClickElement}
+                        connectionLineType="smoothstep"
+                    />
+                </ReactFlowProvider>
+            }
+
+
+
             <button onClick={t}>click</button>
         </div>
     );
