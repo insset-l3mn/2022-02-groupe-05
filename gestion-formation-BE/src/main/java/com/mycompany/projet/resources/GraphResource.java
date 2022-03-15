@@ -79,7 +79,16 @@ public class GraphResource {
             itemData.put("label", subdomains.get(i).getName());
             itemData.put("object_id", subdomains.get(i).getIdSubdomain());
             itemData.put("context", "Subdomain");
+            itemData.put("selected", false);
             data.put(itemData);
+
+            JSONArray styleArray = new JSONArray();
+            JSONObject styleObject = new JSONObject();
+            styleObject.put("backgroundColor", "#FF0072");
+            styleObject.put("color", "#FFF");
+            styleArray.put(styleObject);
+
+            item.put("style", styleArray);
             item.put("data", data);
 
             JSONArray position = new JSONArray();
@@ -109,6 +118,7 @@ public class GraphResource {
                 itemDataSkill.put("label", skills.get(j).getName());
                 itemDataSkill.put("object_id", skills.get(j).getIdSkill());
                 itemDataSkill.put("context", "Skill");
+                itemDataSkill.put("selected", false);
                 dataSkill.put(itemDataSkill);
                 itemSkill.put("data", dataSkill);
 
@@ -118,6 +128,14 @@ public class GraphResource {
                 positionDataSkill.put("y", y);
                 positionSkill.put(positionDataSkill);
                 itemSkill.put("position", positionSkill);
+
+                JSONArray styleSkillArray = new JSONArray();
+                JSONObject styleSkillObject = new JSONObject();
+                styleSkillObject.put("backgroundColor", "#0041D0");
+                styleSkillObject.put("color", "#FFF");
+                styleSkillArray.put(styleObject);
+
+                itemSkill.put("style", styleSkillArray);
 
                 json.put(itemSkill);
 
@@ -147,6 +165,7 @@ public class GraphResource {
         itemData.put("label", "Aviation");
         itemData.put("object_id", -1);
         itemData.put("context", "Domain");
+        itemData.put("selected", false);
         data.put(itemData);
         item.put("data", data);
 
@@ -157,21 +176,26 @@ public class GraphResource {
         position.put(positionData);
         item.put("position", position);
 
+        JSONArray styleArray = new JSONArray();
+        JSONObject styleObject = new JSONObject();
+        styleObject.put("backgroundColor", "#0041D0");
+        styleArray.put(styleObject);
+
+        item.put("style", styleArray);
+
         json.put(item);
-        
-        
+
         //PARTIE AJOUT DU LIEN ENTRE AVIATION ET LES SOUS-DOMAINES
         for (int i = 0; i < subdomains.size(); i++) {
             JSONArray link = new JSONArray();
-                JSONObject linkData = new JSONObject();
-                linkData.put("id", "e999" + "-" + subdomains.get(i).getTemp_id());
-                linkData.put("source", 999);
-                linkData.put("target", subdomains.get(i).getTemp_id());
-                link.put(linkData);
-                json.put(linkData);
+            JSONObject linkData = new JSONObject();
+            linkData.put("id", "e999" + "-" + subdomains.get(i).getTemp_id());
+            linkData.put("source", 999);
+            linkData.put("target", subdomains.get(i).getTemp_id());
+            link.put(linkData);
+            json.put(linkData);
         }
-        
-                
+
         return json.toString();
     }
 }
