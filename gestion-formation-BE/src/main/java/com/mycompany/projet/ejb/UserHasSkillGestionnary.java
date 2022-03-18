@@ -5,6 +5,7 @@
 package com.mycompany.projet.ejb;
 
 import com.mycompany.projet.entities.GfSkill;
+import com.mycompany.projet.entities.Message;
 import com.mycompany.projet.entities.UserHasSkill;
 import com.mycompany.projet.entities.UserHasSkillPK;
 import java.util.List;
@@ -41,7 +42,10 @@ public class UserHasSkillGestionnary {
 
     //INSERT INTO `gestion-formation`.user_has_skill (id_user, id_skill, score, malus, successive_error) VALUES (1, 1, 1, 0, 0)
     public void addSkillToUser(UserHasSkill userHasSkill) {
-        em.persist(userHasSkill);
+        //Vérifier si l'user ne possède pas déjà ce skill avant de l'ajouter.
+        if(!existSkill(userHasSkill.getUserHasSkillPK().getIdUser(), userHasSkill.getUserHasSkillPK().getIdSkill())){
+            em.persist(userHasSkill);
+        }
     }
 
     public int count(int userID) {
@@ -54,10 +58,47 @@ public class UserHasSkillGestionnary {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
 
-        em1.createQuery("DELETE FROM UserHasSkill WHERE (u.user.id_user=:userId AND u.userHasSkillPK.idSkill=:skillId)")
+        em1.createQuery("DELETE FROM UserHasSkill u WHERE (u.userHasSkillPK.idUser=:userId AND u.userHasSkillPK.idSkill=:skillId)")
                 .setParameter("userId", userId)
                 .setParameter("skillId", skillId)
                 .executeUpdate();
+    }
+    
+    public void removeAll(int userId) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
+        EntityManager em1 = emf.createEntityManager();
+
+        em1.createQuery("DELETE FROM UserHasSkill u WHERE (u.userHasSkillPK.idUser=:userId)")
+                .setParameter("userId", userId)
+                .executeUpdate();
+    }
+    
+    public void removeBySubdomainId(int userId, int subdomainId) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
+        EntityManager em1 = emf.createEntityManager();
+
+        List<GfSkill> skills = em1.createQuery("SELECT g FROM GfSkill g WHERE g.idSubdomain.idSubdomain=:subdomainId")
+                .setParameter("subdomainId", subdomainId)
+                .getResultList();
+        
+        for(int i = 0; i < skills.size(); i++){
+            remove(userId, skills.get(i).getIdSkill());
+        }
+    }
+    
+    public void addAll(int userId){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
+        EntityManager em1 = emf.createEntityManager();
+
+        List<GfSkill> skills = em1.createQuery("SELECT g FROM GfSkill g")
+                .getResultList();
+        
+        for(int i = 0; i < skills.size(); i++){
+            UserHasSkillPK relation = new UserHasSkillPK(userId, skills.get(i).getIdSkill());
+            UserHasSkill userHasSkill = new UserHasSkill(relation, 0, 0);
+            
+            addSkillToUser(userHasSkill);//ERROR Verifier si l'user ne possède pas déjà ce skill
+        }
     }
     
     public void addBySubdomain(int userId, int subdomainId) {
@@ -72,7 +113,20 @@ public class UserHasSkillGestionnary {
             UserHasSkillPK relation = new UserHasSkillPK(userId, skills.get(i).getIdSkill());
             UserHasSkill userHasSkill = new UserHasSkill(relation, 0, 0);
             
-            addSkillToUser(userHasSkill);
+            addSkillToUser(userHasSkill);//ERROR Verifier si l'user ne possède pas déjà ce skill
         }
+    }
+    
+    public boolean existSkill(int userId, int skillId){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
+        EntityManager em1 = emf.createEntityManager();
+        Query query = em1.createQuery("SELECT s FROM UserHasSkill s WHERE (s.userHasSkillPK.idSkill=:skillId AND s.userHasSkillPK.idUser=:userId)")
+                .setParameter("skillId", skillId)
+                .setParameter("userId", userId);
+        
+        if (query.getResultList().isEmpty()) {
+            return false;
+        }
+        return true;
     }
 }

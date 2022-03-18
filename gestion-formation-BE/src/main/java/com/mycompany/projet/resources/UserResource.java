@@ -156,6 +156,15 @@ public class UserResource {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{userId}/skill/add/all")
+    public void addUserHasSkillAll(@PathParam("userId") int userId) {
+        if (userGestionnary.existUser(userId)) {
+            userHasSkillGestionnary.addAll(userId);
+        }
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{userId}/skill/remove/{skillId}")
     public void removeUserHasSkill(@PathParam("userId") int userId, @PathParam("skillId") int skillId) {
         if (userGestionnary.existUser(userId) && skillGestionnary.existSkill(skillId)) {
@@ -165,8 +174,26 @@ public class UserResource {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{userId}/skill/remove/all")
+    public void removeUserHasSkillAll(@PathParam("userId") int userId) {
+        if (userGestionnary.existUser(userId)) {
+            userHasSkillGestionnary.removeAll(userId);
+        }
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{userId}/skill/removeBySubdomainId/{subdomainId}")
+    public void removeUserHasSkillBySubdomain(@PathParam("userId") int userId, @PathParam("subdomainId") int subdomainId) {
+        if (userGestionnary.existUser(userId) && subdomainGestionnary.existSubdomain(subdomainId)) {
+            userHasSkillGestionnary.removeBySubdomainId(userId, subdomainId);
+        }
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{userId}/skill/addBySubdomainId/{subdomainId}")
-    public void removeUserHasSkillBySubdomainId(@PathParam("userId") int userId, @PathParam("subdomainId") int subdomainId) {
+    public void addBySubdomainId(@PathParam("userId") int userId, @PathParam("subdomainId") int subdomainId) {
         if (userGestionnary.existUser(userId) && subdomainGestionnary.existSubdomain(subdomainId)) {
             userHasSkillGestionnary.addBySubdomain(userId, subdomainId);
         }
