@@ -5,6 +5,8 @@
 package com.mycompany.projet.entities;
 
 import java.io.Serializable;
+import java.util.Collection;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +14,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -34,14 +38,22 @@ public class GfQuestion implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "difficulty", nullable = false)
+    @Column(name = "difficulty")
     private int difficulty;
     @Basic(optional = false)
     @NotNull
     @Lob
     @Size(min = 1, max = 65535)
-    @Column(name = "contents", nullable = false, length = 65535)
+    @Column(name = "contents")
     private String contents;
+    
+    @JoinTable(name = "user_has_question", joinColumns = {
+        @JoinColumn(name = "id_question", referencedColumnName = "id_question")}, inverseJoinColumns = {
+        @JoinColumn(name = "id_user", referencedColumnName = "id_user")})
+    
+    @JsonbTransient
+    @ManyToMany
+    private Collection<User> userCollection;
     
     @JoinColumn(name = "id_trainer", referencedColumnName = "id_user")
     @ManyToOne(optional = false)
@@ -144,5 +156,13 @@ public class GfQuestion implements Serializable {
 
     public void setContents(String contents) {
         this.contents = contents;
+    }
+
+    public Collection<User> getUserCollection() {
+        return userCollection;
+    }
+
+    public void setUserCollection(Collection<User> userCollection) {
+        this.userCollection = userCollection;
     }
 }

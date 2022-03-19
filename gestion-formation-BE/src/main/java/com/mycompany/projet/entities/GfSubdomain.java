@@ -33,14 +33,15 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "GfSubdomain.findByIdSubdomain", query = "SELECT g FROM GfSubdomain g WHERE g.idSubdomain = :idSubdomain"),
     @NamedQuery(name = "GfSubdomain.findByName", query = "SELECT g FROM GfSubdomain g WHERE g.name = :name")})
 public class GfSubdomain implements Serializable {
-    @Transient
-    private int temp_id;
-    
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "name")
     private String name;
+    @Transient
+    private int temp_id;
+    
 
     private static final long serialVersionUID = 1L;
     
@@ -125,13 +126,6 @@ public class GfSubdomain implements Serializable {
         return "com.mycompany.projet.entities.GfSubdomain[ idSubdomain=" + idSubdomain + " ]";
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
     
     public int getTemp_id() {
         return temp_id;
@@ -139,5 +133,13 @@ public class GfSubdomain implements Serializable {
 
     public void setTemp_id(int temp_id) {
         this.temp_id = temp_id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

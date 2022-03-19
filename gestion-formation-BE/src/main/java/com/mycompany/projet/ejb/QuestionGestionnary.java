@@ -6,8 +6,11 @@ package com.mycompany.projet.ejb;
 
 import com.mycompany.projet.entities.GfQuestion;
 import com.mycompany.projet.entities.GfSkill;
+import com.mycompany.projet.entities.User;
+import java.util.Collection;
 import java.util.List;
 import javax.annotation.sql.DataSourceDefinition;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -38,6 +41,9 @@ public class QuestionGestionnary {
     @PersistenceContext
     private EntityManager em;
 
+    @EJB
+    private UserGestionnary userGestionnary;
+
     public void createQuestion(GfQuestion question) {
         em.persist(question);
     }
@@ -65,19 +71,19 @@ public class QuestionGestionnary {
         }
         return true;
     }
-    
+
     public Boolean updateQuestion(int id, Integer difficulty, String contents, String skillName) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
-        
+
         GfSkill skill;
-        try{
+        try {
             skill = SkillGestionnary.requestSkill(skillName);
-        }catch(Exception e){
+        } catch (Exception e) {
             return false;
         }
-        
-        try{
+
+        try {
             em1.createQuery("UPDATE GfQuestion q SET q.difficulty=:difficulty, q.contents=:contents, q.idSkill=:idSkill WHERE q.idQuestion=:id")
                     .setParameter("difficulty", difficulty)
                     .setParameter("contents", contents)
@@ -85,7 +91,7 @@ public class QuestionGestionnary {
                     .setParameter("id", id)
                     .executeUpdate();
             return true;
-        }catch(Exception e){
+        } catch (Exception e) {
             return false;
         }
     }
@@ -103,7 +109,7 @@ public class QuestionGestionnary {
             return false;
         }
     }
-    
+
     public GfQuestion readQuestion(int id) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
@@ -118,7 +124,7 @@ public class QuestionGestionnary {
 
         return question;
     }
-    
+
     public GfQuestion readQuestion(String str) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
@@ -141,7 +147,7 @@ public class QuestionGestionnary {
                 .setMaxResults(count)
                 .getResultList();
     }
-    
+
     public boolean isOwnerOfQuestion(int idQuestion, int userID) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
@@ -155,8 +161,32 @@ public class QuestionGestionnary {
 
         return true;
     }
-    
+
     public int countQuestions() {
         return em.createQuery("SELECT q FROM GfQuestion q").getResultList().size();
+    }
+
+    public void updateQuestionUserCollection(int questionId, int userId) {
+        GfQuestion q = em.find(GfQuestion.class, questionId);
+        Collection c = q.getUserCollection();
+        c.add(userGestionnary.readUser(userId));
+        em.persist(q);
+    }
+    
+    public boolean existQuestionUserCollection(int questionId, int userId) {
+        GfQuestion q = readQuestion(questionId);
+        User u = userGestionnary.readUser(userId);
+        return q.getUserCollection().contains(u);
+        
+        /*EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
+        EntityManager em1 = emf.createEntityManager();
+        Query query = em1.createQuery("SELECT q FROM GfQuestion q JOIN q.userCollection u WHERE u.id_user=:userId")
+                .setParameter("id", questionId)
+                .setParameter("userId", userId);
+        
+        if (!query.getResultList().isEmpty()) {
+            return false;
+        }
+        return true;*/
     }
 }

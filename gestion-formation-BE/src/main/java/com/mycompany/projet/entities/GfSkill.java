@@ -49,6 +49,8 @@ public class GfSkill implements Serializable {
     @NotNull
     @Column(name = "weight")
     private int weight;
+    
+    @JsonbTransient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "gfSkill")
     private Collection<UserHasSkill> userHasSkillCollection;
     
@@ -183,21 +185,6 @@ public class GfSkill implements Serializable {
         this.idSubdomain = idSubdomain;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getWeight() {
-        return weight;
-    }
-
-    public void setWeight(int weight) {
-        this.weight = weight;
-    }
 
     public Collection<UserHasSkill> getUserHasSkillCollection() {
         return userHasSkillCollection;
@@ -213,5 +200,21 @@ public class GfSkill implements Serializable {
 
     public void setTemp_id(int temp_id) {
         this.temp_id = temp_id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
     }
 }

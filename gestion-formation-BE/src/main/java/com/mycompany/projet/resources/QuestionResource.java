@@ -13,6 +13,7 @@ import com.mycompany.projet.entities.GfQuestion;
 import com.mycompany.projet.entities.GfSkill;
 import com.mycompany.projet.entities.Message;
 import com.mycompany.projet.entities.User;
+import java.util.Collection;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -178,5 +179,24 @@ public class QuestionResource {
         } catch (Exception e) {
             return new Message("error", "Une erreur est survenue.");
         }
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("{questionId}/addToUser/{userId}")
+    public void addToUser(@PathParam("questionId") int questionId, @PathParam("userId") int userId) {
+        if (questionGestionnary.existQuestion(questionId) && userGestionnary.existUser(userId)) {
+            questionGestionnary.updateQuestionUserCollection(questionId, userId);
+        }
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("{questionId}/hasUser/{userId}")
+    public Boolean existexistQuestionUserCollection(@PathParam("questionId") int questionId, @PathParam("userId") int userId) {
+        if (questionGestionnary.existQuestion(questionId) && userGestionnary.existUser(userId)) {
+            return questionGestionnary.existQuestionUserCollection(questionId, userId);
+        }
+        return false;
     }
 }
