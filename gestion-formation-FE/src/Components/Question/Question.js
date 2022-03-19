@@ -1,7 +1,6 @@
 import React from "react";
-import './Qcm.css'
 
-export default function Qcm(){
+export default function Question(props){
 
     return (
         <>

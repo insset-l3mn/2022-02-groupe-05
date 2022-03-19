@@ -35,6 +35,7 @@ export default function Navbar(){
                                  activeclassname={"active"}
                                  to={"/dashboard"}>Tableau de bord</NavLink>
                     </>
+
                 }
 
                 <NavLink className="nav-link"
@@ -44,6 +45,9 @@ export default function Navbar(){
 
                 {user != null &&
                     <>
+                        <NavLink className="nav-link"
+                                 activeclassname={"active"}
+                                 to={"/survey"}>Questionnaire</NavLink>
                         <NavLink className="nav-link"
                                  activeclassname={"active"}
                                  to={"/profil"}>Profil</NavLink>
