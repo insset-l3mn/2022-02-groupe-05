@@ -1,20 +1,21 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import dagre, {layout} from "dagre";
+import React, {useCallback, useContext, useEffect, useState} from 'react';
+import dagre from "dagre";
 import ReactFlow,
 {
     isNode,
-    ReactFlowProvider,
     useEdgesState,
     useNodesState
 }
     from "react-flow-renderer";
 import axios from "axios";
+import {AuthContext} from "../../../Context/AuthContext";
 
 export default function ChooseSkill(){
 
     const [load, setLoad] = useState(false)
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+    const {user, addUser} = useContext(AuthContext)
 
     const dagreGraph = new dagre.graphlib.Graph();
     dagreGraph.setDefaultEdgeLabel(() => ({}));
@@ -88,18 +89,10 @@ export default function ChooseSkill(){
 
     },[])
 
-    const t = () => {
-        changeLoad(true)
-
-        console.log(nodes.length)
-        console.log(nodes)
-        console.log(edges.length)
-        console.log(edges)
-    }
-
     const onLayout = useCallback(
         (direction) => {
-            setLoad(false)
+            console.log(nodes)
+
             const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
                 nodes,
                 edges,
@@ -108,8 +101,7 @@ export default function ChooseSkill(){
 
             setNodes([...layoutedNodes]);
             setEdges([...layoutedEdges]);
-            console.log("slt")
-            setLoad(true)
+            changeLoad(true)
 
         },
         [nodes, edges]
@@ -130,7 +122,7 @@ export default function ChooseSkill(){
 
     }
 
-    const onClickElement = (event, node) => {
+    const onNodeClick = (event, node) => {
         if(node.data.selected){
             node.data.selected = false
         }else{
@@ -139,16 +131,24 @@ export default function ChooseSkill(){
         switch (node["data"].context){
             case 'Skill':
                 console.log("Requete skill")
-                changeNodeColor(node, "#000")
+                axios.get('http://localhost:8080/gestion-formation-BE/api/user/'+ user.userId + '/skill/add/'+node["data"].object_id)
+                    .then((response) => {
+                    })
                 break
             case 'Subdomain':
                 console.log("Requete subdomain")
+                axios.get('http://localhost:8080/gestion-formation-BE/api/user/'+ user.userId + '/skill/addBySubdomainId/'+node["data"].object_id)
+                    .then((response) => {
+                        console.log(response)
+                    })
                 break
             case 'Domain':
                 console.log("Requete domain")
+                axios.get('http://localhost:8080/gestion-formation-BE/api/user/'+ user.userId + '/skill/add/all')
+                    .then((response) => {
+                        console.log(response)
+                    })
                 break
-            default:
-                console.log("Defaut")
         }
     }
 
@@ -158,16 +158,14 @@ export default function ChooseSkill(){
                 <ReactFlow
                     nodes={nodes}
                     edges={edges}
-                    //elements={getLayoutedElements(graph, 'LR')}
-                    //onElementClick={onClickElement}
                     onNodesChange={onNodesChange}
                     onEdgesChange={onEdgesChange}
                     connectionLineType="smoothstep"
                     fitView
+                    onNodeClick={onNodeClick}
                 />
             }
 
-            <button onClick={t}>click</button>
             <button onClick={() => onLayout('LR')}>forme</button>
         </div>
     );
