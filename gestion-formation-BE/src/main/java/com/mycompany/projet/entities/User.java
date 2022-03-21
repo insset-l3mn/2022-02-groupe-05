@@ -21,6 +21,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -97,6 +98,9 @@ public class User implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_user")
     private Integer id_user;
+    
+    @Transient
+    private boolean hasSkills;
 
     public User() {
     }
@@ -213,4 +217,14 @@ public class User implements Serializable {
     public void setUserHasSkillCollection(Collection<UserHasSkill> userHasSkillCollection) {
         this.userHasSkillCollection = userHasSkillCollection;
     }
+
+    public boolean isHasSkills() {
+        return hasSkills;
+    }
+
+    public void setHasSkills(boolean hasSkills) {
+        this.hasSkills = hasSkills;
+    }
+    
+    
 }

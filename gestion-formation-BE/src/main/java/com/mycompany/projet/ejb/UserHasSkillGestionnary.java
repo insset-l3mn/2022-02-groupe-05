@@ -5,7 +5,6 @@
 package com.mycompany.projet.ejb;
 
 import com.mycompany.projet.entities.GfSkill;
-import com.mycompany.projet.entities.Message;
 import com.mycompany.projet.entities.UserHasSkill;
 import com.mycompany.projet.entities.UserHasSkillPK;
 import java.util.List;
@@ -40,10 +39,32 @@ public class UserHasSkillGestionnary {
     @PersistenceContext
     private EntityManager em;
 
+    public UserHasSkill read(int userId, int skillId){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
+        EntityManager em1 = emf.createEntityManager();
+        Query query = em1.createQuery("SELECT s FROM UserHasSkill s WHERE (s.userHasSkillPK.idSkill=:skillId AND s.userHasSkillPK.idUser=:userId)")
+                .setParameter("skillId", skillId)
+                .setParameter("userId", userId);
+
+        if(query.getResultList().isEmpty()){
+            return null;
+        }
+        return (UserHasSkill) query.getResultList().get(0);
+    }
+    
+    public int countSkills(int userId){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
+        EntityManager em1 = emf.createEntityManager();
+        Query query = em1.createQuery("SELECT s FROM UserHasSkill s WHERE s.userHasSkillPK.idUser=:userId")
+                .setParameter("userId", userId);
+        
+        return query.getResultList().size();
+    }
+    
     //INSERT INTO `gestion-formation`.user_has_skill (id_user, id_skill, score, malus, successive_error) VALUES (1, 1, 1, 0, 0)
     public void addSkillToUser(UserHasSkill userHasSkill) {
         //Vérifier si l'user ne possède pas déjà ce skill avant de l'ajouter.
-        if(!existSkill(userHasSkill.getUserHasSkillPK().getIdUser(), userHasSkill.getUserHasSkillPK().getIdSkill())){
+        if (!existSkill(userHasSkill.getUserHasSkillPK().getIdUser(), userHasSkill.getUserHasSkillPK().getIdSkill())) {
             em.persist(userHasSkill);
         }
     }
@@ -63,7 +84,7 @@ public class UserHasSkillGestionnary {
                 .setParameter("skillId", skillId)
                 .executeUpdate();
     }
-    
+
     public void removeAll(int userId) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
@@ -72,7 +93,7 @@ public class UserHasSkillGestionnary {
                 .setParameter("userId", userId)
                 .executeUpdate();
     }
-    
+
     public void removeBySubdomainId(int userId, int subdomainId) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
@@ -80,27 +101,27 @@ public class UserHasSkillGestionnary {
         List<GfSkill> skills = em1.createQuery("SELECT g FROM GfSkill g WHERE g.idSubdomain.idSubdomain=:subdomainId")
                 .setParameter("subdomainId", subdomainId)
                 .getResultList();
-        
-        for(int i = 0; i < skills.size(); i++){
+
+        for (int i = 0; i < skills.size(); i++) {
             remove(userId, skills.get(i).getIdSkill());
         }
     }
-    
-    public void addAll(int userId){
+
+    public void addAll(int userId) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
 
         List<GfSkill> skills = em1.createQuery("SELECT g FROM GfSkill g")
                 .getResultList();
-        
-        for(int i = 0; i < skills.size(); i++){
+
+        for (int i = 0; i < skills.size(); i++) {
             UserHasSkillPK relation = new UserHasSkillPK(userId, skills.get(i).getIdSkill());
             UserHasSkill userHasSkill = new UserHasSkill(relation, 0, 0);
-            
+
             addSkillToUser(userHasSkill);//ERROR Verifier si l'user ne possède pas déjà ce skill
         }
     }
-    
+
     public void addBySubdomain(int userId, int subdomainId) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
@@ -108,25 +129,75 @@ public class UserHasSkillGestionnary {
         List<GfSkill> skills = em1.createQuery("SELECT g FROM GfSkill g WHERE g.idSubdomain.idSubdomain=:subdomainId")
                 .setParameter("subdomainId", subdomainId)
                 .getResultList();
-        
-        for(int i = 0; i < skills.size(); i++){
+
+        for (int i = 0; i < skills.size(); i++) {
             UserHasSkillPK relation = new UserHasSkillPK(userId, skills.get(i).getIdSkill());
             UserHasSkill userHasSkill = new UserHasSkill(relation, 0, 0);
-            
+
             addSkillToUser(userHasSkill);//ERROR Verifier si l'user ne possède pas déjà ce skill
         }
     }
-    
-    public boolean existSkill(int userId, int skillId){
+
+    public boolean existSkill(int userId, int skillId) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
         Query query = em1.createQuery("SELECT s FROM UserHasSkill s WHERE (s.userHasSkillPK.idSkill=:skillId AND s.userHasSkillPK.idUser=:userId)")
                 .setParameter("skillId", skillId)
                 .setParameter("userId", userId);
-        
+
         if (query.getResultList().isEmpty()) {
             return false;
         }
         return true;
+    }
+
+    public int malus(int userId, int skillId) {
+        UserHasSkill u = read(userId, skillId);
+        return u.getMalus();
+    }
+
+    public void increaseMalus(int userId, int skillId, int count) {
+        UserHasSkill u = read(userId, skillId);
+
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
+        EntityManager em1 = emf.createEntityManager();
+        em1.createQuery("UPDATE UserHasSkill s SET s.malus=:malus WHERE (s.userHasSkillPK.idSkill=:skillId AND s.userHasSkillPK.idUser=:userId)")
+                .setParameter("malus", u.getMalus() + count)
+                .setParameter("skillId", skillId)
+                .setParameter("userId", userId)
+                .executeUpdate();
+    }
+    
+    public void increaseSuccessiveError(int userId, int skillId){
+        UserHasSkill u = read(userId, skillId);
+        
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
+        EntityManager em1 = emf.createEntityManager();
+        em1.createQuery("UPDATE UserHasSkill s SET s.successiveError=:successive_error WHERE (s.userHasSkillPK.idSkill=:skillId AND s.userHasSkillPK.idUser=:userId)")
+                .setParameter("successive_error", u.getSuccessiveError()+ 1)
+                .setParameter("skillId", skillId)
+                .setParameter("userId", userId)
+                .executeUpdate();
+    }
+    
+    public void resetSuccessiveError(int userId, int skillId){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
+        EntityManager em1 = emf.createEntityManager();
+        em1.createQuery("UPDATE UserHasSkill s SET s.successiveError=0 WHERE (s.userHasSkillPK.idSkill=:skillId AND s.userHasSkillPK.idUser=:userId)")
+                .setParameter("skillId", skillId)
+                .setParameter("userId", userId)
+                .executeUpdate();
+    }
+    
+    public void updateScore(int userId, int skillId, int score){
+        UserHasSkill u = read(userId, skillId);
+        
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
+        EntityManager em1 = emf.createEntityManager();
+        em1.createQuery("UPDATE UserHasSkill s SET s.score=:score WHERE (s.userHasSkillPK.idSkill=:skillId AND s.userHasSkillPK.idUser=:userId)")
+                .setParameter("score", u.getScore() + score)
+                .setParameter("skillId", skillId)
+                .setParameter("userId", userId)
+                .executeUpdate();
     }
 }

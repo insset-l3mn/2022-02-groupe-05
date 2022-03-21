@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import com.mycompany.projet.entities.User;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
@@ -37,6 +38,9 @@ public class UserGestionnary {
     @PersistenceContext
     private EntityManager em;
     
+    @EJB
+    private UserHasSkillGestionnary userHasSkillGestionnary;
+    
     public void createUser(User user){
         em.persist(user);
     }
@@ -50,6 +54,7 @@ public class UserGestionnary {
         
         if(!query.getResultList().isEmpty()){
             user = (User) query.getResultList().get(0);
+            user.setHasSkills(haveSkills(user.getUserId()));
             if(!user.getUserPassword().equals(PASSWORD))user = null;
         }
         
@@ -65,9 +70,14 @@ public class UserGestionnary {
         
         if(!query.getResultList().isEmpty()){
             user = (User) query.getResultList().get(0);
+            user.setHasSkills(haveSkills(id));
         }
-        
         return user;
+    }
+    
+    public boolean haveSkills(int id){
+        if(userHasSkillGestionnary.countSkills(id) > 0) return true;
+        else return false;
     }
     
     public Boolean isVisitor(int id) {
@@ -148,6 +158,7 @@ public class UserGestionnary {
 
         if (!query.getResultList().isEmpty()) {
             user = (User) query.getResultList().get(0);
+            user.setHasSkills(haveSkills(id));
         }
 
         return user;

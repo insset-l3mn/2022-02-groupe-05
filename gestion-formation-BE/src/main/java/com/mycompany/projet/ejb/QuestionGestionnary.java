@@ -7,6 +7,7 @@ package com.mycompany.projet.ejb;
 import com.mycompany.projet.entities.GfQuestion;
 import com.mycompany.projet.entities.GfSkill;
 import com.mycompany.projet.entities.User;
+import com.mycompany.projet.entities.UserHasSkill;
 import java.util.Collection;
 import java.util.List;
 import javax.annotation.sql.DataSourceDefinition;
@@ -43,6 +44,9 @@ public class QuestionGestionnary {
 
     @EJB
     private UserGestionnary userGestionnary;
+    
+    @EJB
+    private UserHasSkillGestionnary userHasSkillGestionnary;
 
     public void createQuestion(GfQuestion question) {
         em.persist(question);
@@ -188,5 +192,41 @@ public class QuestionGestionnary {
             return false;
         }
         return true;*/
+    }
+    
+    public GfQuestion getQuestionQuestionnary(int userId, int difficulty){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
+        EntityManager em1 = emf.createEntityManager();
+        Query query = em1.createQuery("SELECT q FROM UserHasSkill q WHERE q.user.id_user=:idUser AND q.successiveError < 4 AND q.malus < 10")
+                .setParameter("idUser", userId);
+        
+        int max = query.getResultList().size()-1;
+        int random = (int)(Math.random() * ( max ));
+        UserHasSkill s = (UserHasSkill)query.getResultList().get(random);
+        
+        
+        query = em1.createQuery("SELECT q FROM GfQuestion q WHERE q.difficulty=:difficulty AND q.idSkill.idSkill=:skillId")
+                .setParameter("skillId", s.getGfSkill().getIdSkill())
+                .setParameter("difficulty", Math.round(difficulty));
+        
+        List<GfQuestion> questions = query.getResultList();
+        if(questions.isEmpty())userHasSkillGestionnary.increaseMalus(userId, s.getGfSkill().getIdSkill(), 999);
+       
+        //WHERE q.IDuser != userId
+        
+        query = em1.createQuery("SELECT q FROM GfQuestion q JOIN q.userCollection u WHERE u.id_user=:userId")
+                .setParameter("userId", userId);
+        
+        List<GfQuestion> alreadyUsedQuestions = query.getResultList();
+        
+        for(int i = 0; i < questions.size(); i++){
+            GfQuestion q = questions.get(i);
+            
+            for(int j = 0; j < alreadyUsedQuestions.size(); j++){
+                if(q.getIdQuestion() != alreadyUsedQuestions.get(j).getIdQuestion()) return q;
+            }
+        }
+        
+        return null;
     }
 }

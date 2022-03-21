@@ -41,6 +41,17 @@ public class ProposalGestionnary {
         em.persist(proposal);
     }
     
+    public boolean existProposal(int questionId, int proposalId){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
+        EntityManager em1 = emf.createEntityManager();
+        Query query = em1.createQuery("SELECT g FROM GfProposal g WHERE (g.idQuestion.idQuestion=:questionId AND g.idProposal=:proposalId)")
+                .setParameter("proposalId", proposalId)
+                .setParameter("questionId", questionId);
+        
+        if(query.getResultList().size() > 0) return true;
+        else return false;
+    }
+    
     public List readProposals(int qID) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
@@ -78,6 +89,19 @@ public class ProposalGestionnary {
         } catch (Exception e) {
             return false;
         }
+    }
+    
+    public boolean isGoodResponseOfQuestion(int questionId, int proposalId){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
+        EntityManager em1 = emf.createEntityManager();
+        Query query = em1.createQuery("SELECT g FROM GfProposal g WHERE (g.idQuestion.idQuestion=:questionId AND g.idProposal=:proposalId)")
+                .setParameter("proposalId", proposalId)
+                .setParameter("questionId", questionId);
+        
+        GfProposal p = (GfProposal)query.getResultList().get(0);
+        
+        if(p.getState() == 1) return true;
+        else return false;
     }
 }
     
