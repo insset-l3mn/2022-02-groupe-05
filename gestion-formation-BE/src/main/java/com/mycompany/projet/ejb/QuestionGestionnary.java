@@ -218,7 +218,8 @@ public class QuestionGestionnary {
                 .setParameter("userId", userId);
         
         List<GfQuestion> alreadyUsedQuestions = query.getResultList();
-        
+        if(alreadyUsedQuestions.isEmpty()) return questions.get(0);
+            
         for(int i = 0; i < questions.size(); i++){
             GfQuestion q = questions.get(i);
             
