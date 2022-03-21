@@ -8,7 +8,7 @@ export default function Survey(){
 
     const startSurvey = () => {
         console.log("Start questionnaire")
-        
+
     }
 
     return (
