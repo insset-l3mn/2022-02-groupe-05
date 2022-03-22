@@ -1,0 +1,19 @@
+
+
+.proposals{
+    width:100%;
+
+}
+
+.proposal{
+    color:#fff;
+    text-align:center;
+    background-color:#5A5F73;
+    margin-bottom:5px;
+    padding: 10px;
+    cursor:pointer;
+}
+
+.active{
+   background-color: #8CC3AA;
+}
