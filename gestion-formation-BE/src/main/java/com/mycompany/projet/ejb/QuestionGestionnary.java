@@ -199,6 +199,7 @@ public class QuestionGestionnary {
         EntityManager em1 = emf.createEntityManager();
         Query query = em1.createQuery("SELECT q FROM UserHasSkill q WHERE q.user.id_user=:idUser AND q.successiveError < 4 AND q.malus < 10")
                 .setParameter("idUser", userId);
+        if(query.getResultList().isEmpty()) return null;//QCM TERMINE
         
         int max = query.getResultList().size()-1;
         int random = (int)(Math.random() * ( max ));
@@ -223,11 +224,17 @@ public class QuestionGestionnary {
         for(int i = 0; i < questions.size(); i++){
             GfQuestion q = questions.get(i);
             
-            for(int j = 0; j < alreadyUsedQuestions.size(); j++){
-                if(q.getIdQuestion() != alreadyUsedQuestions.get(j).getIdQuestion()) return q;
-            }
+            query = em1.createQuery("SELECT q FROM GfQuestion q JOIN q.userCollection u WHERE u.id_user=:userId and q.idQuestion=:questionId")
+                .setParameter("userId", userId)
+                .setParameter("questionId", q.getIdQuestion());
+            
+            if(query.getResultList().isEmpty()) return q;
+            
         }
-        
-        return null;
+        if(difficulty == 3){
+            userHasSkillGestionnary.increaseMalus(userId, s.getGfSkill().getIdSkill(), 999);
+            return null;
+        }
+        return getQuestionQuestionnary(userId, difficulty+1);
     }
 }

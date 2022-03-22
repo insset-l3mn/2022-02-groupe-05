@@ -72,7 +72,7 @@ public class QuestionnaryResource {
     @GET
     @Consumes("application/x-www-form-urlencoded")
     @Path("/response/{userId}/qId/{questionId}/rId/{responseId}")
-    public Message updateQuestion(@PathParam("userId") int userID, @PathParam("questionId") int questionId, @PathParam("responseId") int responseId) {
+    public Message responseQuestion(@PathParam("userId") int userID, @PathParam("questionId") int questionId, @PathParam("responseId") int responseId) {
         if (userGestionnary.existUser(userID) && questionGestionnary.existQuestion(questionId) && proposalGestionnary.existProposal(questionId, responseId)) {
             GfQuestion q = questionGestionnary.readQuestion(questionId);
             
