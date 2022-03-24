@@ -4,8 +4,6 @@ import Question from "../../Components/Question/Question";
 import {AuthContext} from "../../Context/AuthContext";
 import axios from "axios";
 import Proposal from "../../Components/Proposal/Proposal";
-import {logDOM} from "@testing-library/react";
-import transitionEndListener from "react-bootstrap/transitionEndListener";
 
 export default function Survey(){
 
@@ -16,26 +14,35 @@ export default function Survey(){
     let trueProposal = null;
     const [start, setStart] = useState(false)
     const isMounted = useRef(false)
+    const [isFirst, setIsFirst] = useState(true);
     const {user, addUser} = useContext(AuthContext)
+    const [info, setInfo] = useState("Chargement de la question")
 
     const chooseQuestion = async () => {
         setQuestion(await axios.get('http://localhost:8080/gestion-formation-BE/api/questionnary/getQuestion/' + user.userId + "/" + difficulty)
             .then(async (res) => {
                 console.log(res)
-                setProposal(await axios.get('http://localhost:8080/gestion-formation-BE/api/proposal/read/' + res["data"].idQuestion)
-                    .then((res) => {
-                        return res["data"];
-                    }))
-                return res["data"];
+                if(!res["data"].message){
+                    setProposal(await axios.get('http://localhost:8080/gestion-formation-BE/api/proposal/read/' + res["data"].idQuestion)
+                        .then((res) => {
+                            console.log(res["data"])
+                            return res["data"];
+                        }))
+                    return res["data"];
+                }else{
+                    console.log("ddd")
+                    setInfo("Fin du questionnaire")
+                }
             }))
     }
 
     useEffect(() => {
-        if(isMounted.current){
+        if(isMounted.current && !isFirst){
             chooseQuestion().then(r =>  setStart(true))
 
         }else{
             isMounted.current = true;
+            setIsFirst(false);
         }
     },[start])
 
@@ -44,20 +51,23 @@ export default function Survey(){
         setChooseProposal(proposal)
     }
 
+    const respondQuestion = async () => {
+        await axios.get('http://localhost:8080/gestion-formation-BE/api/questionnary/response/' + user.userId + '/qId/' + question.idQuestion + '/rId/' + chooseProposal)
+    }
+
     const handleSubmit = e => {
         console.log("submit")
-
-        if(parseInt(chooseProposal) === parseInt(trueProposal.idProposal)){
-            setStart(false)
-
-            chooseQuestion().then(r => setStart(true))
-        }
+        console.log(chooseProposal)
+        setStart(false)
+        respondQuestion()
+            .then(r => chooseQuestion()
+                .then(r => setStart(true)))
     }
 
     return (
         <>
             <Container>
-                <h1>Questionnaire d'évalutation</h1>
+                <h1>{info}</h1>
                 <br/>
                 {
                     start === false ?
@@ -73,7 +83,7 @@ export default function Survey(){
                                         }
 
                                         return(
-                                            <Proposal className={parseInt(item.idProposal) === parseInt(chooseProposal) ? "active proposal" : "proposal"} key={item.idProposal} proposal={item} onClick={changeProposal}/>
+                                            <Proposal className={parseInt(item.idProposal) === parseInt(chooseProposal) ? "activeProposal proposal" : "proposal"} key={item.idProposal} proposal={item} onClick={changeProposal}/>
                                         )
                                     })
                                 }

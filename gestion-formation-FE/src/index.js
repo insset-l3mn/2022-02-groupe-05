@@ -7,12 +7,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min';
 import App from "./App";
 import AuthContextProvider from "./Context/AuthContext";
+import SurveyContextProvider from "./Context/SurveyContext";
 
 ReactDOM.render(
     <BrowserRouter>
         <React.StrictMode>
             <AuthContextProvider>
-                <App />
+                <SurveyContextProvider>
+                    <App />
+                </SurveyContextProvider>
             </AuthContextProvider>
         </React.StrictMode>
     </BrowserRouter>,

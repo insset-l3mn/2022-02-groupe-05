@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import "./question.css"
 
 export default function Question(props){
-    console.log(props.skillName)
     return (
         <>
             {
@@ -22,7 +21,7 @@ export default function Question(props){
 
                     :
 
-                    <p>Chargement de la question</p>
+                    <p> </p>
             }
         </>
     );

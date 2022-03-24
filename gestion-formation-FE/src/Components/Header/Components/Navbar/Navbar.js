@@ -38,11 +38,6 @@ export default function Navbar(){
 
                 }
 
-                <NavLink className="nav-link"
-                         activeclassname={"active"}
-                         style={{marginLeft:"1rem"}}
-                         to={"/contact"}>Contact</NavLink>
-
                 {user != null &&
                     <>
                         <NavLink className="nav-link"
