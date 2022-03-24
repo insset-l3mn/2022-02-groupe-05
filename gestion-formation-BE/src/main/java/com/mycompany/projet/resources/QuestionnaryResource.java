@@ -65,7 +65,7 @@ public class QuestionnaryResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getQuestion/{userId}/{difficulty}")
-    public GfQuestion getQuestion(@PathParam("userId") int userID, @PathParam("difficulty") int difficulty) {
+    public Object getQuestion(@PathParam("userId") int userID, @PathParam("difficulty") int difficulty) {
         return questionGestionnary.getQuestionQuestionnary(userID, difficulty);
     }
 
@@ -75,6 +75,9 @@ public class QuestionnaryResource {
     public Message responseQuestion(@PathParam("userId") int userID, @PathParam("questionId") int questionId, @PathParam("responseId") int responseId) {
         if (userGestionnary.existUser(userID) && questionGestionnary.existQuestion(questionId) && proposalGestionnary.existProposal(questionId, responseId)) {
             GfQuestion q = questionGestionnary.readQuestion(questionId);
+            
+            //Faire la relation
+            questionGestionnary.updateQuestionUserCollection(questionId, userID);
             
             if (proposalGestionnary.isGoodResponseOfQuestion(questionId, responseId)) {
                 userHasSkillGestionnary.resetSuccessiveError(userID, q.getIdSkill().getIdSkill());

@@ -36,8 +36,8 @@ CREATE TABLE IF NOT EXISTS `gestion-formation`.`gf_course` (
   `name` VARCHAR(255) NOT NULL,
   `id_subdomain` INT NOT NULL,
   PRIMARY KEY (`id_course`),
-  INDEX `fk_gf_course_gf_user1_idx` (`created_by` ASC) VISIBLE,
-  INDEX `fk_gf_course_gf_subdomain1_idx` (`id_subdomain` ASC) VISIBLE,
+  INDEX `fk_gf_course_gf_user1_idx` (`created_by` ASC) ,
+  INDEX `fk_gf_course_gf_subdomain1_idx` (`id_subdomain` ASC) ,
   CONSTRAINT `fk_gf_course_gf_user1`
     FOREIGN KEY (`created_by`)
     REFERENCES `gestion-formation`.`gf_user` (`id_user`)
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `gestion-formation`.`gf_user` (
   `role` VARCHAR(45) NOT NULL,
   `id_course` INT NULL,
   PRIMARY KEY (`id_user`),
-  INDEX `fk_gf_user_gf_course1_idx` (`id_course` ASC) VISIBLE,
+  INDEX `fk_gf_user_gf_course1_idx` (`id_course` ASC) ,
   CONSTRAINT `fk_gf_user_gf_course1`
     FOREIGN KEY (`id_course`)
     REFERENCES `gestion-formation`.`gf_course` (`id_course`)
@@ -97,8 +97,8 @@ CREATE TABLE IF NOT EXISTS `gestion-formation`.`course_has_training` (
   `id_training` INT NOT NULL,
   `id_course` INT NOT NULL,
   PRIMARY KEY (`id_training`, `id_course`),
-  INDEX `fk_gf_training_has_gf_course_gf_course1_idx` (`id_course` ASC) VISIBLE,
-  INDEX `fk_gf_training_has_gf_course_gf_training_idx` (`id_training` ASC) VISIBLE,
+  INDEX `fk_gf_training_has_gf_course_gf_course1_idx` (`id_course` ASC) ,
+  INDEX `fk_gf_training_has_gf_course_gf_training_idx` (`id_training` ASC) ,
   CONSTRAINT `fk_gf_training_has_gf_course_gf_training`
     FOREIGN KEY (`id_training`)
     REFERENCES `gestion-formation`.`gf_training` (`id_training`)
@@ -119,8 +119,8 @@ CREATE TABLE IF NOT EXISTS `gestion-formation`.`learner_has_graph` (
   `id_learner` INT NOT NULL,
   `id_graph` INT NOT NULL,
   PRIMARY KEY (`id_learner`, `id_graph`),
-  INDEX `fk_gf_user_has_gf_graph_gf_graph1_idx` (`id_graph` ASC) VISIBLE,
-  INDEX `fk_gf_user_has_gf_graph_gf_user1_idx` (`id_learner` ASC) VISIBLE,
+  INDEX `fk_gf_user_has_gf_graph_gf_graph1_idx` (`id_graph` ASC) ,
+  INDEX `fk_gf_user_has_gf_graph_gf_user1_idx` (`id_learner` ASC) ,
   CONSTRAINT `fk_gf_user_has_gf_graph_gf_user1`
     FOREIGN KEY (`id_learner`)
     REFERENCES `gestion-formation`.`gf_user` (`id_user`)
@@ -141,8 +141,8 @@ CREATE TABLE IF NOT EXISTS `gestion-formation`.`graph_has_version` (
   `id_graph` INT NOT NULL,
   `id_graph_predecessor` INT NOT NULL,
   PRIMARY KEY (`id_graph`, `id_graph_predecessor`),
-  INDEX `fk_gf_graph_has_gf_graph_gf_graph2_idx` (`id_graph_predecessor` ASC) VISIBLE,
-  INDEX `fk_gf_graph_has_gf_graph_gf_graph1_idx` (`id_graph` ASC) VISIBLE,
+  INDEX `fk_gf_graph_has_gf_graph_gf_graph2_idx` (`id_graph_predecessor` ASC) ,
+  INDEX `fk_gf_graph_has_gf_graph_gf_graph1_idx` (`id_graph` ASC) ,
   CONSTRAINT `fk_gf_graph_has_gf_graph_gf_graph1`
     FOREIGN KEY (`id_graph`)
     REFERENCES `gestion-formation`.`gf_graph` (`id_graph`)
@@ -163,8 +163,8 @@ CREATE TABLE IF NOT EXISTS `gestion-formation`.`trainer_edit_graph` (
   `id_graph` INT NOT NULL,
   `id_trainer` INT NOT NULL,
   PRIMARY KEY (`id_graph`, `id_trainer`),
-  INDEX `fk_gf_graph_has_gf_user_gf_user1_idx` (`id_trainer` ASC) VISIBLE,
-  INDEX `fk_gf_graph_has_gf_user_gf_graph1_idx` (`id_graph` ASC) VISIBLE,
+  INDEX `fk_gf_graph_has_gf_user_gf_user1_idx` (`id_trainer` ASC) ,
+  INDEX `fk_gf_graph_has_gf_user_gf_graph1_idx` (`id_graph` ASC) ,
   CONSTRAINT `fk_gf_graph_has_gf_user_gf_graph1`
     FOREIGN KEY (`id_graph`)
     REFERENCES `gestion-formation`.`gf_graph` (`id_graph`)
@@ -188,8 +188,8 @@ CREATE TABLE IF NOT EXISTS `gestion-formation`.`gf_skill` (
   `id_trainer` INT NOT NULL,
   `id_subdomain` INT NOT NULL,
   PRIMARY KEY (`id_skill`),
-  INDEX `fk_gf_skill_gf_user1_idx` (`id_trainer` ASC) VISIBLE,
-  INDEX `fk_gf_skill_gf_subdomain1_idx` (`id_subdomain` ASC) VISIBLE,
+  INDEX `fk_gf_skill_gf_user1_idx` (`id_trainer` ASC) ,
+  INDEX `fk_gf_skill_gf_subdomain1_idx` (`id_subdomain` ASC) ,
   CONSTRAINT `fk_gf_skill_gf_user1`
     FOREIGN KEY (`id_trainer`)
     REFERENCES `gestion-formation`.`gf_user` (`id_user`)
@@ -210,8 +210,8 @@ CREATE TABLE IF NOT EXISTS `gestion-formation`.`graph_has_skill` (
   `id_graph` INT NOT NULL,
   `id_skill` INT NOT NULL,
   PRIMARY KEY (`id_graph`, `id_skill`),
-  INDEX `fk_gf_graph_has_gf_skill_gf_skill1_idx` (`id_skill` ASC) VISIBLE,
-  INDEX `fk_gf_graph_has_gf_skill_gf_graph1_idx` (`id_graph` ASC) VISIBLE,
+  INDEX `fk_gf_graph_has_gf_skill_gf_skill1_idx` (`id_skill` ASC) ,
+  INDEX `fk_gf_graph_has_gf_skill_gf_graph1_idx` (`id_graph` ASC) ,
   CONSTRAINT `fk_gf_graph_has_gf_skill_gf_graph1`
     FOREIGN KEY (`id_graph`)
     REFERENCES `gestion-formation`.`gf_graph` (`id_graph`)
@@ -232,8 +232,8 @@ CREATE TABLE IF NOT EXISTS `gestion-formation`.`prerequisite_of_skill` (
   `id_skill` INT NOT NULL,
   `id_skill_prerequisite` INT NOT NULL,
   PRIMARY KEY (`id_skill`, `id_skill_prerequisite`),
-  INDEX `fk_gf_skill_has_gf_skill_gf_skill2_idx` (`id_skill_prerequisite` ASC) VISIBLE,
-  INDEX `fk_gf_skill_has_gf_skill_gf_skill1_idx` (`id_skill` ASC) VISIBLE,
+  INDEX `fk_gf_skill_has_gf_skill_gf_skill2_idx` (`id_skill_prerequisite` ASC) ,
+  INDEX `fk_gf_skill_has_gf_skill_gf_skill1_idx` (`id_skill` ASC) ,
   CONSTRAINT `fk_gf_skill_has_gf_skill_gf_skill1`
     FOREIGN KEY (`id_skill`)
     REFERENCES `gestion-formation`.`gf_skill` (`id_skill`)
@@ -257,8 +257,8 @@ CREATE TABLE IF NOT EXISTS `gestion-formation`.`gf_question` (
   `id_skill` INT NOT NULL,
   `id_trainer` INT NOT NULL,
   PRIMARY KEY (`id_question`),
-  INDEX `fk_gf_question_gf_skill1_idx` (`id_skill` ASC) VISIBLE,
-  INDEX `fk_gf_question_gf_user1_idx` (`id_trainer` ASC) VISIBLE,
+  INDEX `fk_gf_question_gf_skill1_idx` (`id_skill` ASC) ,
+  INDEX `fk_gf_question_gf_user1_idx` (`id_trainer` ASC) ,
   CONSTRAINT `fk_gf_question_gf_skill1`
     FOREIGN KEY (`id_skill`)
     REFERENCES `gestion-formation`.`gf_skill` (`id_skill`)
@@ -281,7 +281,7 @@ CREATE TABLE IF NOT EXISTS `gestion-formation`.`gf_proposal` (
   `state` TINYINT NOT NULL,
   `id_question` INT NOT NULL,
   PRIMARY KEY (`id_proposal`),
-  INDEX `fk_gf_proposal_gf_question1_idx` (`id_question` ASC) VISIBLE,
+  INDEX `fk_gf_proposal_gf_question1_idx` (`id_question` ASC) ,
   CONSTRAINT `fk_gf_proposal_gf_question1`
     FOREIGN KEY (`id_question`)
     REFERENCES `gestion-formation`.`gf_question` (`id_question`)
@@ -300,8 +300,8 @@ CREATE TABLE IF NOT EXISTS `gestion-formation`.`user_has_skill` (
   `malus` INT ZEROFILL NOT NULL,
   `successive_error` INT ZEROFILL NOT NULL,
   PRIMARY KEY (`id_user`, `id_skill`),
-  INDEX `fk_gf_user_has_gf_skill_gf_skill1_idx` (`id_skill` ASC) VISIBLE,
-  INDEX `fk_gf_user_has_gf_skill_gf_user1_idx` (`id_user` ASC) VISIBLE,
+  INDEX `fk_gf_user_has_gf_skill_gf_skill1_idx` (`id_skill` ASC) ,
+  INDEX `fk_gf_user_has_gf_skill_gf_user1_idx` (`id_user` ASC) ,
   CONSTRAINT `fk_gf_user_has_gf_skill_gf_user1`
     FOREIGN KEY (`id_user`)
     REFERENCES `gestion-formation`.`gf_user` (`id_user`)
@@ -322,8 +322,8 @@ CREATE TABLE IF NOT EXISTS `gestion-formation`.`user_has_question` (
   `id_user` INT NOT NULL,
   `id_question` INT NOT NULL,
   PRIMARY KEY (`id_user`, `id_question`),
-  INDEX `fk_gf_user_has_gf_question_gf_question1_idx` (`id_question` ASC) VISIBLE,
-  INDEX `fk_gf_user_has_gf_question_gf_user1_idx` (`id_user` ASC) VISIBLE,
+  INDEX `fk_gf_user_has_gf_question_gf_question1_idx` (`id_question` ASC) ,
+  INDEX `fk_gf_user_has_gf_question_gf_user1_idx` (`id_user` ASC) ,
   CONSTRAINT `fk_gf_user_has_gf_question_gf_user1`
     FOREIGN KEY (`id_user`)
     REFERENCES `gestion-formation`.`gf_user` (`id_user`)

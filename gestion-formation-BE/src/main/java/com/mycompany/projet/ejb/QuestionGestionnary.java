@@ -6,6 +6,7 @@ package com.mycompany.projet.ejb;
 
 import com.mycompany.projet.entities.GfQuestion;
 import com.mycompany.projet.entities.GfSkill;
+import com.mycompany.projet.entities.Message;
 import com.mycompany.projet.entities.User;
 import com.mycompany.projet.entities.UserHasSkill;
 import java.util.Collection;
@@ -194,12 +195,12 @@ public class QuestionGestionnary {
         return true;*/
     }
     
-    public GfQuestion getQuestionQuestionnary(int userId, int difficulty){
+    public Object getQuestionQuestionnary(int userId, int difficulty){
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userPU");
         EntityManager em1 = emf.createEntityManager();
         Query query = em1.createQuery("SELECT q FROM UserHasSkill q WHERE q.user.id_user=:idUser AND q.successiveError < 4 AND q.malus < 10")
                 .setParameter("idUser", userId);
-        if(query.getResultList().isEmpty()) return null;//QCM TERMINE
+        if(query.getResultList().isEmpty()) return new Message("info","Questionnaire terminé.");//QCM TERMINE
         
         int max = query.getResultList().size()-1;
         int random = (int)(Math.random() * ( max ));
