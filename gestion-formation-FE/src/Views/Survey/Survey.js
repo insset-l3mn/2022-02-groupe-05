@@ -16,7 +16,7 @@ export default function Survey(){
     const isMounted = useRef(false)
     const [isFirst, setIsFirst] = useState(true);
     const {user, addUser} = useContext(AuthContext)
-    const [info, setInfo] = useState("Chargement de la question")
+    const [info, setInfo] = useState("")
 
     const chooseQuestion = async () => {
         setQuestion(await axios.get('http://localhost:8080/gestion-formation-BE/api/questionnary/getQuestion/' + user.userId + "/" + difficulty)
@@ -31,7 +31,7 @@ export default function Survey(){
                     return res["data"];
                 }else{
                     console.log("ddd")
-                    setInfo("Fin du questionnaire")
+                    setInfo("Fin du questionnaire, une formation vous sera bientôt proposé !")
                 }
             }))
     }

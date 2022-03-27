@@ -12,18 +12,18 @@ import Dashboard from "./Views/Dashboard/Dashboard";
 import Header from "./Components/Header/Header";
 import ChooseSkill from "./Views/Skill/ChooseSkill/ChooseSkill";
 import Survey from "./Views/Survey/Survey";
-import {SurveyContext} from "./Context/SurveyContext";
 
 function App() {
 
 	const {user, addUser} = useContext(AuthContext);
-	const {survey, setSurvey} = useContext(SurveyContext);
 
 	return (
+
 		<div className="App bg-dark text-white">
 			<Header/>
 			<Routes>
 				<Route path={"/"} element={<Home/>}/>
+				<Route path={"/survey"} element={user != null ? <Survey/> : <Profil/>}/>
 
 				<Route path={"/profil"} element={user != null ? <Profil/> : <Login/>}/>
 
@@ -32,12 +32,12 @@ function App() {
 				<Route path={"/register"} element={user === null ? <Register/> : <Profil/>}/>
 
 				<Route path={"/dashboard"} element={user != null && user.role !== "basic" ? <Dashboard/> : <Login/>}/>
-				<Route path={"/profil/chooseSkill"} element={user === null ? <ChooseSkill/> : <Profil/>}/>
-				<Route path={"/survey"} element={user === null && !survey ? <Survey/> : <Profil/>}/>
+				<Route path={"/chooseSkill"} element={user != null && <ChooseSkill/>}/>
 
 				<Route path={"*"} element={<NotFound/>}/>
 			</Routes>
 		</div>
+
 	);
 }
 export default App;

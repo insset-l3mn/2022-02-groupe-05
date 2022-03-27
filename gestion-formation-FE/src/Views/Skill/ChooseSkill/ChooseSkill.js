@@ -153,21 +153,24 @@ export default function ChooseSkill(){
     }
 
     return (
-        <div className="layoutflow" style={{ height: 500 }}>
+        <>
             { load &&
-                <ReactFlow
-                    nodes={nodes}
-                    edges={edges}
-                    onNodesChange={onNodesChange}
-                    onEdgesChange={onEdgesChange}
-                    connectionLineType="smoothstep"
-                    fitView
-                    onNodeClick={onNodeClick}
-                />
-            }
+                <div className="layoutflow" style={{ height: 800 }}>
 
-            <button onClick={() => onLayout('LR')}>forme</button>
-        </div>
+                    <ReactFlow
+                        nodes={nodes}
+                        edges={edges}
+                        onNodesChange={onNodesChange}
+                        onEdgesChange={onEdgesChange}
+                        connectionLineType="smoothstep"
+                        onNodeClick={onNodeClick}
+                        nodesDraggable={false}
+                    />
+
+                    <button onClick={() => onLayout('LR')}>Afficher</button>
+                </div>}
+        </>
+
     );
 
 }

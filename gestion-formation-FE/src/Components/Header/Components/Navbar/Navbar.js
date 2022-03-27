@@ -40,9 +40,20 @@ export default function Navbar(){
 
                 {user != null &&
                     <>
-                        <NavLink className="nav-link"
-                                 activeclassname={"active"}
-                                 to={"/survey"}>Questionnaire</NavLink>
+                        {
+                            !user.hasSkills || user.role != "basic" &&
+                            <>
+                                <NavLink className="nav-link"
+                                         activeclassname={"active"}
+                                         to={"/chooseSkill"}>Choix des compétences</NavLink>
+
+
+                                    <NavLink className="nav-link"
+                                             activeclassname={"active"}
+                                             to={"/survey"}>Questionnaire</NavLink>
+                                </>
+                        }
+
                         <NavLink className="nav-link"
                                  activeclassname={"active"}
                                  to={"/profil"}>Profil</NavLink>
