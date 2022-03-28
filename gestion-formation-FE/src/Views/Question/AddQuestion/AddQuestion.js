@@ -6,7 +6,6 @@ import axios from "axios";
 import Error from "../../../Components/Error/Error";
 import Success from "../../../Components/Success/Success";
 import {AuthContext} from "../../../Context/AuthContext";
-import Container from "../../../Components/Container/Container";
 
 export default function AddQuestion(props){
 
@@ -54,6 +53,7 @@ export default function AddQuestion(props){
         params.append('wrong_answer_1', question.wrong_answer_1)
         params.append('wrong_answer_2', question.wrong_answer_2)
         params.append('wrong_answer_3', question.wrong_answer_3)
+        params.append("userId", user.userId)
 
         const config = {
             headers: {

@@ -6,7 +6,7 @@ import {AuthContext} from "../../../../Context/AuthContext";
 export default function Navbar(){
 
     const {user, addUser} = useContext(AuthContext);
-
+    console.log(user)
     return (
 
         <>
@@ -28,7 +28,8 @@ export default function Navbar(){
                     </>
                 }
 
-                { user != null && user.role !== 'basic' &&
+                { user != null && user.userRole !== 'VISITOR' &&
+
 
                     <>
                         <NavLink className="nav-link"
@@ -38,10 +39,10 @@ export default function Navbar(){
 
                 }
 
-                {user != null &&
+                {user !== null &&
                     <>
                         {
-                            !user.hasSkills || user.role != "basic" &&
+                            user.hasSkills &&
                             <>
                                 <NavLink className="nav-link"
                                          activeclassname={"active"}

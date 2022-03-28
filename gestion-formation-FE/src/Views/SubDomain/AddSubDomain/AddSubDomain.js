@@ -30,7 +30,7 @@ export default function AddSubDomain(props){
 
         const params = new URLSearchParams()
         params.append("name", subDomain.name)
-        params.append("idUser", user.userId)
+        params.append("userId", user.userId)
 
         const config = {
             headers: {

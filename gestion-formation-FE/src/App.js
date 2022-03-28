@@ -31,7 +31,7 @@ function App() {
 				<Route path={"/login"} element={user === null ? <Login/> : <Profil/>}/>
 				<Route path={"/register"} element={user === null ? <Register/> : <Profil/>}/>
 
-				<Route path={"/dashboard"} element={user != null && user.role !== "basic" ? <Dashboard/> : <Login/>}/>
+				<Route path={"/dashboard"} element={user != null && user.userRole !== "VISITOR" ? <Dashboard/> : <Profil/>}/>
 				<Route path={"/chooseSkill"} element={user != null && <ChooseSkill/>}/>
 
 				<Route path={"*"} element={<NotFound/>}/>

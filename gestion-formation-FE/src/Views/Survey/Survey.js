@@ -31,7 +31,7 @@ export default function Survey(){
                     return res["data"];
                 }else{
                     console.log("ddd")
-                    setInfo("Fin du questionnaire, une formation vous sera bientôt proposé !")
+                    setInfo("Fin du questionnaire, une formation vous sera bientôt proposée !")
                 }
             }))
     }
