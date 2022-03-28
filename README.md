@@ -3,7 +3,7 @@
 
 ## Sommaire
 
-1. [Présentation du projet](https://github.com/augustinde/L3-gestion-formation#présentation-du-projet)
+1. [Présentation du projet](#présentation-du-projet)
 2. [Diagramme de cas d'utilisation](https://github.com/augustinde/L3-gestion-formation#diagramme-de-cas-dutilisation)
 3. [Diagramme de classe](https://github.com/augustinde/L3-gestion-formation#diagramme-de-classe)
 4. [Modèle conceptuel de données](https://github.com/augustinde/L3-gestion-formation#modèle-conceptuel-de-données)
