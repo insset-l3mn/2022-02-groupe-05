@@ -28,7 +28,7 @@ L’application est divisée en deux parties, la gestion de la partie back-end s
 
 ## Diagramme de cas d'utilisation
 
-Image diagramme CU
+[Image diagramme de cas d'utilisation](./docs/diagrammes/Diagramme%20de%20cas%20d'utilisation.png)
 
 -----
 
