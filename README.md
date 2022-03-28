@@ -28,19 +28,19 @@ L’application est divisée en deux parties, la gestion de la partie back-end s
 
 ## Diagramme de cas d'utilisation
 
-[Image diagramme de cas d'utilisation](./docs/diagrammes/Diagramme%20de%20cas%20d'utilisation.png?raw=true)
+![image](./docs/diagrammes/Diagramme%20de%20cas%20d'utilisation.png?raw=true)
 
 -----
 
 ## Diagramme de classe
 
-Image diagramme de classe
+![image](./docs/diagrammes/Diagramme%20de%20classes.png?raw=true)
 
 -----
 
 ## Modèle conceptuel de données
 
-Image MCD
+![image](./docs/diagrammes/MCD.png?raw=true)
 
 -----
 
@@ -373,6 +373,8 @@ Pour chaque bonne réponse à une question d’une compétence de l’utilisateu
 
 La limite d’un questionnaire est donc fixée sur les erreurs commises par l’utilisateur. Moins il fera d’erreur, plus le questionnaire durera longtemps et deviendra difficile. A contrario, plus il fait d'erreurs, plus le questionnaire sera court. Ainsi, les formations proposées à l’utilisateur à la suite du questionnaire seront proposées dans l’ordre ascendant des résultats de ses compétences.
 
+![image](./docs/diagrammes/Diagramme%20algorithme%20questionnaire.jpg?raw=true)
+
 -----
 
 ## Structuration front end
@@ -386,6 +388,8 @@ Les vues constituent les différentes pages de l’application et sont agrégée
 Les contextes constituent les états globaux de l’application notamment l’authentification permettant d’identifier l’utilisateur connecté. Les contextes sont utilisés par les Vues.
 
 Les routes accessibles sont décrites dans “App.js”.
+
+![image](./docs/diagrammes/Diagramme%20de%20cas%20d'utilisation.png?raw=true)
 
 -----
 
