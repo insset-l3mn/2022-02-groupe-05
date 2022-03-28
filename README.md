@@ -3,16 +3,16 @@
 
 ## Sommaire
 
-   1 [Présentation du projet](https://github.com/augustinde/L3-gestion-formation#présentation-du-projet)
-   2 [Diagramme de cas d'utilisation](https://github.com/augustinde/L3-gestion-formation#diagramme-de-cas-dutilisation)
-   3 [Diagramme de classe](https://github.com/augustinde/L3-gestion-formation#diagramme-de-classe)
-   4 [Modèle conceptuel de données](https://github.com/augustinde/L3-gestion-formation#modèle-conceptuel-de-données)
-   5 [Evolutivité de la modélisation](https://github.com/augustinde/L3-gestion-formation#evolutivité-de-la-modélisation)
-   6 [L'API, les droits d'accès](https://github.com/augustinde/L3-gestion-formation#lapi-les-droits-daccès)
-   7 [La génération des questionnaires et de formations adaptées](https://github.com/augustinde/L3-gestion-formation#lapi-les-droits-daccès)
-   8 [Structuration front end](https://github.com/augustinde/L3-gestion-formation#structuration-front-end)
-   9 [Conclusion](https://github.com/augustinde/L3-gestion-formation#conclusion)
-   10 [Démo](https://github.com/augustinde/L3-gestion-formation#démo)
+1. [Présentation du projet](https://github.com/augustinde/L3-gestion-formation#présentation-du-projet)
+2. [Diagramme de cas d'utilisation](https://github.com/augustinde/L3-gestion-formation#diagramme-de-cas-dutilisation)
+3. [Diagramme de classe](https://github.com/augustinde/L3-gestion-formation#diagramme-de-classe)
+4. [Modèle conceptuel de données](https://github.com/augustinde/L3-gestion-formation#modèle-conceptuel-de-données)
+5. [Evolutivité de la modélisation](https://github.com/augustinde/L3-gestion-formation#evolutivité-de-la-modélisation)
+6. [L'API, les droits d'accès](https://github.com/augustinde/L3-gestion-formation#lapi-les-droits-daccès)
+7. [La génération des questionnaires et de formations adaptées](https://github.com/augustinde/L3-gestion-formation#lapi-les-droits-daccès)
+8. [Structuration front end](https://github.com/augustinde/L3-gestion-formation#structuration-front-end)
+9. [Conclusion](https://github.com/augustinde/L3-gestion-formation#conclusion)
+10. [Démo](https://github.com/augustinde/L3-gestion-formation#démo)
 
 
 -----
